@@ -25,7 +25,7 @@ odoo.define("disable_quick_create", function(require) {
     });
 
     relationalFields.FieldMany2One.include({
-        init: function() {
+        init() {
             this._super.apply(this, arguments);
 
             this.nodeOptions.no_quick_create = true;
