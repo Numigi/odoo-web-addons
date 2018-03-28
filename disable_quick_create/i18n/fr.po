@@ -17,8 +17,8 @@ msgstr ""
 
 #. module: disable_quick_create
 #: model:ir.model.fields,field_description:disable_quick_create.field_ir_model_disable_create_edit
-msgid "Disabling the Create and Edit option"
-msgstr "Désactivation de l’option Créer et modifier"
+msgid "Disable the Create and Edit option"
+msgstr "Désactiver l’option Créer et modifier"
 
 #. module: disable_quick_create
 #: model:ir.model,name:disable_quick_create.model_ir_model
