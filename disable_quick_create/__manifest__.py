@@ -5,7 +5,7 @@
 
 {
     'name': 'Disable Quick Create',
-    'version': '11.0.1.0.0',
+    'version': '1.0.0',
     'author': 'Savoir-faire Linux',
     'maintainer': 'Numigi',
     'website': 'https://www.numigi.com',
@@ -19,5 +19,4 @@
         'views/ir_model.xml',
     ],
     'installable': True,
-    'application': False,
 }

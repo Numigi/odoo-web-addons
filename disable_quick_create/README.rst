@@ -3,6 +3,8 @@ Disable Quick Create
 ====================
 This module disables the « Quick Create » option on relational fields all over the application. It also allows to disable the « Create and Edit » option on a per model basis.
 
+Disable the « Create and Edit » option
+--------------------------------------
 In order to disable the « Create and Edit » for a specific model :
 
 * Go to « Settings → Technical → Database Structure → Models
