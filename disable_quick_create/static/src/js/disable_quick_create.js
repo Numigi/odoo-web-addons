@@ -9,7 +9,6 @@ odoo.define('disable_quick_create', function(require) {
     var relational_fields = require('web.relational_fields');
     var rpc = require('web.rpc');
 
-    var model_deferred = $.Deferred();
     var models = [];
 
     rpc.query({
@@ -23,7 +22,6 @@ odoo.define('disable_quick_create', function(require) {
         result.forEach(function(el){
             models.push(el.model);
         })
-        model_deferred.resolve();
     });
 
     relational_fields.FieldMany2One.include({
