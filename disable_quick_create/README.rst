@@ -1,6 +1,6 @@
-========================
-Project Archive Improved
-========================
+====================
+Disable Quick Create
+====================
 This module disables the « Quick Create » option on relational fields all over the application. It also allows to disable the « Create and Edit » option on a per model basis.
 
 In order to disable the « Create and Edit » for a specific model :
@@ -11,5 +11,10 @@ In order to disable the « Create and Edit » for a specific model :
 
 Contributors
 ------------
-* Yasmine El Mrini (yasmine.elmrini@savoirfairelinux.com)
-* David Dufresne (david.dufresne@savoirfairelinux.com)
+* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+* Savoir-faire Linux
+
+More information
+----------------
+* Meet us at https://bit.ly/numigi-com
+
