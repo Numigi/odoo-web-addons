@@ -12,6 +12,7 @@
     'summary': 'Install all addons required for testing.',
     'depends': [
         'disable_quick_create',
+        'web_list_column_width',
     ],
     'installable': True,
 }
