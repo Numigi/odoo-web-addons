@@ -16,3 +16,7 @@ class TestModules(TransactionCase):
     def test_disable_quick_create(self):
         """Quick Create is installed."""
         self.assertTrue(self.modules.search([('name', '=', 'disable_quick_create')]))
+
+    def test_web_list_column_width(self):
+        """Web List Column Width is installed."""
+        self.assertTrue(self.modules.search([('name', '=', 'web_list_column_width')]))
