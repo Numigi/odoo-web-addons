@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="less_helpers" inherit_id="web_enterprise.less_helpers" name="red_ui_less_override">
+        <xpath expr="//link[@href='/web_enterprise/static/src/less/variables.less']" position="after">
+            <link rel="stylesheet" type="text/less" href="/ui_color_red/static/src/less/variables.less"/>
+        </xpath>
+    </template>
+
+</odoo>
