@@ -2,9 +2,9 @@
 
 This module changes the web enterprise ui color to red.
 
-![App Switcher](/static/src/img/app_switcher.png?raw=true)
+![App Switcher](static/description/app_switcher.png?raw=true)
 
-![Form View](/static/src/img/form_view.png?raw=true)
+![Form View](static/description/form_view.png?raw=true)
 
 Contributors
 ------------
