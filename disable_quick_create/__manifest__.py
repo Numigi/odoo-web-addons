@@ -20,5 +20,4 @@
         'views/ir_model.xml',
     ],
     'installable': True,
-    'application': True,
 }

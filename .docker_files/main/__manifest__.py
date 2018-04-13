@@ -13,6 +13,9 @@
     'depends': [
         'disable_quick_create',
         'web_list_column_width',
+        'ui_color_blue',
+        'ui_color_gray',
+        'ui_color_orange',
         'ui_color_red',
     ],
     'installable': True,

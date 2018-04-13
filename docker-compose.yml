@@ -18,7 +18,7 @@ services:
     environment:
       - LOG_ODOO=/var/log/odoo
   db:
-    image: postgres:9.6
+    image: postgres:9.4
     environment:
       - POSTGRES_PASSWORD=odoo
       - POSTGRES_USER=odoo
