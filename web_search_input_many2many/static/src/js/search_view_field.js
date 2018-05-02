@@ -11,7 +11,7 @@ searchInputs.Field.include({
     facet_for(value){
         var field = this.getParent().fields[this.attrs.name];
         var isMany2many = field && field.type === "many2many";
-        var isIdArray = value instanceof Array && value.every(function(i){return typeof i === "number"});
+        var isIdArray = value instanceof Array && value.every(function(i){return typeof i === "number";});
         if(isMany2many && isIdArray){
             return this._getFacetForMany2manyValue(value);
         }
@@ -32,15 +32,15 @@ searchInputs.Field.include({
         var self = this;
         return this._rpc({
             model: field.relation,
-            method: 'name_get',
+            method: "name_get",
             args: value,
         }).then(function(result) {
-            var label = result.map(function(el){return el[1]}).sort().join(', ');
+            var label = result.map(function(el){return el[1]};).sort().join(", ");
             return {
                 field: self,
                 category: self.attrs.string || self.attrs.name,
-                values: [{label: label, value: value}],
-            }
+                values: [{label, value}],
+            };
         });
     },
 });
