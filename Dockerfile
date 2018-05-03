@@ -16,6 +16,7 @@ USER odoo
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 COPY ui_color_red /mnt/extra-addons/ui_color_red
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
+COPY web_search_input_many2many /mnt/extra-addons/web_search_input_many2many
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
