@@ -35,7 +35,9 @@ searchInputs.Field.include({
             method: "name_get",
             args: value,
         }).then(function(result) {
-            var label = result.map(function(el){return el[1]};).sort().join(", ");
+            var label = result.map(function(el){
+                return el[1];
+            }).sort().join(", ");
             return {
                 field: self,
                 category: self.attrs.string || self.attrs.name,
