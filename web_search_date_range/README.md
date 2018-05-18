@@ -19,7 +19,7 @@ To edit the list of filters that appear in the search view of a model:
 
 ## Date Range Types
 
-A date range type is a contextual domain filter that can be used for ay date or datetime field.
+A date range type is a contextual domain filter that can be used for any date or datetime field.
 
 Currently, the following date range types are implemented:
 
