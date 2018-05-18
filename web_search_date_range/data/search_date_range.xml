@@ -3,6 +3,7 @@
 
     <record id="range_today" model="search.date.range">
         <field name="label">Today</field>
+        <field name="technical_name">today</field>
         <field name="domain">[
             ('{field}', '&gt;=', context_today().strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d')),
@@ -12,6 +13,7 @@
 
     <record id="range_next_fifteen_days" model="search.date.range">
         <field name="label">Next Fifteen Days</field>
+        <field name="technical_name">next_fifteen_days</field>
         <field name="domain">[
             ('{field}', '&gt;=', context_today().strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() + relativedelta(days=15)).strftime('%Y-%m-%d')),
@@ -22,6 +24,7 @@
     <!-- Week ranges are from Monday to Sunday -->
     <record id="range_previous_week" model="search.date.range">
         <field name="label">Previous Week</field>
+        <field name="technical_name">previous_week</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday() - 7)).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday())).strftime('%Y-%m-%d')),
@@ -31,6 +34,7 @@
 
     <record id="range_current_week" model="search.date.range">
         <field name="label">Current Week</field>
+        <field name="technical_name">current_week</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday())).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday() + 7)).strftime('%Y-%m-%d')),
@@ -40,6 +44,7 @@
 
     <record id="range_next_week" model="search.date.range">
         <field name="label">Next Week</field>
+        <field name="technical_name">next_week</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday() + 7)).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday() + 14)).strftime('%Y-%m-%d')),
@@ -49,6 +54,7 @@
 
     <record id="range_previous_month" model="search.date.range">
         <field name="label">Previous Month</field>
+        <field name="technical_name">previous_month</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=-1)).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1)).strftime('%Y-%m-%d')),
@@ -58,6 +64,7 @@
 
     <record id="range_current_month" model="search.date.range">
         <field name="label">Current Month</field>
+        <field name="technical_name">current_month</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1)).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
@@ -67,6 +74,7 @@
 
     <record id="range_next_month" model="search.date.range">
         <field name="label">Next Month</field>
+        <field name="technical_name">next_month</field>
         <field name="domain">[
             ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
             ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=2)).strftime('%Y-%m-%d')),

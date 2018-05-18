@@ -12,6 +12,7 @@ class SearchDateRange(models.Model):
     _rec_name = 'label'
     _order = 'sequence'
 
+    technical_name = fields.Char('Technical Name', required=True, unique=True)
     sequence = fields.Integer()
     label = fields.Char(translate=True, required=True)
     domain = fields.Text(required=True)

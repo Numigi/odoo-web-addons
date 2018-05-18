@@ -41,6 +41,8 @@ class SearchDateRangeFilter(models.Model):
                 'sequence': line.sequence,
                 'label': line.range_id.label,
                 'field_label': line.field_id.field_description,
+                'technical_name': 'filter_range_{range}_{field}'.format(
+                    range=line.range_id.technical_name, field=line.field_id.name)
             }
             for line in self.with_context(lang=self.env.user.lang).search([])
         ]

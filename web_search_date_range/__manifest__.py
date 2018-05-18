@@ -16,6 +16,7 @@
         'views/assets.xml',
         'views/search_date_range.xml',
         'views/search_date_range_filters.xml',
+        'security/ir.model.access.csv',
     ],
     'qweb': [
         'static/src/xml/search_filters.xml',

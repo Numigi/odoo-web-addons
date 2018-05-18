@@ -143,7 +143,7 @@ FilterMenu.include({
     _createDateRangeFilterWidget(filter) {
         var filterXMLNode = {
             attrs: {
-                name: "filter_range_today_" + filter.field,
+                name: filter.technical_name,
                 domain: filter.domain,
                 string: filter.label,
             },

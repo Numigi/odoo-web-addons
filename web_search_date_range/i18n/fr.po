@@ -173,3 +173,8 @@ msgstr "Aujourd'hui"
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_xml_id
 msgid "XML ID"
 msgstr "XML ID"
+
+#. module: web_search_date_range
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_technical_name
+msgid "Technical Name"
+msgstr "Nom technique"

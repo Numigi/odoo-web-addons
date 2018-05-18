@@ -9,6 +9,7 @@
                 <sheet>
                     <group>
                         <field name="label"/>
+                        <field name="technical_name"/>
                         <field name="domain"/>
                         <field name="sequence"/>
                         <field name="xml_id" options="{'no_create': 1}"/>
