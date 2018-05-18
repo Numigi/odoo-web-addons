@@ -19,7 +19,7 @@ var ajax = require("web.ajax");
 var DateRangeFilterRegistry = Class.extend({
     init(){
         this._deferred = new $.Deferred();
-        this._filters_fetched = false;
+        this._filtersFetched = false;
         this._filtersByModel = new Map();
     },
     /**
@@ -30,11 +30,11 @@ var DateRangeFilterRegistry = Class.extend({
     getFilters(model){
         var self = this;
 
-        if(!this._filters_fetched){
+        if(!this._filtersFetched){
             this._fetchFilters().then(function(){
                 self._deferred.resolve();
             });
-            this._filters_fetched = true;
+            this._filtersFetched = true;
         }
 
         return $.when(this._deferred).then(function(){
@@ -65,8 +65,19 @@ var DateRangeFilterRegistry = Class.extend({
     },
 });
 
-var filter_registry = new DateRangeFilterRegistry();
+var filterRegistry = new DateRangeFilterRegistry();
 
+
+/**
+ * A clickable list item widget used to show / hide the filters of a given field.
+ */
+var SearchDateRangeProposition = Widget.extend({
+    template: "web_search_date_range.search_date_range_proposition",
+    init(parent, label){
+        this._super.apply(this, arguments);
+        this.label = label;
+    },
+});
 
 
 FilterMenu.include({
@@ -78,7 +89,7 @@ FilterMenu.include({
         var self = this;
 
         var model = this.searchview.dataset.model;
-        filter_registry.getFilters(model).then(function(filterArray){
+        filterRegistry.getFilters(model).then(function(filterArray){
             // Group the filters by field
             var filterArraysByField = _.values(_.groupBy(filterArray, function(f){return f.field;}));
 
@@ -99,7 +110,7 @@ FilterMenu.include({
      * @param {Array} filterArray - an array of filters that belong to the same field.
      */
     _addFilterWidgetsForSingleField(filterArray) {
-        var sortedfilterArray = filterArray.sort(function(f){return -f.sequence;})
+        var sortedfilterArray = filterArray.sort(function(f){return -f.sequence;});
 
         var self = this;
         var proposition = new SearchDateRangeProposition(this, sortedfilterArray[0].field_label);
@@ -140,17 +151,6 @@ FilterMenu.include({
             tag: "filter",
         };
         return new searchInputs.Filter(filterXMLNode, this.searchview);
-    },
-});
-
-/**
- * A clickable list item widget used to show / hide the filters of a given field.
- */
-var SearchDateRangeProposition = Widget.extend({
-    template: "web_search_date_range.search_date_range_proposition",
-    init(parent, label){
-        this._super.apply(this, arguments);
-        this.label = label;
     },
 });
 
