@@ -5,7 +5,7 @@ This module adds the possibility to easily add contextual date range filters.
 Contextual means that the filter does not need to be updated.
 It always filters records based on the current date.
 
-You may add a filter to your favorites or you dashboard and it will not need to be refreshed.
+You may add one of these filters to your favorites or your dashboard and it will not need to be refreshed.
 
 ![List View](static/description/partner_list.png?raw=true)
 
