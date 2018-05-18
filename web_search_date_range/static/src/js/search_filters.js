@@ -5,12 +5,12 @@
 odoo.define("web_search_date_range.filter_menu_with_date_range", function(require) {
     "use strict";
 
-var Class = require('web.Class');
+var Class = require("web.Class");
 var Widget = require("web.Widget");
 var FilterMenu = require("web.FilterMenu");
-var searchInputs = require('web.search_inputs');
-var pyeval = require('web.pyeval');
-var ajax = require('web.ajax');
+var searchInputs = require("web.search_inputs");
+var pyeval = require("web.pyeval");
+var ajax = require("web.ajax");
 
 
 /**
@@ -33,7 +33,7 @@ var DateRangeFilterRegistry = Class.extend({
         if(!this._filters_fetched){
             this._fetchFilters().then(function(){
                 self._deferred.resolve();
-            })
+            });
             this._filters_fetched = true;
         }
 
@@ -49,9 +49,9 @@ var DateRangeFilterRegistry = Class.extend({
      */
     _fetchFilters(){
         var self = this;
-        return ajax.rpc('/web/dataset/call_kw/search.date.range.filter/get_filter_list', {
-            model: 'search.date.range.filter',
-            method: 'get_filter_list',
+        return ajax.rpc("/web/dataset/call_kw/search.date.range.filter/get_filter_list", {
+            model: "search.date.range.filter",
+            method: "get_filter_list",
             args: [],
             kwargs: {},
         }).then(function(result){
@@ -60,7 +60,7 @@ var DateRangeFilterRegistry = Class.extend({
                     self._filtersByModel.set(filter.model, []);
                 }
                 self._filtersByModel.get(filter.model).push(filter);
-            })
+            });
         });
     },
 });
@@ -73,7 +73,7 @@ FilterMenu.include({
     events: _.extend({}, FilterMenu.prototype.events, {
         "click .o_add_date_range": "append_date_range_proposition",
     }),
-    start: function () {
+    start(){
         this._super.apply(this, arguments);
         var self = this;
 
@@ -91,7 +91,7 @@ FilterMenu.include({
             sortedFilterArrays.forEach(function(filterArrayForSingleField){
                 self._addFilterWidgetsForSingleField(filterArrayForSingleField);
             });
-        })
+        });
     },
     /**
      * Add the date filters related to a single field to the search view.
@@ -115,13 +115,13 @@ FilterMenu.include({
 
         // Show / hide filters when clicking on the field name
         proposition.$el.click(function(){
-            proposition.$el.toggleClass('o_closed_menu');
-            proposition.$el.toggleClass('o_open_menu');
+            proposition.$el.toggleClass("o_closed_menu");
+            proposition.$el.toggleClass("o_open_menu");
             filterGroup.$el.toggle();
         });
 
         // Hide filters by default
-        proposition.$el.addClass('o_closed_menu');
+        proposition.$el.addClass("o_closed_menu");
         filterGroup.$el.hide();
     },
     /**
