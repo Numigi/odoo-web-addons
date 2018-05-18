@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="range_today" model="search.date.range">
+        <field name="label">Today</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', context_today().strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() + relativedelta(days=1)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="1"/>
+    </record>
+
+    <record id="range_next_fifteen_days" model="search.date.range">
+        <field name="label">Next Fifteen Days</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', context_today().strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() + relativedelta(days=15)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="2"/>
+    </record>
+
+    <!-- Week ranges are from Monday to Sunday -->
+    <record id="range_previous_week" model="search.date.range">
+        <field name="label">Previous Week</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday() - 7)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday())).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="3"/>
+    </record>
+
+    <record id="range_current_week" model="search.date.range">
+        <field name="label">Current Week</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday())).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday() + 7)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="4"/>
+    </record>
+
+    <record id="range_next_week" model="search.date.range">
+        <field name="label">Next Week</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() + relativedelta(days=-context_today().weekday() + 7)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() + relativedelta(days=-context_today().weekday() + 14)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="5"/>
+    </record>
+
+    <record id="range_previous_month" model="search.date.range">
+        <field name="label">Previous Month</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=-1)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="6"/>
+    </record>
+
+    <record id="range_current_month" model="search.date.range">
+        <field name="label">Current Month</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="7"/>
+    </record>
+
+    <record id="range_next_month" model="search.date.range">
+        <field name="label">Next Month</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (context_today() - relativedelta(days=context_today().day - 1) + relativedelta(months=2)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="8"/>
+    </record>
+
+</odoo>

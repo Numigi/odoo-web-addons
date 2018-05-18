@@ -14,6 +14,7 @@
         'disable_quick_create',
         'ui_color_red',
         'web_list_column_width',
+        'web_search_date_range',
         'web_search_input_many2many',
     ],
     'installable': True,

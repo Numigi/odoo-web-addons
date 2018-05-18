@@ -3,6 +3,9 @@ MAINTAINER numigi <contact@numigi.com>
 
 USER root
 
+COPY .docker_files/test-requirements.txt .
+RUN pip3 install -r test-requirements.txt
+
 # Variable used for fetching private git repositories.
 ARG GIT_TOKEN
 
@@ -16,6 +19,7 @@ USER odoo
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 COPY ui_color_red /mnt/extra-addons/ui_color_red
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
+COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_input_many2many /mnt/extra-addons/web_search_input_many2many
 
 COPY .docker_files/main /mnt/extra-addons/main
