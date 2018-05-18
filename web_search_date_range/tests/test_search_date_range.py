@@ -7,7 +7,6 @@ from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from freezegun import freeze_time
 
-from odoo.fields import Date
 from odoo.tests import common
 from odoo.tools.safe_eval import safe_eval
 
