@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+
+    <t t-name="web_search_date_range.search_date_range_proposition">
+        <li>
+            <a href="#"><t t-esc="widget.label"/></a>
+        </li>
+    </t>
+
+</templates>
