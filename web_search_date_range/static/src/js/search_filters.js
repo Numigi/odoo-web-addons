@@ -119,7 +119,7 @@ FilterMenu.include({
         // Create the search items
         var filterWidgets = sortedfilterArray.map(function(filter){
             return self._createDateRangeFilterWidget(filter);
-        })
+        });
         var filterGroup = new searchInputs.FilterGroup(filterWidgets, this.searchview);
         filterGroup.insertBefore(this.$add_filter);
         $("<li class=\"divider\">").insertBefore(this.$add_filter);
