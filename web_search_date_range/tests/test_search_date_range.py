@@ -3,6 +3,7 @@
 
 import pytz
 
+from ddt import data, ddt
 from dateutil.relativedelta import relativedelta
 from datetime import datetime
 from freezegun import freeze_time
@@ -11,6 +12,7 @@ from odoo.tests import common
 from odoo.tools.safe_eval import safe_eval
 
 
+@ddt
 class TestSearchDateRange(common.SavepointCase):
 
     @classmethod
@@ -35,154 +37,72 @@ class TestSearchDateRange(common.SavepointCase):
             'relativedelta': relativedelta,
         })
 
-    @freeze_time('2018-05-18')
     def test_eval_domain_for_range_today(self):
-        domain = self._eval_filter_domain('range_today')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-18'),
-            ('create_date', '<', '2018-05-19'),
-        ])
+        with freeze_time('2018-05-18'):
+            domain = self._eval_filter_domain('range_today')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-18'),
+                ('create_date', '<', '2018-05-19'),
+            ])
 
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_current_week(self):
-        domain = self._eval_filter_domain('range_current_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-14'),
-            ('create_date', '<', '2018-05-21'),
-        ])
+    def test_eval_domain_for_next_fifteen_days(self):
+        with freeze_time('2018-05-18'):
+            domain = self._eval_filter_domain('range_next_fifteen_days')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-18'),
+                ('create_date', '<', '2018-06-02'),
+            ])
 
-    @freeze_time('2018-05-20')
-    def test_eval_domain_for_range_current_week_on_sunday(self):
-        domain = self._eval_filter_domain('range_current_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-14'),
-            ('create_date', '<', '2018-05-21'),
-        ])
+    @data('2018-05-14', '2018-05-18', '2018-05-20')
+    def test_eval_domain_for_range_current_week(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_current_week')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-14'),
+                ('create_date', '<', '2018-05-21'),
+            ])
 
-    @freeze_time('2018-05-14')
-    def test_eval_domain_for_range_current_week_on_monday(self):
-        domain = self._eval_filter_domain('range_current_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-14'),
-            ('create_date', '<', '2018-05-21'),
-        ])
+    @data('2018-05-14', '2018-05-18', '2018-05-20')
+    def test_eval_domain_for_range_next_week(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_next_week')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-21'),
+                ('create_date', '<', '2018-05-28'),
+            ])
 
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_next_week(self):
-        domain = self._eval_filter_domain('range_next_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-21'),
-            ('create_date', '<', '2018-05-28'),
-        ])
+    @data('2018-05-14', '2018-05-18', '2018-05-20')
+    def test_eval_domain_for_range_previous_week(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_previous_week')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-07'),
+                ('create_date', '<', '2018-05-14'),
+            ])
 
-    @freeze_time('2018-05-20')
-    def test_eval_domain_for_range_next_week_on_sunday(self):
-        domain = self._eval_filter_domain('range_next_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-21'),
-            ('create_date', '<', '2018-05-28'),
-        ])
+    @data('2018-05-01', '2018-05-18', '2018-05-31')
+    def test_eval_domain_for_range_current_month(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_current_month')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-05-01'),
+                ('create_date', '<', '2018-06-01'),
+            ])
 
-    @freeze_time('2018-05-14')
-    def test_eval_domain_for_range_next_week_on_monday(self):
-        domain = self._eval_filter_domain('range_next_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-21'),
-            ('create_date', '<', '2018-05-28'),
-        ])
+    @data('2018-05-01', '2018-05-18', '2018-05-31')
+    def test_eval_domain_for_range_next_month(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_next_month')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-06-01'),
+                ('create_date', '<', '2018-07-01'),
+            ])
 
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_previous_week(self):
-        domain = self._eval_filter_domain('range_previous_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-07'),
-            ('create_date', '<', '2018-05-14'),
-        ])
-
-    @freeze_time('2018-05-20')
-    def test_eval_domain_for_range_previous_week_on_sunday(self):
-        domain = self._eval_filter_domain('range_previous_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-07'),
-            ('create_date', '<', '2018-05-14'),
-        ])
-
-    @freeze_time('2018-05-14')
-    def test_eval_domain_for_range_previous_week_on_monday(self):
-        domain = self._eval_filter_domain('range_previous_week')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-07'),
-            ('create_date', '<', '2018-05-14'),
-        ])
-
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_current_month(self):
-        domain = self._eval_filter_domain('range_current_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-01'),
-            ('create_date', '<', '2018-06-01'),
-        ])
-
-    @freeze_time('2018-05-31')
-    def test_eval_domain_for_range_current_month_on_last_day_of_month(self):
-        domain = self._eval_filter_domain('range_current_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-01'),
-            ('create_date', '<', '2018-06-01'),
-        ])
-
-    @freeze_time('2018-05-01')
-    def test_eval_domain_for_range_current_month_on_first_day_of_month(self):
-        domain = self._eval_filter_domain('range_current_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-05-01'),
-            ('create_date', '<', '2018-06-01'),
-        ])
-
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_next_month(self):
-        domain = self._eval_filter_domain('range_next_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-06-01'),
-            ('create_date', '<', '2018-07-01'),
-        ])
-
-    @freeze_time('2018-05-31')
-    def test_eval_domain_for_range_next_month_on_last_day_of_month(self):
-        domain = self._eval_filter_domain('range_next_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-06-01'),
-            ('create_date', '<', '2018-07-01'),
-        ])
-
-    @freeze_time('2018-05-01')
-    def test_eval_domain_for_range_next_month_on_first_day_of_month(self):
-        domain = self._eval_filter_domain('range_next_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-06-01'),
-            ('create_date', '<', '2018-07-01'),
-        ])
-
-    @freeze_time('2018-05-18')
-    def test_eval_domain_for_range_previous_month(self):
-        domain = self._eval_filter_domain('range_previous_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-04-01'),
-            ('create_date', '<', '2018-05-01'),
-        ])
-
-    @freeze_time('2018-05-31')
-    def test_eval_domain_for_range_previous_month_on_last_day_of_month(self):
-        domain = self._eval_filter_domain('range_previous_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-04-01'),
-            ('create_date', '<', '2018-05-01'),
-        ])
-
-    @freeze_time('2018-05-01')
-    def test_eval_domain_for_range_previous_month_on_first_day_of_month(self):
-        domain = self._eval_filter_domain('range_previous_month')
-        self.assertEqual(domain, [
-            ('create_date', '>=', '2018-04-01'),
-            ('create_date', '<', '2018-05-01'),
-        ])
+    @data('2018-05-01', '2018-05-18', '2018-05-31')
+    def test_eval_domain_for_range_previous_month(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_previous_month')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-04-01'),
+                ('create_date', '<', '2018-05-01'),
+            ])
