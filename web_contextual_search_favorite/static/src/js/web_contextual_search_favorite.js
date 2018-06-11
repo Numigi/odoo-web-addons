@@ -94,10 +94,10 @@ function addExplicitAndOperatorsToDomainContent(domainContent){
     domainNodes.push(currentNode);
 
     // Exclude empty strings and strings containing only spaces
-    domainNodes = domainNodes.map(function(n){return n.trim()}).filter(function(n){return n});
+    domainNodes = domainNodes.map(function(n){return n.trim();}).filter(function(n){return n;});
 
-    var operators = domainNodes.filter(function(n){return n === and || n === or});
-    var comparisons = domainNodes.filter(function(n){return n !== and && n !== or && n !== not});
+    var operators = domainNodes.filter(function(n){return n === and || n === or;});
+    var comparisons = domainNodes.filter(function(n){return n !== and && n !== or && n !== not;});
 
     // The total number of & and | operators must be equal to the number of comparisons - 1.
     var missingAnds = _.times(comparisons.length - operators.length - 1, _.constant(and));
@@ -158,7 +158,7 @@ require("web.FavoriteMenu").include({
         });
 
         // Only the following lines were modified in the method
-        var domainContents = search.domains.map(extractContentFromDomain)
+        var domainContents = search.domains.map(extractContentFromDomain);
         var domain = "[" + domainContents.join(",") + "]";
         // Modifed lines end here
 
@@ -167,7 +167,7 @@ require("web.FavoriteMenu").include({
             user_id: shared_filter ? false : session.uid,
             model_id: this.target_model,
             context: results.context,
-            domain: domain,
+            domain,
             sort: JSON.stringify(this.searchview.dataset._sort),
             is_default: default_filter,
             action_id: this.action_id,
@@ -224,7 +224,7 @@ require("web.FavoriteMenu").include({
                 context_to_save: c,
                 domain: domain,
                 view_mode: self.view_manager.active_view.type,
-                name: name,
+                name,
             },
         })
         .then(function (r) {
