@@ -37,6 +37,13 @@ class TestSearchDateRange(common.SavepointCase):
             'relativedelta': relativedelta,
         })
 
+    def test_eval_domain_for_range_before_today(self):
+        with freeze_time('2018-05-18'):
+            domain = self._eval_filter_domain('range_before_today')
+            self.assertEqual(domain, [
+                ('create_date', '<', '2018-05-18'),
+            ])
+
     def test_eval_domain_for_range_today(self):
         with freeze_time('2018-05-18'):
             domain = self._eval_filter_domain('range_today')

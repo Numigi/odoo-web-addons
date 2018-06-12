@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
 
+    <record id="range_before_today" model="search.date.range">
+        <field name="label">Before Today</field>
+        <field name="technical_name">before_today</field>
+        <field name="domain">[
+            ('{field}', '&lt;', context_today().strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="-1"/>
+    </record>
+
     <record id="range_today" model="search.date.range">
         <field name="label">Today</field>
         <field name="technical_name">today</field>

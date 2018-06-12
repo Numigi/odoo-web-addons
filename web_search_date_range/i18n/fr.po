@@ -18,6 +18,11 @@ msgstr ""
 "X-Generator: Poedit 1.8.7.1\n"
 
 #. module: web_search_date_range
+#: model:search.date.range,label:web_search_date_range.range_before_today
+msgid "Before Today"
+msgstr "Avant aujourd'hui"
+
+#. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_create_uid
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_create_uid
 msgid "Created by"
