@@ -14,7 +14,7 @@ RUN apt-get update && apt-get install -y \
 USER client
 
 COPY package.json .
-RUN npm install --only=dev
+RUN npm install
 
 COPY .ava .ava
 COPY  web_contextual_search_favorite web_contextual_search_favorite
