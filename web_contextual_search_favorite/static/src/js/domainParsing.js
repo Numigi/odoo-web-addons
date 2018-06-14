@@ -21,6 +21,81 @@ function extractContentFromDomain(domain){
     return match[1] || "";
 }
 
+
+
+/**
+ * Class responsible for splitting a domain content into an array of domain node strings.
+ */
+class DomainContentSplitter {
+
+    /**
+     * Seperate a domain content string into a list of domain node strings.
+     *
+     * @param {String} the domain content to split
+     * @returns {Array} an array containing domain nodes
+     */
+    split(domainContent){
+        this._domainNodes = [];
+        this._currentNode = "";
+        this._parenthesisCount = 0;
+
+        domainContent.split("").forEach(char => this._processChar(char));
+
+        this._domainNodes.push(this._currentNode);
+        return this._domainNodes;
+    }
+
+    _processChar(char){
+        if(this._isOpeningParenthesis(char)){
+            this._processOpeningParenthesis(char);
+        }
+        else if(this._isClosingParenthesis(char)){
+            this._processClosingParenthesis(char);
+        }
+        else if(this._isDomainNodeSeperator(char)){
+            this._processDomainNodeSeperator(char);
+        }
+        else{
+            this._currentNode += char;
+        }
+    }
+
+    _processOpeningParenthesis(char){
+        if(this._parenthesisCount === 0){
+            this._domainNodes.push(this._currentNode);
+            this._currentNode = "";
+        }
+        this._currentNode += char;
+        this._parenthesisCount += 1;
+    }
+
+    _processClosingParenthesis(char){
+        this._parenthesisCount -= 1;
+        this._currentNode += char;
+        if(this._parenthesisCount === 0){
+            this._domainNodes.push(this._currentNode);
+            this._currentNode = "";
+        }
+    }
+
+    _processDomainNodeSeperator(char){
+        this._domainNodes.push(this._currentNode);
+        this._currentNode = "";
+    }
+
+    _isOpeningParenthesis(char){
+        return char === "(" || char === "[";
+    }
+
+    _isClosingParenthesis(char){
+        return char === ")" || char === "]";
+    }
+
+    _isDomainNodeSeperator(char){
+        return this._parenthesisCount === 0 && char === ",";
+    }
+}
+
 /**
  * Seperate a domain content string into a list of domain node strings.
  *
@@ -28,44 +103,10 @@ function extractContentFromDomain(domain){
  * @returns {Array} an array containing domain nodes
  */
 function _splitDomainNodes(domainContent){
-    var domainNodes = [];
-    var currentNode = "";
-    var parenthesisCount = 0;
-
-    // Iterate around each caracters
-    //
-    // When encountering an opening, a closing parenthesis or a comma,
-    // we determine whether a domain part begins or ends.
-    domainContent.split("").forEach(char => {
-        if(char === "(" || char === "["){
-            if(parenthesisCount === 0){
-                domainNodes.push(currentNode);
-                currentNode = "";
-            }
-            currentNode += char;
-            parenthesisCount += 1;
-        }
-        else if(char === ")" || char === "]"){
-            parenthesisCount -= 1;
-            currentNode += char;
-            if(parenthesisCount === 0){
-                domainNodes.push(currentNode);
-                currentNode = "";
-            }
-        }
-        else if(parenthesisCount === 0 && char === ","){
-            domainNodes.push(currentNode);
-            currentNode = "";
-        }
-        else{
-            currentNode += char;
-        }
-    });
-
-    domainNodes.push(currentNode);
+    var domainNodes = new DomainContentSplitter().split(domainContent);
 
     // Exclude empty strings and strings containing only spaces
-    return domainNodes.map(n => n.trim()).filter(n => n);  
+    return domainNodes.map(n => n.trim()).filter(n => n);
 }
 
 /**
@@ -85,7 +126,7 @@ function addExplicitAndOperatorsToDomainContent(domainContent){
     // Standardize quotes around & and | operators
     domainContent = domainContent.replace("'&'", and).replace("'|'", or).replace("'!'", not);
 
-    domainNodes = _splitDomainNodes(domainContent);
+    var domainNodes = _splitDomainNodes(domainContent);
 
     var operators = domainNodes.filter(n => n === and || n === or);
     var domainTuples = domainNodes.filter(n => n !== and && n !== or && n !== not);
