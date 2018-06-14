@@ -15,7 +15,7 @@ into ES2015 compatible with older browsers.
 To build the assets (for example with the module web_contextual_search_favorite):
 
 ```bash
-npm install --only=production
+npm install
 cd web_contextual_search_favorite/static/src/js
 webpack
 ```
@@ -27,6 +27,6 @@ This repository includes Javascript tests written in ES6 with [AVA](https://gith
 To run the tests for the whole repository, simply run the following commands:
 
 ```bash
-npm install --only=dev
+npm install
 npm test
 ```
