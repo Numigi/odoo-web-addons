@@ -25,11 +25,11 @@ require("web.FavoriteMenu").include({
      */
     save_favorite(){
         var self = this;
-        var filter_name = this.$inputs[0].value;
-        var default_filter = this.$inputs[1].checked;
-        var shared_filter = this.$inputs[2].checked;
+        var filterName = this.$inputs[0].value;
+        var defaultFilter = this.$inputs[1].checked;
+        var sharedFilter = this.$inputs[2].checked;
 
-        if (!filter_name.length){
+        if (!filterName.length){
             this.do_warn(_t("Error"), _t("Filter name is required."));
             this.$inputs.first().focus();
             return;
@@ -37,7 +37,7 @@ require("web.FavoriteMenu").include({
 
         if (_.chain(this.filters)
                 .pluck("name")
-                .contains(filter_name).value()) {
+                .contains(filterName).value()) {
             this.do_warn(_t("Error"), _t("Filter with same name already exists."));
             this.$inputs.first().focus();
             return;
@@ -73,13 +73,13 @@ require("web.FavoriteMenu").include({
         // Modifed lines end here
 
         var filter = {
-            name: filter_name,
-            user_id: shared_filter ? false : session.uid,
+            name: filterName,
+            user_id: sharedFilter ? false : session.uid,
             model_id: this.target_model,
             context: results.context,
             domain,
             sort: JSON.stringify(this.searchview.dataset._sort),
-            is_default: default_filter,
+            is_default: defaultFilter,
             action_id: this.action_id,
         };
         return dataManager.create_filter(filter).done(function (id) {
@@ -100,19 +100,19 @@ require("web.FavoriteMenu").include({
      */
     _addDashboard(){
         var self = this;
-        var search_data = this.searchview.build_search_data();
+        var searchData = this.searchview.build_search_data();
 
         var context = new Context(this.searchview.dataset.get_context() || []);
-        _.each(search_data.contexts, context.add, context);
+        _.each(searchData.contexts, context.add, context);
 
         // Only the following lines were modified in the method
-        var domains = (this.searchview.dataset.get_domain() || []).concat(search_data.domains);
+        var domains = (this.searchview.dataset.get_domain() || []).concat(searchData.domains);
         var domainContents = domains.map(extractContentFromDomain);
         var domain = "[" + domainContents.join(",") + "]";
         // Modifed lines end here
 
         context.add({
-            group_by: pyeval.eval("groupbys", search_data.groupbys || []),
+            group_by: pyeval.eval("groupbys", searchData.groupbys || []),
         });
         context.add(this.view_manager.active_view.controller.getContext());
 
