@@ -1,7 +1,10 @@
 FROM debian:stretch
 MAINTAINER numigi <contact@numigi.com>
 
-RUN apt-get update && apt-get install -y --no-install-recommends \
+RUN useradd -ms /bin/bash client
+WORKDIR /home/client
+
+RUN apt-get update && apt-get install -y \
         curl \
         build-essential \
         libssl-dev && \
@@ -9,12 +12,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
-RUN useradd -ms /bin/bash client
-WORKDIR /home/client
 USER client
 
 COPY package.json .
-RUN npm install
+RUN npm install --only=dev
 
 COPY .ava .ava
 COPY  web_contextual_search_favorite web_contextual_search_favorite

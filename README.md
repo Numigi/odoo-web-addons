@@ -27,6 +27,6 @@ This repository includes Javascript tests written in ES6 with [AVA](https://gith
 To run the tests for the whole repository, simply run the following commands:
 
 ```bash
-npm install
+npm install --only=dev
 npm test
 ```
