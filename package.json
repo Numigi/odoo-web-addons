@@ -1,0 +1,19 @@
+{
+  "name": "odoo-web-addons",
+  "version": "1.0.0",
+  "description": "Web Interface Addons For Odoo",
+  "author": "Numigi (tm)",
+  "scripts": {
+    "test": "ava **/test*.js"
+  },
+  "ava": {
+    "require": [
+      "./.ava/setupUnderscore.js"
+    ]
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "ava": "1.0.0-beta.5.1",
+    "underscore": "^1.9.1"
+  }
+}
