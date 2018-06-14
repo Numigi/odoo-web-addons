@@ -6,7 +6,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         build-essential \
         libssl-dev && \
     curl -sL https://deb.nodesource.com/setup_10.x | bash - && \
-    apt-get install -y nodejs=6.1.0 && \
+    apt-get install -y nodejs && \
     rm -rf /var/lib/apt/lists/*
 
 RUN useradd -ms /bin/bash client
