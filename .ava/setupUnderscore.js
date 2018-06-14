@@ -1,2 +1,2 @@
 
-global._ = require('underscore')
+global._ = require("underscore");

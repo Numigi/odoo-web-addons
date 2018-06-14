@@ -9,11 +9,22 @@
   "ava": {
     "require": [
       "./.ava/setupUnderscore.js"
-    ]
+    ],
+    "babel": {
+      "testOptions": {
+        "presets": [
+          "@ava/babel-preset-stage-4"
+        ]
+      }
+    }
   },
-  "dependencies": {},
+  "dependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4"
+  },
   "devDependencies": {
     "ava": "1.0.0-beta.5.1",
+    "@ava/babel-preset-stage-4": "^1.1.0",
     "underscore": "^1.9.1"
   }
 }

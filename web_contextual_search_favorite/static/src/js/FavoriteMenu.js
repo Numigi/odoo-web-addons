@@ -43,7 +43,7 @@ require("web.FavoriteMenu").include({
             return;
         }
 
-        var user_context = this.getSession().user_context;
+        var userContext = this.getSession().user_context;
         var search = this.searchview.build_search_data();
         var controllerContext;
         this.trigger_up("get_controller_context", {
@@ -54,7 +54,7 @@ require("web.FavoriteMenu").include({
 
         var results = pyeval.eval_domains_and_contexts({
                 domains: search.domains,
-                contexts: [user_context].concat(search.contexts.concat(controllerContext || [])),
+                contexts: [userContext].concat(search.contexts.concat(controllerContext || [])),
                 group_by_seq: search.groupbys || [],
             });
 
@@ -132,7 +132,7 @@ require("web.FavoriteMenu").include({
             params: {
                 action_id: self.action_id || false,
                 context_to_save: c,
-                domain: domain,
+                domain,
                 view_mode: self.view_manager.active_view.type,
                 name,
             },

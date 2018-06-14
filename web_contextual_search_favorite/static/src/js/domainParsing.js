@@ -21,34 +21,6 @@ function extractContentFromDomain(domain){
     return match[1] || "";
 }
 
-
-/**
- * Add explicit & operators to a domain content.
- *
- * In Odoo, & operators are implicit in a domain content when neither & not |
- * is specified. This methods adds explicit & operators where these are implicit.
- *
- * @param {String} the domain content with missing & operators
- * @returns {String} the content of the domain
- */
-function addExplicitAndOperatorsToDomainContent(domainContent){
-    var and = "\"&\"";
-    var or = "\"|\"";
-    var not = "\"!\"";
-
-    // Standardize quotes around & and | operators
-    domainContent = domainContent.replace("'&'", and).replace("'|'", or).replace("'!'", not);
-
-    domainNodes = _splitDomainNodes(domainContent);
-
-    var operators = domainNodes.filter(function(n){return n === and || n === or;});
-    var domainTuples = domainNodes.filter(function(n){return n !== and && n !== or && n !== not;});
-
-    // The total number of & and | operators must be equal to the number of domain tuples - 1.
-    var missingAnds = _.times(domainTuples.length - operators.length - 1, _.constant(and));
-    return missingAnds.concat(domainNodes).join(", ");
-}
-
 /**
  * Seperate a domain content string into a list of domain node strings.
  *
@@ -64,9 +36,7 @@ function _splitDomainNodes(domainContent){
     //
     // When encountering an opening, a closing parenthesis or a comma,
     // we determine whether a domain part begins or ends.
-    for(var i = 0; i < domainContent.length; i++){
-        var char = domainContent[i];
-
+    domainContent.split("").forEach(char => {
         if(char === "(" || char === "["){
             if(parenthesisCount === 0){
                 domainNodes.push(currentNode);
@@ -90,15 +60,42 @@ function _splitDomainNodes(domainContent){
         else{
             currentNode += char;
         }
-    }
+    });
 
     domainNodes.push(currentNode);
 
     // Exclude empty strings and strings containing only spaces
-    return domainNodes.map(function(n){return n.trim();}).filter(function(n){return n;});  
+    return domainNodes.map(n => n.trim()).filter(n => n);  
+}
+
+/**
+ * Add explicit & operators to a domain content.
+ *
+ * In Odoo, & operators are implicit in a domain content when neither & not |
+ * is specified. This methods adds explicit & operators where these are implicit.
+ *
+ * @param {String} the domain content with missing & operators
+ * @returns {String} the content of the domain
+ */
+function addExplicitAndOperatorsToDomainContent(domainContent){
+    var and = "\"&\"";
+    var or = "\"|\"";
+    var not = "\"!\"";
+
+    // Standardize quotes around & and | operators
+    domainContent = domainContent.replace("'&'", and).replace("'|'", or).replace("'!'", not);
+
+    domainNodes = _splitDomainNodes(domainContent);
+
+    var operators = domainNodes.filter(n => n === and || n === or);
+    var domainTuples = domainNodes.filter(n => n !== and && n !== or && n !== not);
+
+    // The total number of & and | operators must be equal to the number of domain tuples - 1.
+    var missingAnds = _.times(domainTuples.length - operators.length - 1, _.constant(and));
+    return missingAnds.concat(domainNodes).join(", ");
 }
 
 module.exports = {
     extractContentFromDomain,
     addExplicitAndOperatorsToDomainContent,
-}
+};

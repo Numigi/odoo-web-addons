@@ -1,4 +1,4 @@
 
-var domainParsing = require('./domainParsing');
+var domainParsing = require("./domainParsing");
 
 window.webContextualSearchFavorite = {domainParsing};
