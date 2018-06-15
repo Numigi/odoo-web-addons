@@ -9,7 +9,6 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./.log:/var/log/odoo
-      - ./web_contextual_search_favorite:/mnt/extra-addons/web_contextual_search_favorite
     ports:
       - "8069:8069"
       - "8071:8071"
