@@ -9,10 +9,28 @@
  * @param {String | Array} the domain to parse
  * @returns {String} the content of the domain
  */
+
+var _and = "\"&\"";
+var _or = "\"|\"";
+var _not = "\"!\"";
+
+
+/**
+ * Extract the content of a domain filter.
+ *
+ * The regular expression extracts anything between the first opening and
+ * the last closing parenthesis.
+ *
+ * It accepts spaces and chariot returns around the opening and closing parenthesis.
+ *
+ * @param {String | Array} domain - the domain for which to extract the content.
+ * @returns {String} the domain content
+ */
 function extractContentFromDomain(domain){
     if(domain instanceof Array){
         domain = JSON.stringify(domain);
     }
+
     var regex = /^\s*\[([\S\s]*)?\]\s*$/;
     var match = regex.exec(domain);
     if(match === null){
@@ -20,7 +38,6 @@ function extractContentFromDomain(domain){
     }
     return match[1] || "";
 }
-
 
 
 /**
@@ -96,6 +113,7 @@ class DomainContentSplitter {
     }
 }
 
+
 /**
  * Seperate a domain content string into a list of domain node strings.
  *
@@ -109,6 +127,18 @@ function _splitDomainNodes(domainContent){
     return domainNodes.map(n => n.trim()).filter(n => n);
 }
 
+
+/**
+ * Standardize quotes around & and | operators
+ *
+ * @param {String} domainContent - a domain content
+ * @returns {String} the domain content with normalized operators.
+ */
+function _normalizeOperators(domainContent){
+    return domainContent.replace("'&'", _and).replace("'|'", _or).replace("'!'", _not);
+}
+
+
 /**
  * Add explicit & operators to a domain content.
  *
@@ -119,24 +149,47 @@ function _splitDomainNodes(domainContent){
  * @returns {String} the content of the domain
  */
 function addExplicitAndOperatorsToDomainContent(domainContent){
-    var and = "\"&\"";
-    var or = "\"|\"";
-    var not = "\"!\"";
-
-    // Standardize quotes around & and | operators
-    domainContent = domainContent.replace("'&'", and).replace("'|'", or).replace("'!'", not);
-
+    domainContent = _normalizeOperators(domainContent);
     var domainNodes = _splitDomainNodes(domainContent);
 
-    var operators = domainNodes.filter(n => n === and || n === or);
-    var domainTuples = domainNodes.filter(n => n !== and && n !== or && n !== not);
+    var operators = domainNodes.filter(n => n === _and || n === _or);
+    var domainTuples = domainNodes.filter(n => n !== _and && n !== _or && n !== _not);
 
     // The total number of & and | operators must be equal to the number of domain tuples - 1.
-    var missingAnds = _.times(domainTuples.length - operators.length - 1, _.constant(and));
+    var missingAnds = _.times(domainTuples.length - operators.length - 1, _.constant(_and));
     return missingAnds.concat(domainNodes).join(", ");
 }
+
+
+/**
+ * Merge the given domains using `&` operators into a single domain.
+ *
+ * @param {Array} the domains to merge
+ * @returns {String} the resulting domain
+ */
+function mergeDomainsWithAndOperators(domains){
+    var domainContents = domains.map(extractContentFromDomain).map(_normalizeOperators);
+    return "[" + domainContents.join(", ") + "]";
+}
+
+
+/**
+ * Merge the given domains using `|` operators into a single domain.
+ *
+ * @param {Array} the domains to merge
+ * @returns {String} the resulting domain
+ */
+function mergeDomainsWithOrOperators(domains){
+    var domainContents = domains.map(extractContentFromDomain);
+    var domainContentsWithExplicitAnds = domainContents.map(addExplicitAndOperatorsToDomainContent);
+    var ors = _.times(domainContentsWithExplicitAnds.length - 1, _.constant(_or));
+    return "[" + ors.concat(domainContentsWithExplicitAnds).join(", ") + "]";
+}
+
 
 module.exports = {
     extractContentFromDomain,
     addExplicitAndOperatorsToDomainContent,
+    mergeDomainsWithAndOperators,
+    mergeDomainsWithOrOperators,
 };

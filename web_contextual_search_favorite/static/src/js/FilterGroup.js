@@ -5,8 +5,7 @@
 odoo.define("web_contextual_search_favorite.FilterGroup", function(require) {
     "use strict";
 
-var extractContentFromDomain = webContextualSearchFavorite.domainParsing.extractContentFromDomain;
-var addExplicitAndOperatorsToDomainContent = webContextualSearchFavorite.domainParsing.addExplicitAndOperatorsToDomainContent;
+var mergeDomainsWithOrOperators = webContextualSearchFavorite.domainParsing.mergeDomainsWithOrOperators;
 
 require("web.search_inputs").FilterGroup.include({
     /**
@@ -24,10 +23,7 @@ require("web.search_inputs").FilterGroup.include({
             .reject(_.isEmpty)
             .value();
 
-        var domainContents = domains.map(extractContentFromDomain);
-        var domainContentsWithExplicitAnds = domainContents.map(addExplicitAndOperatorsToDomainContent);
-        var ors = _.times(domainContentsWithExplicitAnds.length - 1, _.constant("\"|\""));
-        return "[" + ors.concat(domainContentsWithExplicitAnds).join(",") + "]";
+        return mergeDomainsWithOrOperators(domains);
     },
 });
 

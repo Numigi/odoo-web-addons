@@ -13,7 +13,8 @@ var session = require("web.session");
 
 var _t = core._t;
 
-var extractContentFromDomain = webContextualSearchFavorite.domainParsing.extractContentFromDomain;
+var mergeDomainsWithAndOperators = webContextualSearchFavorite.domainParsing.mergeDomainsWithAndOperators;
+
 
 require("web.FavoriteMenu").include({
     /**
@@ -67,9 +68,8 @@ require("web.FavoriteMenu").include({
             delete ctx[key];
         });
 
-        // Only the following lines were modified in the method
-        var domainContents = search.domains.map(extractContentFromDomain);
-        var domain = "[" + domainContents.join(",") + "]";
+        // Only the following line was modified in the method
+        var domain = mergeDomainsWithAndOperators(search.domains);
         // Modifed lines end here
 
         var filter = {
@@ -107,8 +107,7 @@ require("web.FavoriteMenu").include({
 
         // Only the following lines were modified in the method
         var domains = (this.searchview.dataset.get_domain() || []).concat(searchData.domains);
-        var domainContents = domains.map(extractContentFromDomain);
-        var domain = "[" + domainContents.join(",") + "]";
+        var domain = mergeDomainsWithAndOperators(domains);
         // Modifed lines end here
 
         context.add({
