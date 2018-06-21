@@ -17,6 +17,10 @@ services:
     command: odoo
     environment:
       - LOG_ODOO=/var/log/odoo
+  client:
+    build:
+      context: .
+      dockerfile: client.Dockerfile
   db:
     image: postgres:9.6
     environment:
