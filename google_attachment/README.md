@@ -28,3 +28,11 @@ This allows permissions to access the attached documents to be managed in Google
 5. Activate the access to the [Google Picker API](https://developers.google.com/picker/).
 6. In Odoo, go to `Settings / General Settings`.
 7. In the section `Attachments From Google Drive`, fill your OAuth Client ID and your API Key.
+
+Contributors
+------------
+* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+
+More information
+----------------
+* Meet us at https://bit.ly/numigi-com
