@@ -11,7 +11,7 @@ This allows permissions to access the attached documents to be managed in Google
 
 ![Sidebar](static/description/sidebar.png?raw=true)
 
-* Authenticate to Google
+* Authenticate to Google (only needed the first time)
 
 ![Google OAuth2](static/description/oauth2.png?raw=true)
 

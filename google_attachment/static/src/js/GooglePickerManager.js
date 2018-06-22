@@ -89,7 +89,7 @@ var GooglePickerManager = Class.extend({
                 return {
                     name: doc[google.picker.Document.NAME],
                     url: doc[google.picker.Document.EMBEDDABLE_URL] || doc[google.picker.Document.URL],
-                }
+                };
             });
         }
         else {

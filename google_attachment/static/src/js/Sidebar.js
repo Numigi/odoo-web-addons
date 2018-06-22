@@ -12,8 +12,8 @@ var Sidebar = require("web.Sidebar");
 var QWeb = core.qweb;
 var _t = core._t;
 
-var GoogleOAuthAuthenticator = require('google_attachment.GoogleOAuthAuthenticator');
-var GooglePickerManager = require('google_attachment.GooglePickerManager');
+var GoogleOAuthAuthenticator = require("google_attachment.GoogleOAuthAuthenticator");
+var GooglePickerManager = require("google_attachment.GooglePickerManager");
 
 
 function addImportFromGoogleToSideBar(clientId, apiKey){
@@ -23,7 +23,7 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
     var googlePickerManager = new GooglePickerManager(authenticator, apiKey);
 
     Sidebar.include({
-        _redraw: function() {
+        _redraw() {
             var self = this;
             this._super.apply(this, arguments);
 
@@ -36,7 +36,7 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
             self.$el.find(".o_sidebar_add_attachment").after(addFromGoogle);
 
             // When clicking on the `From Google ...` button, open the google picker widget.
-            addFromGoogle.on("click", function(e) {
+            addFromGoogle.on("click", function() {
                 self.addDocumentsFromPicker();
             });
         },
@@ -67,11 +67,11 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
          */
         _createAttachmentFromGoogleDriveDoc(doc){
             var attachmentValues = {
-                'name': doc.name,
-                'type': 'url',
-                'url': doc.url,
-                'res_id': this.env.activeIds[0],
-                'res_model': this.env.model,
+                name: doc.name,
+                type: "url",
+                url: doc.url,
+                res_id: this.env.activeIds[0],
+                res_model: this.env.model,
             };
 
             return ajax.rpc("/web/dataset/call_kw/ir.attachment/create", {
@@ -92,9 +92,9 @@ ajax.rpc("/web/dataset/call_kw/ir.config_parameter/get_google_attachment_paramet
     }
     else {
         console.error(
-            'Could not load the javascript assets for the module google_attachment. ' +
-            'The system parameters google_attachment.client_id and google_attachment.api_key ' +
-            'must be set by the system administrator.'
+            "Could not load the javascript assets for the module google_attachment. " +
+            "The system parameters google_attachment.client_id and google_attachment.api_key " +
+            "must be set by the system administrator."
         );
     }
 });
