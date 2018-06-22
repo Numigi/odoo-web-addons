@@ -5,10 +5,10 @@ from odoo import api, models
 
 
 class IrConfigParameterWithGoogleAttachmentParameters(models.Model):
-	"""Add a method to allow base users to fetch the google client id and api key.
+    """Add a method to allow base users to fetch the google client id and api key.
 
-	These 2 parameters are required on the client side for the Google Picker widget.
-	"""
+    These 2 parameters are required on the client side for the Google Picker widget.
+    """
 
     _inherit = 'ir.config_parameter'
 
