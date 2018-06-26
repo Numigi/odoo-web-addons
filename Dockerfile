@@ -17,6 +17,7 @@ RUN gitoo install_all --conf_file /gitoo.yml --destination "${THIRD_PARTY_ADDONS
 USER odoo
 
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
+COPY google_attachment /mnt/extra-addons/google_attachment
 COPY ui_color_red /mnt/extra-addons/ui_color_red
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width

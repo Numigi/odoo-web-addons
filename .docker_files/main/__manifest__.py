@@ -12,6 +12,7 @@
     'summary': 'Install all addons required for testing.',
     'depends': [
         'disable_quick_create',
+        'google_attachment',
         'ui_color_red',
         'web_contextual_search_favorite',
         'web_list_column_width',
