@@ -14,9 +14,12 @@ var GoogleOAuthAuthenticator = Class.extend({
      */
     init(clientId, scope) {
         this._clientId = clientId;
-        this._scope = scope;
         this._googleAuth = null;
         this._apiLoaded = false;
+        this._signInOptions = {
+            scope: scope,
+            prompt: "select_account",
+        };
     },
 
     /**
@@ -30,15 +33,17 @@ var GoogleOAuthAuthenticator = Class.extend({
 
         this._loadApi().then(function(){
             self._googleAuth = gapi.auth2.init({client_id: self._clientId});
-
-            if(self._googleAuth.isSignedIn.get()){
-                deferred.resolve();
-            }
-            else{
-                self._googleAuth.signIn().then(function(){
+            self._googleAuth.then(function(){
+                if(self._googleAuth.isSignedIn.get()){
                     deferred.resolve();
-                });
-            }
+                }
+                else{
+                    self._googleAuth.signIn(self._signInOptions).then(function(){
+                        deferred.resolve();
+                    });
+                }
+            });
+
         });
 
         return deferred;

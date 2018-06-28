@@ -18,7 +18,7 @@ var GooglePickerManager = require("google_attachment.GooglePickerManager");
 
 function addImportFromGoogleToSideBar(clientId, apiKey){
 
-    var scope = ["https://www.googleapis.com/auth/drive"];
+    var scope = "https://www.googleapis.com/auth/drive";
     var authenticator = new GoogleOAuthAuthenticator(clientId, scope);
     var googlePickerManager = new GooglePickerManager(authenticator, apiKey);
 
