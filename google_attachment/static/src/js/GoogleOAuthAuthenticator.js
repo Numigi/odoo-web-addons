@@ -17,7 +17,7 @@ var GoogleOAuthAuthenticator = Class.extend({
         this._googleAuth = null;
         this._apiLoaded = false;
         this._signInOptions = {
-            scope: scope,
+            scope,
             prompt: "select_account",
         };
     },
