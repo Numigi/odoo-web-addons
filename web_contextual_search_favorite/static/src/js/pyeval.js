@@ -18,7 +18,7 @@ var oldEval = pyeval.eval;
  * records created by the user or for which the user is responsible.
  */
 pyeval.eval = function(type, object, context){
-    return oldEval(type, object, new Context(session.user_context, context));
+    return oldEval(type, object, _.extend({}, session.user_context, context || {}));
 };
 
 });
