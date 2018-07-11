@@ -34,10 +34,17 @@ var GooglePickerManager = Class.extend({
             var userLang = odoo.session_info.user_context.lang || "en_US";
             var origin = window.location.protocol + "//" + window.location.host;
 
+            var view = (
+                new google.picker.DocsView(google.picker.ViewId.DOCS)
+                .setSelectFolderEnabled(true)
+                .setIncludeFolders(true)
+            );
+
             new google.picker.PickerBuilder()
-                .addView(google.picker.ViewId.DOCS)
+                .addView(view)
                 .addView(google.picker.ViewId.RECENTLY_PICKED)
                 .enableFeature(google.picker.Feature.MULTISELECT_ENABLED)
+                .enableFeature(google.picker.Feature.SUPPORT_TEAM_DRIVES)
                 .setOAuthToken(oauthToken)
                 .setDeveloperKey(self._developerKey)
                 .setLocale(userLang)
