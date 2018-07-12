@@ -53,22 +53,18 @@ require("web.FavoriteMenu").include({
             },
         });
 
-        var results = pyeval.eval_domains_and_contexts({
-                domains: search.domains,
-                contexts: [userContext].concat(search.contexts.concat(controllerContext || [])),
-                group_by_seq: search.groupbys || [],
-            });
+        // Only the following lines were modified in the method
+        var contexts = [userContext].concat(search.contexts).concat(controllerContext || []);
+        var filterContext = pyeval.eval("contexts", contexts);
 
-        if (!_.isEmpty(results.group_by)) {
-            results.context.group_by = results.group_by;
+        if (!_.isEmpty(search.groupbys)) {
+            filterContext.group_by = pyeval.eval("groupbys", search.groupbys);
         }
 
-        var ctx = results.context;
         _(_.keys(session.user_context)).each(function (key) {
-            delete ctx[key];
+            delete filterContext[key];
         });
 
-        // Only the following line was modified in the method
         var domain = mergeDomainsWithAndOperators(search.domains);
         // Modifed lines end here
 
@@ -76,7 +72,7 @@ require("web.FavoriteMenu").include({
             name: filterName,
             user_id: sharedFilter ? false : session.uid,
             model_id: this.target_model,
-            context: results.context,
+            context: filterContext,
             domain,
             sort: JSON.stringify(this.searchview.dataset._sort),
             is_default: defaultFilter,
