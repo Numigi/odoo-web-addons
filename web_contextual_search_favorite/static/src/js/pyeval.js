@@ -11,6 +11,9 @@ var session = require("web.session");
 
 var oldEval = pyeval.eval;
 
+/**
+ * Variables required when filtering using `Active` filters (TA#4193).
+ */
 var extraPythonGlobals = {
     "true": true,
     "false": false,
