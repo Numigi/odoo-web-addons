@@ -20,7 +20,7 @@ services:
   client:
     build:
       context: .
-      dockerfile: client.Dockerfile
+      dockerfile: Dockerfile-client
   db:
     image: postgres:9.6
     environment:
