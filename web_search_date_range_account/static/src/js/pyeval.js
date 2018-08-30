@@ -22,7 +22,7 @@ function toDatetime(dateString){
 var fiscalYearData = {
     fiscal_year_start: toDatetime(session.fiscal_year_start),
     trimester_start: toDatetime(session.trimester_start),
-}
+};
 
 /**
  * Add the fiscal year data to the pyeval function.
