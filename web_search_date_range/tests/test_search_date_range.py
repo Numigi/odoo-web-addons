@@ -113,3 +113,30 @@ class TestSearchDateRange(common.SavepointCase):
                 ('create_date', '>=', '2018-04-01'),
                 ('create_date', '<', '2018-05-01'),
             ])
+
+    @data('2018-01-01', '2018-05-18', '2018-12-31')
+    def test_eval_domain_for_range_current_year(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_current_year')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2018-01-01'),
+                ('create_date', '<', '2019-01-01'),
+            ])
+
+    @data('2018-01-01', '2018-05-18', '2018-12-31')
+    def test_eval_domain_for_range_next_year(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_next_year')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2019-01-01'),
+                ('create_date', '<', '2020-01-01'),
+            ])
+
+    @data('2018-01-01', '2018-05-18', '2018-12-31')
+    def test_eval_domain_for_range_previous_year(self, today):
+        with freeze_time(today):
+            domain = self._eval_filter_domain('range_previous_year')
+            self.assertEqual(domain, [
+                ('create_date', '>=', '2017-01-01'),
+                ('create_date', '<', '2018-01-01'),
+            ])
