@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <record id="range_previous_trimester" model="search.date.range">
+        <field name="label">Previous Trimester</field>
+        <field name="technical_name">previous_trimester</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (trimester_start - relativedelta(months=3)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', trimester_start.strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="20"/>
+    </record>
+
+    <record id="range_current_trimester" model="search.date.range">
+        <field name="label">Current Trimester</field>
+        <field name="technical_name">current_trimester</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', trimester_start.strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (trimester_start + relativedelta(months=3)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="21"/>
+    </record>
+
+    <record id="range_next_trimester" model="search.date.range">
+        <field name="label">Next Trimester</field>
+        <field name="technical_name">next_trimester</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (trimester_start + relativedelta(months=3)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (trimester_start + relativedelta(months=6)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="22"/>
+    </record>
+
+    <record id="range_previous_fiscal_year" model="search.date.range">
+        <field name="label">Previous Fiscal Year</field>
+        <field name="technical_name">previous_fiscal_year</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (fiscal_year_start - relativedelta(years=1)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', fiscal_year_start.strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="30"/>
+    </record>
+
+    <record id="range_current_fiscal_year" model="search.date.range">
+        <field name="label">Current Fiscal Year</field>
+        <field name="technical_name">current_fiscal_year</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', fiscal_year_start.strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (fiscal_year_start + relativedelta(years=1)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="31"/>
+    </record>
+
+    <record id="range_next_fiscal_year" model="search.date.range">
+        <field name="label">Next Fiscal Year</field>
+        <field name="technical_name">next_fiscal_year</field>
+        <field name="domain">[
+            ('{field}', '&gt;=', (fiscal_year_start + relativedelta(years=1)).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', (fiscal_year_start + relativedelta(years=2)).strftime('%Y-%m-%d')),
+        ]</field>
+        <field name="sequence" eval="32"/>
+    </record>
+
+</odoo>

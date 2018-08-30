@@ -22,6 +22,7 @@ COPY ui_color_red /mnt/extra-addons/ui_color_red
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
+COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
 COPY web_search_input_many2many /mnt/extra-addons/web_search_input_many2many
 
 COPY .docker_files/main /mnt/extra-addons/main

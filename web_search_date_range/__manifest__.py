@@ -10,7 +10,10 @@
     'license': 'LGPL-3',
     'category': 'Project',
     'summary': 'Add date range filters to the search filters dropdown menu.',
-    'depends': ['web'],
+    'depends': [
+        'web',
+        'web_contextual_search_favorite',
+    ],
     'data': [
         'data/search_date_range.xml',
         'views/assets.xml',

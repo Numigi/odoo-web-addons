@@ -24,7 +24,7 @@ class SearchDateRangeFilter(models.Model):
     def _onchange_model_id_empty_field_id(self):
         self.field_id = None
 
-    @api.depends('range_id', 'field_id')
+    @api.depends('range_id.domain', 'field_id')
     def _compute_domain(self):
         lines_with_range_and_field = self.filtered(lambda l: l.range_id and l.field_id)
         for line in lines_with_range_and_field:
