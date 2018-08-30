@@ -6,16 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-05-18 18:28+0000\n"
-"PO-Revision-Date: 2018-05-18 14:36-0400\n"
+"POT-Creation-Date: 2018-08-30 14:08-0400\n"
+"PO-Revision-Date: 2018-08-30 14:09-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"Language: fr\n"
-"X-Generator: Poedit 1.8.7.1\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_before_today
@@ -45,10 +45,9 @@ msgid "Current Week"
 msgstr "Semaine courante"
 
 #. module: web_search_date_range
-#: model:ir.ui.view,arch_db:web_search_date_range.date_range_form
-#: model:ir.model,name:web_search_date_range.model_search_date_range
-msgid "Date Range"
-msgstr "Intervalle de dates"
+#: model:search.date.range,label:web_search_date_range.range_current_year
+msgid "Current Year"
+msgstr "Année courante"
 
 #. module: web_search_date_range
 #: model:ir.model,name:web_search_date_range.model_search_date_range_filter
@@ -62,6 +61,12 @@ msgstr "Filtre de dates"
 #: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Date Filters"
 msgstr "Filtres de dates"
+
+#. module: web_search_date_range
+#: model:ir.model,name:web_search_date_range.model_search_date_range
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_form
+msgid "Date Range"
+msgstr "Intervalle de dates"
 
 #. module: web_search_date_range
 #: model:ir.actions.act_window,name:web_search_date_range.date_range_action
@@ -136,12 +141,17 @@ msgstr "Prochains 15 jours"
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_next_month
 msgid "Next Month"
-msgstr "Mois prochain"
+msgstr "Mois suivant"
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_next_week
 msgid "Next Week"
-msgstr "Semaine prochaine"
+msgstr "Semaine suivante"
+
+#. module: web_search_date_range
+#: model:search.date.range,label:web_search_date_range.range_next_year
+msgid "Next Year"
+msgstr "Année suivante"
 
 #. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_noupdate
@@ -151,12 +161,17 @@ msgstr "Mise à jour désactivée"
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_previous_month
 msgid "Previous Month"
-msgstr "Mois passé"
+msgstr "Mois précédent"
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_previous_week
 msgid "Previous Week"
-msgstr "Semaine passée"
+msgstr "Semaine précédente"
+
+#. module: web_search_date_range
+#: model:search.date.range,label:web_search_date_range.range_previous_year
+msgid "Previous Year"
+msgstr "Année précédente"
 
 #. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_range_id
@@ -166,8 +181,14 @@ msgstr "Type d'intervalle de dates"
 
 #. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_sequence
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_sequence
 msgid "Sequence"
 msgstr "Séquence"
+
+#. module: web_search_date_range
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_technical_name
+msgid "Technical Name"
+msgstr "Nom technique"
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_today
@@ -178,8 +199,3 @@ msgstr "Aujourd'hui"
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_xml_id
 msgid "XML ID"
 msgstr "XML ID"
-
-#. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_technical_name
-msgid "Technical Name"
-msgstr "Nom technique"

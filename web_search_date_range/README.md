@@ -23,6 +23,7 @@ A date range type is a contextual domain filter that can be used for any date or
 
 Currently, the following date range types are implemented:
 
+* Before Today
 * Today
 * Next Fifteen Days
 * Previous Week
@@ -31,6 +32,9 @@ Currently, the following date range types are implemented:
 * Previous Month
 * Current Month
 * Next Month
+* Previous Year
+* Current Year
+* Next Year
 
 To add a custom range type:
 
