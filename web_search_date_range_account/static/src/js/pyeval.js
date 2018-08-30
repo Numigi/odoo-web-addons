@@ -10,15 +10,18 @@ var session = require("web.session");
 
 var oldEval = pyeval.eval;
 
-function toDate(dateString){
+/**
+ * Convert the given date string into a python (py.js) datetime object.
+ */
+function toDatetime(dateString){
     var date = moment(dateString).toDate();
 	var datetime = pyeval.context().datetime;
     return py.PY_call(datetime.date, [date.getFullYear(), date.getMonth() + 1, date.getDate()]);
 }
 
 var fiscalYearData = {
-    fiscal_year_start: toDate(session.fiscal_year_start),
-    trimester_start: toDate(session.trimester_start),
+    fiscal_year_start: toDatetime(session.fiscal_year_start),
+    trimester_start: toDatetime(session.trimester_start),
 }
 
 /**

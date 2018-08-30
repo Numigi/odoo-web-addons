@@ -19,6 +19,10 @@ class Http(models.AbstractModel):
         return result
 
     def _get_fiscal_year_info(self):
+        """Get the first day of the current fiscal year and financial trimester.
+
+        :return: a dict containing the dates formated in standard Odoo date strings.
+        """
         fiscal_year_start = self._get_fiscal_year_first_date()
 
         months_passed = relativedelta(datetime.now(), fiscal_year_start).months
@@ -30,6 +34,10 @@ class Http(models.AbstractModel):
         }
 
     def _get_fiscal_year_first_date(self):
+        """Get the first day of the fiscal year.
+
+        :rtype: a datetime object
+        """
         now = datetime.now()
         last_month = self.env.user.company_id.fiscalyear_last_month
         previous_year = now.year - 1 if last_month >= now.month else now.year
