@@ -2,7 +2,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from lxml import etree
-from odoo import api, fields, models
+from typing import List
+from odoo import api, fields, models, modules, tools
 from odoo.addons.base.res.res_partner import _lang_get
 
 
@@ -28,6 +29,37 @@ class WebCustomLabel(models.Model):
     reference = fields.Char(required=True)
     term = fields.Char(required=True)
 
+    @api.model
+    def create(self, vals):
+        new_record = super().create(vals)
+        modules.registry.Registry(self.env.cr.dbname).clear_caches()
+        return new_record
+
+    @api.multi
+    def write(self, vals):
+        super().write(vals)
+        modules.registry.Registry(self.env.cr.dbname).clear_caches()
+        return True
+
+    @api.multi
+    def unlink(self):
+        super().unlink()
+        modules.registry.Registry(self.env.cr.dbname).clear_caches()
+        return True
+
+    @tools.ormcache('model', 'lang')
+    def _find_labels(self, model, lang):
+        """Find the labels matching the given model and lang code.
+
+        :param model: the name of the model.
+        :param lang: the language code
+        :return: a recordset of custom labels.
+        """
+        return self.sudo().env['web.custom.label'].search([
+            ('model_ids.model', '=', model),
+            ('lang', '=', lang),
+        ]).read()
+
 
 class ViewWithCustomLabels(models.Model):
 
@@ -37,24 +69,31 @@ class ViewWithCustomLabels(models.Model):
     def postprocess_and_fields(self, model, node, view_id):
         arch, fields = super().postprocess_and_fields(model, node, view_id)
         lang = self.env.context.get('lang') or self.env.user.lang
-        arch_with_custom_labels = add_custom_labels_to_view_arch(self.env, model, lang, arch)
+        labels = self.env['web.custom.label']._find_labels(model, lang)
+        arch_with_custom_labels = add_custom_labels_to_view_arch(labels, arch)
+        set_custom_labels_on_fields(labels, fields)
         return arch_with_custom_labels, fields
 
 
-def add_custom_labels_to_view_arch(env: api.Environment, model: str, lang: str, arch: str) -> str:
+class BaseWitCustomLabels(models.AbstractModel):
+
+    _inherit = 'base'
+
+    def fields_get(self, *args, **kwargs):
+        fields = super().fields_get(*args, **kwargs)
+        lang = self.env.context.get('lang') or self.env.user.lang
+        labels = self.env['web.custom.label']._find_labels(self._name, lang)
+        set_custom_labels_on_fields(labels, fields)
+        return fields
+
+
+def add_custom_labels_to_view_arch(labels: List[dict], arch: str) -> str:
     """Add custom labels to the given view architecture.
 
-    :param env: the Odoo environment.
-    :param model: the name of the model.
-    :param lang: the language of the labels to add.
     :param arch: the architecture to extend.
+    :param labels: a list of custom labels to apply.
     :return: the view architecture with custom labels.
     """
-    labels = env['web.custom.label'].search([
-        ('model_ids.model', '=', model),
-        ('lang', '=', lang),
-    ])
-
     if not labels:
         return arch
 
@@ -66,7 +105,7 @@ def add_custom_labels_to_view_arch(env: api.Environment, model: str, lang: str, 
     return etree.tostring(tree)
 
 
-def _add_custom_label_to_view_tree(label: WebCustomLabel, tree):
+def _add_custom_label_to_view_tree(label: dict, tree):
     """Add a custom label to the given view architecture.
 
     :param label: the label to add to the view.
@@ -74,9 +113,22 @@ def _add_custom_label_to_view_tree(label: WebCustomLabel, tree):
     """
     xpath_expr = (
         "//field[@name='{field_name}'] | //label[@for='{field_name}']"
-        .format(field_name=label.reference)
-        if label.type_ == 'field' else label.reference
+        .format(field_name=label['reference'])
+        if label['type_'] == 'field' else label['reference']
     )
 
     for element in tree.xpath(xpath_expr):
-        element.attrib[label.position] = label.term
+        element.attrib[label['position']] = label['term']
+
+
+def set_custom_labels_on_fields(labels: List[dict], fields) -> str:
+    """Set the custom labels on the related fields.
+
+    :param labels: a list of custom labels to apply.
+    :param fields: the list of fields data to extend.
+    """
+    field_labels = (l for l in labels if l['type_'] == 'field' and l['position'] == 'string')
+    for label in field_labels:
+        field = fields.get(label['reference'])
+        if field:
+            field['string'] = label['term']

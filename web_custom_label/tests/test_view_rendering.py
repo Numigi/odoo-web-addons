@@ -24,9 +24,9 @@ class TestViewRendering(common.SavepointCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        cls.view = cls.env.ref('base.view_partner_form')
         cls.env.ref('base.lang_fr').write({'active': True})
 
+        cls.view = cls.env.ref('base.view_partner_form')
         cls.env['web.custom.label'].create({
             'lang': 'en_US',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
@@ -101,6 +101,9 @@ class TestViewRendering(common.SavepointCase):
             'position': 'string',
         })
 
+        cls.env = cls.env(user=cls.env.ref('base.user_demo'))
+        cls.env.user.lang = 'en_US'
+
     def _get_rendered_view_tree(self, lang):
         arch = (
             self.env['res.partner'].with_context(lang=lang)
@@ -164,3 +167,26 @@ class TestViewRendering(common.SavepointCase):
         tree = self._get_rendered_view_tree(lang=lang)
         el = tree.xpath("//field[@name='name']")[0]
         assert el.attrib.get('placeholder') == label
+
+    @data(
+        (None, EN_NAME_LABEL),
+        ('en_US', EN_NAME_LABEL),
+        ('fr_FR', FR_NAME_LABEL),
+    )
+    def test_label_is_updated_in_fields_view_get(self, data):
+        lang, label = data
+        fields = (
+            self.env['res.partner'].with_context(lang=lang)
+            .fields_view_get(view_id=self.view.id)
+        )['fields']
+        assert fields['name']['string'] == label
+
+    @data(
+        (None, EN_NAME_LABEL),
+        ('en_US', EN_NAME_LABEL),
+        ('fr_FR', FR_NAME_LABEL),
+    )
+    def test_label_is_updated_in_fields_get(self, data):
+        lang, label = data
+        fields = self.env['res.partner'].with_context(lang=lang).fields_get()
+        assert fields['name']['string'] == label
