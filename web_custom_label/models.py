@@ -126,7 +126,7 @@ def add_custom_labels_to_view_arch(labels: List[dict], arch: str) -> str:
     return etree.tostring(tree)
 
 
-def _add_custom_label_to_view_tree(label: dict, tree):
+def _add_custom_label_to_view_tree(label: dict, tree: etree._Element):
     """Add a custom label to the given view architecture.
 
     :param label: the label to add to the view.
