@@ -1,11 +1,11 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import datetime
 import pytz
 
 from ddt import data, ddt
 from dateutil.relativedelta import relativedelta
-from datetime import datetime
 from freezegun import freeze_time
 
 from odoo.tests import common
@@ -32,7 +32,7 @@ class TestSearchDateRange(common.SavepointCase):
     def _eval_filter_domain(self, range_ref):
         date_filter = self._generate_filter(range_ref)
         return safe_eval(date_filter.domain, {
-            'context_today': lambda: datetime.now(pytz.utc),
+            'context_today': lambda: datetime.datetime.now(pytz.utc),
             'datetime': datetime,
             'relativedelta': relativedelta,
         })

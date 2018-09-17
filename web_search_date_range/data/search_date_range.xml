@@ -95,8 +95,8 @@
         <field name="label">Previous Year</field>
         <field name="technical_name">previous_year</field>
         <field name="domain">[
-            ('{field}', '&gt;=', datetime(context_today().year - 1, 1, 1).strftime('%Y-%m-%d')),
-            ('{field}', '&lt;', datetime(context_today().year, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&gt;=', datetime.datetime(context_today().year - 1, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', datetime.datetime(context_today().year, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="9"/>
     </record>
@@ -105,8 +105,8 @@
         <field name="label">Current Year</field>
         <field name="technical_name">current_year</field>
         <field name="domain">[
-            ('{field}', '&gt;=', datetime(context_today().year, 1, 1).strftime('%Y-%m-%d')),
-            ('{field}', '&lt;', datetime(context_today().year + 1, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&gt;=', datetime.datetime(context_today().year, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', datetime.datetime(context_today().year + 1, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="10"/>
     </record>
@@ -115,8 +115,8 @@
         <field name="label">Next Year</field>
         <field name="technical_name">next_year</field>
         <field name="domain">[
-            ('{field}', '&gt;=', datetime(context_today().year + 1, 1, 1).strftime('%Y-%m-%d')),
-            ('{field}', '&lt;', datetime(context_today().year + 2, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&gt;=', datetime.datetime(context_today().year + 1, 1, 1).strftime('%Y-%m-%d')),
+            ('{field}', '&lt;', datetime.datetime(context_today().year + 2, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="11"/>
     </record>
