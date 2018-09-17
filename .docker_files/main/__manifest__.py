@@ -13,7 +13,6 @@
     'depends': [
         'disable_quick_create',
         'google_attachment',
-        'ui_color_red',
         'web_contextual_search_favorite',
         'web_custom_label',
         'web_list_column_width',
