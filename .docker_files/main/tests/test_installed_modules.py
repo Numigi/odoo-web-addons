@@ -20,7 +20,3 @@ class TestModules(TransactionCase):
     def test_web_list_column_width(self):
         """Web List Column Width is installed."""
         self.assertTrue(self.modules.search([('name', '=', 'web_list_column_width')]))
-
-    def test_ui_color_red(self):
-        """Web UI Red is installed."""
-        self.assertTrue(self.modules.search([('name', '=', 'ui_color_red')]))
