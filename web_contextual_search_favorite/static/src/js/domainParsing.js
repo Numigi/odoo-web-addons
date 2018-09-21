@@ -14,6 +14,23 @@ var _and = "\"&\"";
 var _or = "\"|\"";
 var _not = "\"!\"";
 
+/**
+ * Convert an array domain into a string domain.
+ *
+ * @param {Array} domain - the domain to convert into string
+ * @returns {String} the converted domain
+ */
+function convertDomainArrayToString(domain){
+    var domainIsMissingOuterParenthesis = (
+        domain[0] &&
+        domain[0] !== "&" && domain[0] !== "|" && domain[0] !== "!" &&
+        !(domain[0] instanceof Array)
+    );
+    if(domainIsMissingOuterParenthesis){
+        domain = [domain];
+    }
+    return JSON.stringify(domain);
+}
 
 /**
  * Extract the content of a domain filter.
@@ -28,7 +45,7 @@ var _not = "\"!\"";
  */
 function extractContentFromDomain(domain){
     if(domain instanceof Array){
-        domain = JSON.stringify(domain);
+        domain = convertDomainArrayToString(domain);
     }
 
     var regex = /^\s*\[([\S\s]*)?\]\s*$/;
@@ -38,7 +55,6 @@ function extractContentFromDomain(domain){
     }
     return match[1] || "";
 }
-
 
 /**
  * Class responsible for splitting a domain content into an array of domain node strings.
@@ -188,6 +204,7 @@ function mergeDomainsWithOrOperators(domains){
 
 
 module.exports = {
+    convertDomainArrayToString,
     extractContentFromDomain,
     addExplicitAndOperatorsToDomainContent,
     mergeDomainsWithAndOperators,

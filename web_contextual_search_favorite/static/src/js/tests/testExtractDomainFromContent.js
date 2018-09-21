@@ -1,6 +1,6 @@
 
 import test from "ava";
-import {extractContentFromDomain} from "../domainParsing";
+import {extractContentFromDomain, convertDomainArrayToString} from "../domainParsing";
 
 
 test("Extract Content From Domain With Empty Domain", t => {
@@ -36,4 +36,19 @@ test("Extract Content From Domain With Or Operator", t => {
 test("Extract Content From Domain With And Operator", t => {
     var result = extractContentFromDomain("['&', ('partner_id', '=', 1), ('number', '=', '123')]");
     t.true(result === "'&', ('partner_id', '=', 1), ('number', '=', '123')");
+});
+
+test("Extract Content From Domain With Object Domain Containing And Operator", t => {
+    var result = extractContentFromDomain(["&", ["partner_id", "=", 1], ["number", "=", "123"]]);
+    t.true(result === "\"&\",[\"partner_id\",\"=\",1],[\"number\",\"=\",\"123\"]");
+});
+
+test("Extract Content From Domain With Object Domain Containing Or Operator", t => {
+    var result = extractContentFromDomain(["|", ["partner_id", "=", 1], ["number", "=", "123"]]);
+    t.true(result === "\"|\",[\"partner_id\",\"=\",1],[\"number\",\"=\",\"123\"]");
+});
+
+test("Extract Content From Domain With Object Domain Containing Not Operator", t => {
+    var result = extractContentFromDomain(["!", ["partner_id", "=", 1], ["number", "=", "123"]]);
+    t.true(result === "\"!\",[\"partner_id\",\"=\",1],[\"number\",\"=\",\"123\"]");
 });

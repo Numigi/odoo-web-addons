@@ -1,0 +1,10 @@
+{
+  "name": "web_contextual_search_favorite",
+  "version": "1.0.0",
+  "description": "Make Odoo custom search filters and dashboards contextual",
+  "devDependencies": {
+    "webpack": "^4.19.1"
+  },
+  "author": "Numigi (tm) and all its contributors (https://bit.ly/numigiens)",
+  "license": "LGPL-3.0-or-later"
+}
