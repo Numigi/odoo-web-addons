@@ -12,6 +12,18 @@ Filters based on date ranges need to be deleted and recreated every time you nee
 This module prevents the evaluation of the domain when the custom filter is saved.
 This way, each time you apply your filter, it will be evaulated based on the current day.
 
+Building Assets
+---------------
+If you modify a javascript file of this module, then you might need to rebuild the javascrip assets.
+
+In order to rebuild the assets, open a terminal and execute the following commands:
+
+``
+cd web_contextual_search_favorite/static
+npm install
+node_modules/.bin/webpack
+``
+
 Contributors
 ------------
 * Numigi (tm) and all its contributors (https://bit.ly/numigiens)
