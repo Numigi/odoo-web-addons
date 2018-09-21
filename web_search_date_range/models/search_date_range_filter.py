@@ -28,7 +28,7 @@ class SearchDateRangeFilter(models.Model):
     def _compute_domain(self):
         lines_with_range_and_field = self.filtered(lambda l: l.range_id and l.field_id)
         for line in lines_with_range_and_field:
-            line.domain = line.range_id.generate_domain_from_field_name(self.field_id.name)
+            line.domain = line.range_id.generate_domain_from_field_name(line.field_id.name)
 
     @api.model
     def get_filter_list(self):
