@@ -13,6 +13,7 @@
     'depends': ['base'],
     'data': [
         'views/custom_label.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
 }
