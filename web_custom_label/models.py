@@ -28,6 +28,7 @@ class WebCustomLabel(models.Model):
     ], default='string', required=True)
     reference = fields.Char(required=True)
     term = fields.Char(required=True)
+    active = fields.Boolean(default=True)
 
 
 class WebCustomLabelWithCachedLabels(models.Model):
