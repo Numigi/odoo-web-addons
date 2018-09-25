@@ -12,6 +12,7 @@
                 <field name="reference" string="Field"/>
                 <field name="position"/>
                 <field name="term"/>
+                <field name="active"/>
             </tree>
         </field>
     </record>
