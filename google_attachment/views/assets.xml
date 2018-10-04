@@ -3,7 +3,7 @@
 
     <template id="assets_backend" name="google_attachment assets_backend" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
-            <script type="text/javascript" src="/google_attachment/static/lib/gapi.js"></script>
+            <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/GoogleOAuthAuthenticator.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/GooglePickerManager.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/Sidebar.js"></script>
