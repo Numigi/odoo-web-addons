@@ -5,12 +5,12 @@
 odoo.define("web_contextual_search_favorite.FavoriteMenu", function(require) {
     "use strict";
 
-var ActionManager = require('web.ActionManager');
-var Context = require('web.Context');
-var core = require('web.core');
-var Domain = require('web.Domain');
-var FavoriteMenu = require('web.FavoriteMenu');
-var pyUtils = require('web.py_utils');
+var ActionManager = require("web.ActionManager");
+var Context = require("web.Context");
+var core = require("web.core");
+var Domain = require("web.Domain");
+var FavoriteMenu = require("web.FavoriteMenu");
+var pyUtils = require("web.py_utils");
 
 var _t = core._t;
 
@@ -38,20 +38,20 @@ require("web.FavoriteMenu").include({
         // Modifed lines end here
 
         context.add({
-            group_by: pyUtils.eval('groupbys', searchData.groupbys || [])
+            group_by: pyUtils.eval("groupbys", searchData.groupbys || []),
         });
         // AAB: trigger_up an event that will be intercepted by the controller,
         // as soon as the controller is the parent of the control panel
         var am = this.findAncestor(function (a) {
             return a instanceof ActionManager;
         });
-        // with options 'keepSearchView', it may happen that the action_id of
+        // with options "keepSearchView", it may happen that the action_id of
         // the searchview (received in init) is not the one of the current
         // action, which corresponds to the one we want to add to dashboard
         var currentAction = am.getCurrentAction();
         var controller = am.getCurrentController();
         context.add(controller.widget.getContext());
-        var c = pyUtils.eval('context', context);
+        var c = pyUtils.eval("context", context);
         for (var k in c) {
             if (c.hasOwnProperty(k) && /^search_default_/.test(k)) {
                 delete c[k];
@@ -62,25 +62,25 @@ require("web.FavoriteMenu").include({
         var name = self.$add_dashboard_input.val();
 
         return self._rpc({
-                route: '/board/add_to_dashboard',
-                params: {
-                    action_id: currentAction.id || false,
-                    context_to_save: c,
-                    domain: domain,
-                    view_mode: controller.viewType,
-                    name: name,
-                },
-            })
-            .then(function (r) {
-                if (r) {
-                    self.do_notify(
-                        _.str.sprintf(_t("'%s' added to dashboard"), name),
-                        _t('Please refresh your browser for the changes to take effect.')
-                    );
-                } else {
-                    self.do_warn(_t("Could not add filter to dashboard"));
-                }
-            });
+            route: "/board/add_to_dashboard",
+            params: {
+                action_id: currentAction.id || false,
+                context_to_save: c,
+                domain: domain,
+                view_mode: controller.viewType,
+                name: name,
+            },
+        })
+        .then(function (r) {
+            if (r) {
+                self.do_notify(
+                    _.str.sprintf(_t(""%s" added to dashboard"), name),
+                    _t("Please refresh your browser for the changes to take effect.")
+                );
+            } else {
+                self.do_warn(_t("Could not add filter to dashboard"));
+            }
+        });
     },
 });
 

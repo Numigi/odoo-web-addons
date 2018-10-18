@@ -131,7 +131,7 @@ FilterMenu.include({
                 subMenu.hide();
             }
             else {
-                subMenu.show()
+                subMenu.show();
             }
         });
 
