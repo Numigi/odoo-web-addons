@@ -15,7 +15,6 @@ COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
-COPY web_search_input_many2many /mnt/extra-addons/web_search_input_many2many
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
