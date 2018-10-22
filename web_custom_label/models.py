@@ -4,7 +4,7 @@
 from lxml import etree
 from typing import List, Mapping
 from odoo import api, fields, models, modules, tools
-from odoo.addons.base.res.res_partner import _lang_get
+from odoo.addons.base.models.res_partner import _lang_get
 
 
 class WebCustomLabel(models.Model):

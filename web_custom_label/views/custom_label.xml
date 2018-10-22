@@ -27,9 +27,9 @@
                 <field name="lang"/>
                 <field name="position"/>
                 <group expand="0" string="Group By">
-                    <filter string="Language" context="{'group_by': 'lang'}"/>
-                    <filter string="Field" context="{'group_by': 'reference'}"/>
-                    <filter string="Type" context="{'group_by': 'type_'}"/>
+                    <filter name="group_by_lang" string="Language" context="{'group_by': 'lang'}"/>
+                    <filter name="group_by_reference" string="Field" context="{'group_by': 'reference'}"/>
+                    <filter name="group_by_type_" string="Type" context="{'group_by': 'type_'}"/>
                 </group>
             </search>
         </field>

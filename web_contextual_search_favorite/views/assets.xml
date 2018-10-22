@@ -5,7 +5,6 @@
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/web_contextual_search_favorite/static/dist/webContextualSearchFavorite.js"></script>
             <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/FavoriteMenu.js"></script>
-            <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/FilterGroup.js"></script>
             <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/pyeval.js"></script>
         </xpath>
     </template>

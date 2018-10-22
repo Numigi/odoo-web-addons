@@ -7,7 +7,7 @@
             <script type="text/javascript" src="/google_attachment/static/src/js/GoogleOAuthAuthenticator.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/GooglePickerManager.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/Sidebar.js"></script>
-            <link rel="stylesheet" type="text/less" href="/google_attachment/static/src/less/sidebar.less"/>
+            <link rel="stylesheet" type="text/scss" href="/google_attachment/static/src/scss/sidebar.scss"/>
         </xpath>
     </template>
 

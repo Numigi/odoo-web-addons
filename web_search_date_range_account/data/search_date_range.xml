@@ -2,7 +2,7 @@
 <odoo>
 
     <record id="range_previous_trimester" model="search.date.range">
-        <field name="label">Previous Trimester</field>
+        <field name="label">Previous Fiscal Trimester</field>
         <field name="technical_name">previous_trimester</field>
         <field name="domain">[
             ('{field}', '&gt;=', (trimester_start - relativedelta(months=3)).strftime('%Y-%m-%d')),
@@ -12,7 +12,7 @@
     </record>
 
     <record id="range_current_trimester" model="search.date.range">
-        <field name="label">Current Trimester</field>
+        <field name="label">Current Fiscal Trimester</field>
         <field name="technical_name">current_trimester</field>
         <field name="domain">[
             ('{field}', '&gt;=', trimester_start.strftime('%Y-%m-%d')),
@@ -22,7 +22,7 @@
     </record>
 
     <record id="range_next_trimester" model="search.date.range">
-        <field name="label">Next Trimester</field>
+        <field name="label">Next Fiscal Trimester</field>
         <field name="technical_name">next_trimester</field>
         <field name="domain">[
             ('{field}', '&gt;=', (trimester_start + relativedelta(months=3)).strftime('%Y-%m-%d')),
