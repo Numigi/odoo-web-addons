@@ -1,28 +1,19 @@
 Web Contextual Search Favorite
 ==============================
+In a list view, when you add a favorite by clicking on Favorites -> Add to my Dashboard,
+the saved view is not contextual.
 
-In a list view, when you add a favorite by clicking on Favorites -> Save current search (or Add to my Dashboard),
-the saved filters are not contextual.
+Odoo evaluates the search filters at the moment you click on the button and stores the result in your custom dashboard.
+Therefore, if you have a date filter that indiquates today, the view will be stored with an hardcoded string date.
+If you go back to this view another day, the view will not be refreshed.
 
-Odoo evaluates the search filters at the moment you click on the button and stores the result in your custom search filter or dashboard.
+Differences with Odoo version 11.0
+----------------------------------
+In Odoo version 11.0, we had the same issue when adding a custom filter.
+Custom filters were evaluated when clicking on Save.
 
-This behavior comes with an important limitation.
-Filters based on date ranges need to be deleted and recreated every time you need to use them.
-
-This module prevents the evaluation of the domain when the custom filter is saved.
-This way, each time you apply your filter, it will be evaulated based on the current day.
-
-Building Assets
----------------
-If you modify a javascript file of this module, then you might need to rebuild the javascrip assets.
-
-In order to rebuild the assets, open a terminal and execute the following commands:
-
-``
-cd web_contextual_search_favorite/static
-npm install
-node_modules/.bin/webpack
-``
+Since version 12.0, these are evaluated when rendering the view.
+Dashboard are still non-contextual, so this module is still relevant for that part.
 
 Contributors
 ------------
