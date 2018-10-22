@@ -5,7 +5,7 @@
 odoo.define("web_search_date_range_account.pyeval", function(require) {
 "use strict";
 
-var pyeval = require("web.py_utils");
+var pyeval = require("web.pyeval");
 var session = require("web.session");
 
 var oldEval = pyeval.eval;

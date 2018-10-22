@@ -18,7 +18,7 @@ class TestSearchDateRange(common.SavepointCase):
     def setUpClass(cls):
         super().setUpClass()
         cls.model = cls.env.ref('base.model_res_partner')
-        cls.field = cls.env.ref('base.field_res_partner__create_date')
+        cls.field = cls.env.ref('base.field_res_partner_create_date')
 
     def _generate_filter(self, range_ref):
         date_range = self.env.ref(

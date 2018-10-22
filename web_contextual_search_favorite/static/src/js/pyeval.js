@@ -6,7 +6,7 @@ odoo.define("web_contextual_search_favorite.pyeval", function(require) {
     "use strict";
 
 var Context = require("web.Context");
-var pyeval = require("web.py_utils");
+var pyeval = require("web.pyeval");
 var session = require("web.session");
 
 var oldEval = pyeval.eval;

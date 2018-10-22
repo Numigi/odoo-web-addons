@@ -6,21 +6,21 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-18 21:08+0000\n"
-"PO-Revision-Date: 2018-10-18 17:13-0400\n"
+"POT-Creation-Date: 2018-06-22 00:21-0400\n"
+"PO-Revision-Date: 2018-06-22 00:25-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.0.6\n"
+"X-Generator: Poedit 1.8.7.1\n"
+"Language: fr\n"
 
 #. module: google_attachment
-#: model:ir.model,name:google_attachment.model_res_config_settings
-msgid "Config Settings"
-msgstr ""
+#: model:ir.ui.view,arch_db:google_attachment.view_config_settings_with_attachment_from_google_drive
+msgid "Attachments From Google Drive"
+msgstr "Pièces Jointes Depuis Google Drive"
 
 #. module: google_attachment
 #. openerp-web
@@ -30,19 +30,11 @@ msgid "From Google..."
 msgstr "Depuis Google ..."
 
 #. module: google_attachment
-#: model:ir.model.fields,field_description:google_attachment.field_res_config_settings__google_attachment_api_key
+#: model:ir.model.fields,field_description:google_attachment.field_res_config_settings_google_attachment_api_key
 msgid "Google Api Key"
 msgstr "Clé d'api Google"
 
 #. module: google_attachment
-#: model:ir.model.fields,field_description:google_attachment.field_res_config_settings__google_attachment_client_id
+#: model:ir.model.fields,field_description:google_attachment.field_res_config_settings_google_attachment_client_id
 msgid "Google OAuth2 Client Id"
 msgstr "ID Client Google OAuth2"
-
-#. module: google_attachment
-#: model:ir.model,name:google_attachment.model_ir_config_parameter
-msgid "System Parameter"
-msgstr ""
-
-#~ msgid "Attachments From Google Drive"
-#~ msgstr "Pièces Jointes Depuis Google Drive"

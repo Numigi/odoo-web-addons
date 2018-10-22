@@ -22,9 +22,9 @@
                 <field name="field_id"/>
                 <field name="range_id"/>
                 <group expand="0" string="Group By">
-                    <filter name="group_by_model_id" string="Model" context="{'group_by': 'model_id'}"/>
-                    <filter name="group_by_field_id" string="Field" context="{'group_by': 'field_id'}"/>
-                    <filter name="group_by_range_id" string="Range Type" context="{'group_by': 'range_id'}"/>
+                    <filter string="Model" context="{'group_by': 'model_id'}"/>
+                    <filter string="Field" context="{'group_by': 'field_id'}"/>
+                    <filter string="Range Type" context="{'group_by': 'range_id'}"/>
                 </group>
             </search>
         </field>

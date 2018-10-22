@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-18 21:07+0000\n"
-"PO-Revision-Date: 2018-10-18 17:12-0400\n"
+"POT-Creation-Date: 2018-08-30 14:08-0400\n"
+"PO-Revision-Date: 2018-08-30 14:09-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -23,14 +23,14 @@ msgid "Before Today"
 msgstr "Avant aujourd'hui"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__create_uid
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__create_uid
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_create_uid
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_create_uid
 msgid "Created by"
 msgstr "Créé par"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__create_date
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__create_date
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_create_date
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_create_date
 msgid "Created on"
 msgstr "Créé le"
 
@@ -57,79 +57,79 @@ msgstr "Filtre de dates"
 #. module: web_search_date_range
 #: model:ir.actions.act_window,name:web_search_date_range.date_range_filters_action
 #: model:ir.ui.menu,name:web_search_date_range.date_range_filters_menu
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_list
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_list
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Date Filters"
 msgstr "Filtres de dates"
 
 #. module: web_search_date_range
 #: model:ir.model,name:web_search_date_range.model_search_date_range
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_form
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_form
 msgid "Date Range"
 msgstr "Intervalle de dates"
 
 #. module: web_search_date_range
 #: model:ir.actions.act_window,name:web_search_date_range.date_range_action
 #: model:ir.ui.menu,name:web_search_date_range.date_range_menu
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_list
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_list
 msgid "Date Ranges"
 msgstr "Intervalles de dates"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__display_name
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__display_name
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_display_name
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__domain
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__domain
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_domain
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_domain
 msgid "Domain"
 msgstr "Domaine"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__field_id
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_field_id
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Field"
 msgstr "Champ"
 
 #. module: web_search_date_range
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Group By"
 msgstr "Grouper par"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__id
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__id
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_id
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_id
 msgid "ID"
 msgstr "ID"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__label
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_label
 msgid "Label"
 msgstr "Libellé"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range____last_update
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter____last_update
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range___last_update
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter___last_update
 msgid "Last Modified on"
 msgstr "Modifié le"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__write_uid
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__write_uid
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_write_uid
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_write_uid
 msgid "Last Updated by"
 msgstr "Modifié par"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__write_date
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__write_date
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_write_date
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_write_date
 msgid "Last Updated on"
 msgstr "Dernière mise à jour le"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__model_id
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_model_id
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Model"
 msgstr "Modèle"
 
@@ -154,7 +154,7 @@ msgid "Next Year"
 msgstr "Année suivante"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__noupdate
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_noupdate
 msgid "No Update"
 msgstr "Mise à jour désactivée"
 
@@ -174,19 +174,19 @@ msgid "Previous Year"
 msgstr "Année précédente"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__range_id
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_range_id
+#: model:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
 msgid "Range Type"
 msgstr "Type d'intervalle de dates"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__sequence
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__sequence
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter_sequence
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_sequence
 msgid "Sequence"
 msgstr "Séquence"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__technical_name
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_technical_name
 msgid "Technical Name"
 msgstr "Nom technique"
 
@@ -196,6 +196,6 @@ msgid "Today"
 msgstr "Aujourd'hui"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__xml_id
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_xml_id
 msgid "XML ID"
 msgstr "XML ID"
