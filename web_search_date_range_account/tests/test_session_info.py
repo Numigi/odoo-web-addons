@@ -23,8 +23,10 @@ class TestSessionInfo(common.TransactionCase):
     )
     def test_fiscal_year_start(self, data):
         today = data[0]
-        self.env.user.company_id.fiscalyear_last_month = data[1]
-        self.env.user.company_id.fiscalyear_last_day = data[2]
+        self.env.user.company_id.write({
+            'fiscalyear_last_month': data[1],
+            'fiscalyear_last_day': data[2],
+        })
         expected_fiscal_year_start = data[3]
 
         with freeze_time(today):
@@ -45,8 +47,10 @@ class TestSessionInfo(common.TransactionCase):
     )
     def test_trimester_start(self, data):
         today = data[0]
-        self.env.user.company_id.fiscalyear_last_month = data[1]
-        self.env.user.company_id.fiscalyear_last_day = data[2]
+        self.env.user.company_id.write({
+            'fiscalyear_last_month': data[1],
+            'fiscalyear_last_day': data[2],
+        })
         expected_trimester_start = data[3]
 
         with freeze_time(today):
