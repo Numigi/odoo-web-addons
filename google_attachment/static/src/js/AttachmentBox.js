@@ -1,19 +1,41 @@
 // Copyright 2018 Numigi
 // License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-odoo.define("google_attachment.Sidebar", function(require) {
+odoo.define("google_attachment.AttachmentBox", function(require) {
 "use strict";
 
 var ajax = require("web.ajax");
 var Class = require("web.Class");
 var core = require("web.core");
-var Sidebar = require("web.Sidebar");
+var AttachmentBox = require("mail.AttachmentBox");
 
 var QWeb = core.qweb;
 var _t = core._t;
 
 var GoogleOAuthAuthenticator = require("google_attachment.GoogleOAuthAuthenticator");
 var GooglePickerManager = require("google_attachment.GooglePickerManager");
+
+/**
+ * Build a filename from a document name and its mime type.
+ *
+ * If the mime type is `application/vnd.google-apps.document`
+ * and the file name is `My Doc`, the result will be `My Doc.document`.
+ *
+ * If the mime type is `application/json`
+ * and the file name is `My Doc`, the result will be `My Doc.json`.
+ *
+ * @param {String} docName - the document name
+ * @param {String} mimeType - the document mime type
+ * @returns {String} the file name
+ */
+function buildFileNameWithExtension(docName, mimeType){
+    if(!mimeType.startsWith("application")){
+        return docName;
+    }
+    var fileTypeParts = mimeType.split("/")[1].split(".");
+    var fileExtension = fileTypeParts[fileTypeParts.length - 1];
+    return docName + "." + fileExtension;
+}
 
 
 function addImportFromGoogleToSideBar(clientId, apiKey){
@@ -22,8 +44,8 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
     var authenticator = new GoogleOAuthAuthenticator(clientId, scope);
     var googlePickerManager = new GooglePickerManager(authenticator, apiKey);
 
-    Sidebar.include({
-        _redraw() {
+    AttachmentBox.include({
+        renderElement(){
             var self = this;
             this._super.apply(this, arguments);
 
@@ -32,13 +54,22 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
 
             // Add the `From Google ...` button to the sidebar
             var fromGoogleLabel = _t("From Google...");
-            var addFromGoogle = $("<li class=\"o_sidebar_add_from_google\"><span>" + fromGoogleLabel + "</span></li>");
-            self.$el.find(".o_sidebar_add_attachment").after(addFromGoogle);
+            var addFromGoogle = $("<center><span class=\"btn btn-link o_upload_attachments_from_google\">" + fromGoogleLabel + "</span></center>");
+            self.$el.find(".o_upload_attachments_button").after(addFromGoogle);
 
             // When clicking on the `From Google ...` button, open the google picker widget.
             addFromGoogle.on("click", function() {
                 self.addDocumentsFromPicker();
             });
+
+            this._addTargetBlankToUrlLinks();
+        },
+
+        /**
+         * Open url attachments in a new browser tab.
+         */
+         _addTargetBlankToUrlLinks(){
+            this.$(".o_attachment_wrap a").attr("target", "_blank");
         },
 
         /**
@@ -55,7 +86,7 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
 
                 // Reload the form view when all attachments are created.
                 $.when.apply($, deferredArray).then(function(){
-                    self.getParent().reload();
+                    self._onUploaded();
                 });
             });
         },
@@ -68,10 +99,12 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
         _createAttachmentFromGoogleDriveDoc(doc){
             var attachmentValues = {
                 name: doc.name,
+                datas_fname: buildFileNameWithExtension(doc.name, doc.mimetype),
+                mimetype: doc.mimetype,
                 type: "url",
                 url: doc.url,
-                res_id: this.env.activeIds[0],
-                res_model: this.env.model,
+                res_id: this.currentResID,
+                res_model: this.currentResModel,
             };
 
             return ajax.rpc("/web/dataset/call_kw/ir.attachment/create", {

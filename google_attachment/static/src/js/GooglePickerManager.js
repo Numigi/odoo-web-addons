@@ -96,6 +96,7 @@ var GooglePickerManager = Class.extend({
                 return {
                     name: doc[google.picker.Document.NAME],
                     url: doc[google.picker.Document.URL],
+                    mimetype: doc[google.picker.Document.MIME_TYPE],
                 };
             });
         }
