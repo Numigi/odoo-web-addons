@@ -3,7 +3,7 @@
 
 {
     'name': 'Google Drive Attachment',
-    'version': '11.0.1.0.0',
+    'version': '1.0.0',
     'category': 'Document Management',
     'author': 'Numigi',
     'maintainer': 'Numigi',

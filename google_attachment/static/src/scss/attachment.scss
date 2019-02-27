@@ -1,0 +1,7 @@
+// Add the google drive icon to the `From Google ...` button.
+.o_upload_attachments_from_google:before {
+    content: url(/google_drive/static/src/img/drive_icon.png);
+    margin-right: 8px;
+    font-size: 24px;
+    vertical-align: middle;
+}
