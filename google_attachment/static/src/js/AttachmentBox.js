@@ -29,12 +29,12 @@ var GooglePickerManager = require("google_attachment.GooglePickerManager");
  * @returns {String} the file name
  */
 function buildFileNameWithExtension(docName, mimeType){
-    if(!mimeType.startsWith('application')){
+    if(!mimeType.startsWith("application")){
         return docName;
     }
-    var fileTypeParts = mimeType.split('/')[1].split('.');
+    var fileTypeParts = mimeType.split("/")[1].split(".");
     var fileExtension = fileTypeParts[fileTypeParts.length - 1];
-    return docName + '.' + fileExtension;
+    return docName + "." + fileExtension;
 }
 
 
@@ -69,7 +69,7 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
          * Open url attachments in a new browser tab.
          */
          _addTargetBlankToUrlLinks(){
-            this.$('.o_attachment_wrap a').attr('target', '_blank');
+            this.$(".o_attachment_wrap a").attr("target", "_blank");
         },
 
         /**
