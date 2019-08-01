@@ -26,4 +26,27 @@
         </field>
     </record>
 
+    <record id="website_menu_form_with_display_booleans" model="ir.ui.view">
+        <field name="name">Website.menu: Display to user booleans</field>
+        <field name="model">website.menu</field>
+        <field name="inherit_id" ref="website.website_menus_form_view"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="user_logged"/>
+                <field name="user_not_logged"/>
+            </field>
+        </field>
+    </record>
+
+    <record id="website_menu_form_with_visible_for_groups" model="ir.ui.view">
+        <field name="name">Website.menu: Visible for specific group</field>
+        <field name="model">website.menu</field>
+        <field name="inherit_id" ref="website.website_menus_form_view"/>
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="group_ids" widget="many2many_tags"/>
+            </field>
+        </field>
+    </record>
+
 </odoo>
