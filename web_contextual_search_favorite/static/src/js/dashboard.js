@@ -14,7 +14,7 @@ BoardView.prototype.config.Renderer.include({
      * In the source code of Odoo, the same logic is applied to modifiers.
      * See method getBoard in odoo/addons/board/static/src/js/board_view.js.
      */
-    getBoard: function () {
+    getBoard() {
         var result = this._super.apply(this, arguments);
         result.columns.forEach((column) => {
             column.forEach((action) => {
