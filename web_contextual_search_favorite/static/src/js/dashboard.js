@@ -2,7 +2,7 @@ odoo.define("web_contextual_search_favorite.dashboard", function (require) {
 "use strict";
 
 require("board.dashboard");
-var FormRenderer = require('web.FormRenderer');
+var FormRenderer = require("web.FormRenderer");
 
 FormRenderer.include({
     /**
