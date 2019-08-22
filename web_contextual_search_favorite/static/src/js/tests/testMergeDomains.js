@@ -42,7 +42,7 @@ test("Merge An Array Domain Beginning With Operator", t => {
 
 var emptyDomains = [
     [], "[]", "[ ]",
-]
+];
 
 /**
  * When merging a domain with an empty domain using AND, the empty domain is ignored.
