@@ -53,7 +53,8 @@ function extractContentFromDomain(domain){
     if(match === null){
         throw new Error("Invalid domain filter " + domain);
     }
-    return match[1] || "";
+    var content = match[1] || "";
+    return content.trim();
 }
 
 /**
@@ -185,7 +186,8 @@ function addExplicitAndOperatorsToDomainContent(domainContent){
  */
 function mergeDomainsWithAndOperators(domains){
     var domainContents = domains.map(extractContentFromDomain).map(_normalizeOperators);
-    return "[" + domainContents.join(", ") + "]";
+    var nonEmptyDomainContents = domainContents.filter((c) => c !== "");
+    return "[" + nonEmptyDomainContents.join(", ") + "]";
 }
 
 
@@ -197,6 +199,12 @@ function mergeDomainsWithAndOperators(domains){
  */
 function mergeDomainsWithOrOperators(domains){
     var domainContents = domains.map(extractContentFromDomain);
+
+    var hasEmptyDomain = domainContents.some((c) => c === "");
+    if(hasEmptyDomain){
+        return "[]";
+    }
+
     var domainContentsWithExplicitAnds = domainContents.map(addExplicitAndOperatorsToDomainContent);
     var ors = _.times(domainContentsWithExplicitAnds.length - 1, _.constant(_or));
     return "[" + ors.concat(domainContentsWithExplicitAnds).join(", ") + "]";

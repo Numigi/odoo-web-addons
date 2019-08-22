@@ -12,8 +12,21 @@ Differences with Odoo version 11.0
 In Odoo version 11.0, we had the same issue when adding a custom filter.
 Custom filters were evaluated when clicking on Save.
 
-Since version 12.0, these are evaluated when rendering the view.
-Dashboard are still non-contextual, so this module is still relevant for that part.
+Building Assets
+---------------
+If you modify a javascript file of this module, then you might need to rebuild the javascrip assets.
+
+Make sure you have webpack-cli installed.
+``
+npm install -g webpack-cli
+``
+
+In order to rebuild the assets, open a terminal and execute the following commands:
+
+``
+cd web_contextual_search_favorite/static
+webpack-cli
+``
 
 Contributors
 ------------
