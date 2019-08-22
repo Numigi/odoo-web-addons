@@ -16,12 +16,16 @@ Building Assets
 ---------------
 If you modify a javascript file of this module, then you might need to rebuild the javascrip assets.
 
+Make sure you have webpack-cli installed.
+``
+npm install -g webpack-cli
+``
+
 In order to rebuild the assets, open a terminal and execute the following commands:
 
 ``
 cd web_contextual_search_favorite/static
-npm install
-node_modules/.bin/webpack
+webpack-cli
 ``
 
 Contributors

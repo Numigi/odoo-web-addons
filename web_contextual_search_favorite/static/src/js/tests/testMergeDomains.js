@@ -39,3 +39,41 @@ test("Merge An Array Domain Beginning With Operator", t => {
     var result = mergeDomainsWithAndOperators([domainArray, domainStr]);
     t.true(result === "[\"&\",[\"a\",\"=\",1],[\"a\",\"=\",2], \"&\", ('b', '=', 1), ('b', '=', 2)]");
 });
+
+var emptyDomains = [
+    [], "[]", "[ ]",
+];
+
+/**
+ * When merging a domain with an empty domain using AND, the empty domain is ignored.
+ */
+test("Merge Domain With Empty Domain", t => {
+    emptyDomains.forEach((emptyDomain) => {
+        var result = mergeDomainsWithAndOperators([emptyDomain, domain1]);
+        t.true(result === "[('a', '=', 1)]");
+    });
+});
+
+test("Merge Domain With Empty Domain (empty domain after)", t => {
+    emptyDomains.forEach((emptyDomain) => {
+        var result = mergeDomainsWithAndOperators([domain1, emptyDomain]);
+        t.true(result === "[('a', '=', 1)]");
+    });
+});
+
+/**
+ * When merging a domain with an empty domain using OR, the resulting domain is empty.
+ */
+test("Merge Domain With Empty Domain Using Or Operator", t => {
+    emptyDomains.forEach((emptyDomain) => {
+        var result = mergeDomainsWithOrOperators([emptyDomain, domain1]);
+        t.true(result === "[]");
+    });
+});
+
+test("Merge Domain With Empty Domain Using Or Operator (empty domain after)", t => {
+    emptyDomains.forEach((emptyDomain) => {
+        var result = mergeDomainsWithOrOperators([domain1, emptyDomain]);
+        t.true(result === "[]");
+    });
+});

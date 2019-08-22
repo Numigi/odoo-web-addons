@@ -20,7 +20,7 @@ test("Extract Content From Domain With Spaces Around Domain", t => {
 
 test("Extract Content From Domain With Multiple Line Domain", t => {
     var result = extractContentFromDomain("\n [\n ('partner_id', '=', 1) \n] \n");
-    t.true(result === "\n ('partner_id', '=', 1) \n");
+    t.true(result === "('partner_id', '=', 1)");
 });
 
 test("Extract Content From Domain With Multiple Node Domain", t => {
