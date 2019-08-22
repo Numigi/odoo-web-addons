@@ -17,8 +17,12 @@ jobs:
           command: sudo mkdir -p .log && sudo chmod 777 .log
 
        - run:
-          name: Run Test
+          name: Run Python Tests
           command: docker-compose run --rm odoo run_pytest.sh
+
+       - run:
+          name: Run Javascript Tests
+          command: docker-compose run --rm client npm test
 
        - run:
           name: Codacy Coverage
