@@ -1,10 +1,10 @@
 odoo.define("web_contextual_search_favorite.dashboard", function (require) {
 "use strict";
 
+require("board.dashboard");
+var FormRenderer = require('web.FormRenderer');
 
-var BoardView = require("board.BoardView");
-
-BoardView.prototype.config.Renderer.include({
+FormRenderer.include({
     /**
      * Stringify the domain when generating the architecture or the board.
      *
