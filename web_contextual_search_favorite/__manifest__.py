@@ -10,7 +10,10 @@
     'license': 'LGPL-3',
     'category': 'Project',
     'summary': 'Make custom search filters and dashboards contextual.',
-    'depends': ['web'],
+    'depends': [
+        'board',
+        'web',
+    ],
     'data': [
         'views/assets.xml',
     ],
