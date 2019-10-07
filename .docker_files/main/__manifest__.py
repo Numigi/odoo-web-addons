@@ -15,6 +15,7 @@
         'google_attachment',
         'web_contextual_search_favorite',
         'web_custom_label',
+        'web_form_disable_autocomplete',
         'web_list_column_width',
         'web_search_date_range',
         'web_search_date_range_account',
