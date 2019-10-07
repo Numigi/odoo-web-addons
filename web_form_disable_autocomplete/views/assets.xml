@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="assets_backend_with_autocomplete_disabled" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/web_form_disable_autocomplete/static/src/js/input_field.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
