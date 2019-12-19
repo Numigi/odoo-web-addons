@@ -1,10 +1,9 @@
 # © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import json
 from lxml import etree
 from typing import List
-from odoo import api, fields, models
+from odoo import api, models
 from odoo.osv.orm import transfer_node_to_modifiers, transfer_modifiers_to_node
 
 
