@@ -22,8 +22,8 @@ class SearchDateRange(models.Model):
     def _compute_xml_id(self):
         for range_type in self:
             range_type.xml_id = self.env['ir.model.data'].search([
-                ('model', '=', self._name),
-                ('res_id', '=', self.id),
+                ('model', '=', range_type._name),
+                ('res_id', '=', range_type.id),
                 ('module', '!=', False),
             ], limit=1)
 
