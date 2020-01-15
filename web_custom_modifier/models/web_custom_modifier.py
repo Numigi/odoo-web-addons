@@ -17,6 +17,7 @@ class WebCustomModifier(models.Model):
     ], default='field', required=True)
     modifier = fields.Selection([
         ('invisible', 'Invisible'),
+        ('column_invisible', 'Invisible (List Views)'),
         ('readonly', 'Readonly'),
         ('required', 'Required'),
     ], required=True)

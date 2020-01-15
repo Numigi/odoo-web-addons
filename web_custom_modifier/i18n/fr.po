@@ -78,6 +78,11 @@ msgid "Invisible"
 msgstr "Invisible"
 
 #. module: web_custom_modifier
+#: selection:web.custom.modifier,modifier:0
+msgid "Invisible (List Views)"
+msgstr "Invisible (vues listes)"
+
+#. module: web_custom_modifier
 #: model:ir.model.fields,field_description:web_custom_modifier.field_web_custom_modifier____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
