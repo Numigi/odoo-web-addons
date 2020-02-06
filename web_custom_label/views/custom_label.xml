@@ -11,6 +11,7 @@
                 <field name="type_"/>
                 <field name="reference" string="Field"/>
                 <field name="position"/>
+                <field name="key" attrs="{'readonly': [('position', '!=', 'selection')]}" force_save="1"/>
                 <field name="term"/>
                 <field name="active"/>
             </tree>

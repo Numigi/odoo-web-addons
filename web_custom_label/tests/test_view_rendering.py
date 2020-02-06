@@ -17,6 +17,9 @@ FR_NAME_PLACEHOLDER = 'Mon Placeholder Personnalisé'
 EN_STREET_LABEL = 'My Custom Street Label'
 FR_STREET_LABEL = 'Mon Libellé de Rue Personnalisé'
 
+EN_SELECTION_LABEL = 'My custom label for partner of type contact'
+FR_SELECTION_LABEL = 'Mon libellé pour les contacts de type personne'
+
 
 @ddt
 class TestViewRendering(common.SavepointCase):
@@ -99,6 +102,26 @@ class TestViewRendering(common.SavepointCase):
             'reference': 'street',
             'term': FR_STREET_LABEL,
             'position': 'string',
+        })
+
+        cls.env['web.custom.label'].create({
+            'lang': 'en_US',
+            'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
+            'type_': 'field',
+            'reference': 'type',
+            'term': EN_SELECTION_LABEL,
+            'position': 'selection',
+            'key': 'contact',
+        })
+
+        cls.env['web.custom.label'].create({
+            'lang': 'fr_FR',
+            'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
+            'type_': 'field',
+            'reference': 'type',
+            'term': FR_SELECTION_LABEL,
+            'position': 'selection',
+            'key': 'contact',
         })
 
         cls.env = cls.env(user=cls.env.ref('base.user_demo'))
@@ -190,3 +213,30 @@ class TestViewRendering(common.SavepointCase):
         lang, label = data
         fields = self.env['res.partner'].with_context(lang=lang).fields_get()
         assert fields['name']['string'] == label
+
+    @data(
+        (None, EN_NAME_LABEL),
+        ('en_US', EN_NAME_LABEL),
+        ('fr_FR', FR_NAME_LABEL),
+    )
+    def test_selection_label_is_updated_in_fields_view_get(self, data):
+        lang, label = data
+        fields = (
+            self.env['res.partner'].with_context(lang=lang)
+            .fields_view_get(view_id=self.view.id)
+        )['fields']
+        assert fields['name']['string'] == label
+
+    @data(
+        (None, EN_SELECTION_LABEL),
+        ('en_US', EN_SELECTION_LABEL),
+        ('fr_FR', FR_SELECTION_LABEL),
+    )
+    def test_selection_label_is_updated_in_fields_get(self, data):
+        lang, label = data
+        fields = (
+            self.env['res.partner'].with_context(lang=lang)
+            .fields_view_get(view_id=self.view.id)
+        )['fields']
+        options = {i[0]: i[1] for i in fields['type']['selection']}
+        assert options['contact'] == label
