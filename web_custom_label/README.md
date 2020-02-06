@@ -46,9 +46,7 @@ The new placeholders are set in both the main partner form and the contact addre
 
 Since version ``1.1.0`` of the module, fields of type ``Selection`` can be customized.
 
-In the list view of custom modifiers, you may 
-
-A new position ``Selection`` and a column ``Key`` were added.
+In the list view of custom labels, a new position ``Selection`` and a column ``Key`` were added.
 The ``Key`` contains the technical value of the selection option to rename.
 
 ![Custom Selection Option](static/description/custom_selection_option.png?raw=true)
