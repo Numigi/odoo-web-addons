@@ -42,6 +42,22 @@ The new placeholders are set in both the main partner form and the contact addre
 
 ![Address Form](static/description/address_form_with_placeholders.png?raw=true)
 
+## Customizing Selection Fields
+
+Since version ``1.1.0`` of the module, fields of type ``Selection`` can be customized.
+
+In the list view of custom labels, a new position ``Selection`` and a column ``Key`` were added.
+The ``Key`` contains the technical value of the selection option to rename.
+
+![Custom Selection Option](static/description/custom_selection_option.png?raw=true)
+
+In the example above, the option ``contact`` of the field ``type`` of ``res.partner``
+was renamed to ``Personne`` (in french).
+
+In the form view of a contact, the term ``Contact`` is replaced with ``Personne``.
+
+![Partner Contact Type](static/description/partner_contact_type.png?raw=true)
+
 ## Customizing Buttons
 
 In order to customize an element of the view that is not a field, we need to target the element with an Xpath expression.
