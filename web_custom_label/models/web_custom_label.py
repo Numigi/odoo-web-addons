@@ -39,6 +39,11 @@ class WebCustomLabel(models.Model):
 
     @api.model
     def create(self, vals):
+        """Update the registry cache when a label is created.
+
+        This allows to apply changes to view architectures when new labels are added.
+        When the user refreshes his page, he sees the new labels automatically.
+        """
         new_record = super().create(vals)
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return new_record
