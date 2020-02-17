@@ -42,6 +42,14 @@ The new placeholders are set in both the main partner form and the contact addre
 
 ![Address Form](static/description/address_form_with_placeholders.png?raw=true)
 
+## Customizing Helpers
+
+Since version ``1.2.0`` of the module, it is possible to customize a field helper.
+
+![Custom Field Help](static/description/custom_field_help.png?raw=true)
+
+![Contact Field Help](static/description/contact_field_help.png?raw=true)
+
 ## Customizing Selection Fields
 
 Since version ``1.1.0`` of the module, fields of type ``Selection`` can be customized.

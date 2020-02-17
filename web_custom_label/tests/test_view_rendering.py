@@ -1,7 +1,7 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from ddt import data, ddt
+from ddt import data, ddt, unpack
 from lxml import etree
 from odoo.tests import common
 
@@ -19,6 +19,9 @@ FR_STREET_LABEL = 'Mon Libellé de Rue Personnalisé'
 
 EN_SELECTION_LABEL = 'My custom label for partner of type contact'
 FR_SELECTION_LABEL = 'Mon libellé pour les contacts de type personne'
+
+EN_HELP_LABEL = 'My custom helper'
+FR_HELP_LABEL = 'Mon aide personnalisé'
 
 
 @ddt
@@ -124,6 +127,24 @@ class TestViewRendering(common.SavepointCase):
             'key': 'contact',
         })
 
+        cls.env['web.custom.label'].create({
+            'lang': 'en_US',
+            'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
+            'type_': 'field',
+            'reference': 'customer',
+            'term': EN_HELP_LABEL,
+            'position': 'help',
+        })
+
+        cls.env['web.custom.label'].create({
+            'lang': 'fr_FR',
+            'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
+            'type_': 'field',
+            'reference': 'customer',
+            'term': FR_HELP_LABEL,
+            'position': 'help',
+        })
+
         cls.env = cls.env(user=cls.env.ref('base.user_demo'))
         cls.env.user.lang = 'en_US'
 
@@ -139,8 +160,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_NAME_LABEL),
         ('fr_FR', FR_NAME_LABEL),
     )
-    def test_field_node_string(self, data):
-        lang, label = data
+    @unpack
+    def test_field_node_string(self, lang, label):
         tree = self._get_rendered_view_tree(lang=lang)
         el = tree.xpath("//field[@name='name']")[0]
         assert el.attrib.get('string') == label
@@ -150,8 +171,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_XPATH_LABEL),
         ('fr_FR', FR_XPATH_LABEL),
     )
-    def test_field_node_string_with_xpath(self, data):
-        lang, label = data
+    @unpack
+    def test_field_node_string_with_xpath(self, lang, label):
         tree = self._get_rendered_view_tree(lang=lang)
         el = tree.xpath(self.xpath)[0]
         assert el.attrib.get('string') == label
@@ -161,7 +182,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_STREET_LABEL),
         ('fr_FR', FR_STREET_LABEL),
     )
-    def test_label_node_string(self, data):
+    @unpack
+    def test_label_node_string(self, lang, label):
         """If any label node related to the field, it is overriden by the custom label.
 
         For example, if we have:
@@ -175,7 +197,6 @@ class TestViewRendering(common.SavepointCase):
 
         A custom label referencing the field street should be applied on the label node as well.
         """
-        lang, label = data
         tree = self._get_rendered_view_tree(lang=lang)
         el = tree.xpath("//label[@for='street']")[0]
         assert el.attrib.get('string') == label
@@ -185,8 +206,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_NAME_PLACEHOLDER),
         ('fr_FR', FR_NAME_PLACEHOLDER),
     )
-    def test_placeholder(self, data):
-        lang, label = data
+    @unpack
+    def test_placeholder(self, lang, label):
         tree = self._get_rendered_view_tree(lang=lang)
         el = tree.xpath("//field[@name='name']")[0]
         assert el.attrib.get('placeholder') == label
@@ -196,8 +217,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_NAME_LABEL),
         ('fr_FR', FR_NAME_LABEL),
     )
-    def test_label_is_updated_in_fields_view_get(self, data):
-        lang, label = data
+    @unpack
+    def test_label_is_updated_in_fields_view_get(self, lang, label):
         fields = (
             self.env['res.partner'].with_context(lang=lang)
             .fields_view_get(view_id=self.view.id)
@@ -209,8 +230,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_NAME_LABEL),
         ('fr_FR', FR_NAME_LABEL),
     )
-    def test_label_is_updated_in_fields_get(self, data):
-        lang, label = data
+    @unpack
+    def test_label_is_updated_in_fields_get(self, lang, label):
         fields = self.env['res.partner'].with_context(lang=lang).fields_get()
         assert fields['name']['string'] == label
 
@@ -219,8 +240,8 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_SELECTION_LABEL),
         ('fr_FR', FR_SELECTION_LABEL),
     )
-    def test_selection_label_is_updated_in_fields_view_get(self, data):
-        lang, label = data
+    @unpack
+    def test_selection_label_is_updated_in_fields_view_get(self, lang, label):
         fields = (
             self.env['res.partner'].with_context(lang=lang)
             .fields_view_get(view_id=self.view.id)
@@ -233,8 +254,42 @@ class TestViewRendering(common.SavepointCase):
         ('en_US', EN_SELECTION_LABEL),
         ('fr_FR', FR_SELECTION_LABEL),
     )
-    def test_selection_label_is_updated_in_fields_get(self, data):
-        lang, label = data
+    @unpack
+    def test_selection_label_is_updated_in_fields_get(self, lang, label):
         fields = self.env['res.partner'].with_context(lang=lang).fields_get()
         options = {i[0]: i[1] for i in fields['type']['selection']}
         assert options['contact'] == label
+
+    @data(
+        (None, EN_HELP_LABEL),
+        ('en_US', EN_HELP_LABEL),
+        ('fr_FR', FR_HELP_LABEL),
+    )
+    @unpack
+    def test_field_help(self, lang, label):
+        tree = self._get_rendered_view_tree(lang=lang)
+        el = tree.xpath("//field[@name='customer']")[0]
+        assert el.attrib.get('help') == label
+
+    @data(
+        (None, EN_HELP_LABEL),
+        ('en_US', EN_HELP_LABEL),
+        ('fr_FR', FR_HELP_LABEL),
+    )
+    @unpack
+    def test_field_help__fields_get(self, lang, label):
+        fields = self.env['res.partner'].with_context(lang=lang).fields_get()
+        assert fields['customer']['help'] == label
+
+    @data(
+        (None, EN_HELP_LABEL),
+        ('en_US', EN_HELP_LABEL),
+        ('fr_FR', FR_HELP_LABEL),
+    )
+    @unpack
+    def test_field_help__fields_view_get(self, lang, label):
+        fields = (
+            self.env['res.partner'].with_context(lang=lang)
+            .fields_view_get(view_id=self.view.id)
+        )['fields']
+        assert fields['customer']['help'] == label
