@@ -40,6 +40,15 @@ class TestViewRendering(common.SavepointCase):
             'modifier': 'invisible',
         })
 
+        cls.hidden_option = 'other'
+        cls.env['web.custom.modifier'].create({
+            'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
+            'type_': 'field',
+            'reference': 'type',
+            'modifier': 'selection_hide',
+            'key': cls.hidden_option,
+        })
+
     def _get_rendered_view_tree(self):
         arch = self.env['res.partner'].fields_view_get(view_id=self.view.id)['arch']
         return etree.fromstring(arch)
@@ -57,3 +66,13 @@ class TestViewRendering(common.SavepointCase):
         tree = self._get_rendered_view_tree()
         el = tree.xpath("//field[@name='street']")[0]
         assert _extract_modifier_value(el, modifier) is True
+
+    def test_selection_hide__fields_view_get(self):
+        fields = self.env['res.partner'].fields_view_get(view_id=self.view.id)['fields']
+        options = {i[0]: i[1] for i in fields['type']['selection']}
+        assert self.hidden_option not in options
+
+    def test_selection_hide__fields_get(self):
+        fields = self.env['res.partner'].fields_get()
+        options = {i[0]: i[1] for i in fields['type']['selection']}
+        assert self.hidden_option not in options

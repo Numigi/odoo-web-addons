@@ -14,14 +14,16 @@ class WebCustomModifier(models.Model):
     type_ = fields.Selection([
         ('field', 'Field'),
         ('xpath', 'Xpath'),
-    ], default='field', required=True)
+    ], string="Type", default='field', required=True)
     modifier = fields.Selection([
         ('invisible', 'Invisible'),
         ('column_invisible', 'Invisible (List Views)'),
         ('readonly', 'Readonly'),
         ('required', 'Required'),
+        ('selection_hide', 'Hide Selection Item'),
     ], required=True)
     reference = fields.Char(required=True)
+    key = fields.Char()
     active = fields.Boolean(default=True)
 
 
@@ -52,7 +54,7 @@ class WebCustomModifierWithCachedModifiers(models.Model):
         return True
 
     @tools.ormcache('model')
-    def _find_modifiers(self, model):
+    def get(self, model):
         """Find the modifiers matching the given model.
 
         :param model: the name of the model.
