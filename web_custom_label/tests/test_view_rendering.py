@@ -215,9 +215,9 @@ class TestViewRendering(common.SavepointCase):
         assert fields['name']['string'] == label
 
     @data(
-        (None, EN_NAME_LABEL),
-        ('en_US', EN_NAME_LABEL),
-        ('fr_FR', FR_NAME_LABEL),
+        (None, EN_SELECTION_LABEL),
+        ('en_US', EN_SELECTION_LABEL),
+        ('fr_FR', FR_SELECTION_LABEL),
     )
     def test_selection_label_is_updated_in_fields_view_get(self, data):
         lang, label = data
@@ -225,7 +225,8 @@ class TestViewRendering(common.SavepointCase):
             self.env['res.partner'].with_context(lang=lang)
             .fields_view_get(view_id=self.view.id)
         )['fields']
-        assert fields['name']['string'] == label
+        options = {i[0]: i[1] for i in fields['type']['selection']}
+        assert options['contact'] == label
 
     @data(
         (None, EN_SELECTION_LABEL),
@@ -234,9 +235,6 @@ class TestViewRendering(common.SavepointCase):
     )
     def test_selection_label_is_updated_in_fields_get(self, data):
         lang, label = data
-        fields = (
-            self.env['res.partner'].with_context(lang=lang)
-            .fields_view_get(view_id=self.view.id)
-        )['fields']
+        fields = self.env['res.partner'].with_context(lang=lang).fields_get()
         options = {i[0]: i[1] for i in fields['type']['selection']}
         assert options['contact'] == label

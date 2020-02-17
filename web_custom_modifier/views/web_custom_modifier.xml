@@ -10,6 +10,9 @@
                 <field name="type_"/>
                 <field name="reference" string="Field"/>
                 <field name="modifier"/>
+                <field name="key"
+                    attrs="{'readonly': [('modifier', '!=', 'selection_hide')],
+                            'required': [('modifier', '=', 'selection_hide')]}"/>
                 <field name="active"/>
             </tree>
         </field>

@@ -31,6 +31,23 @@ This allows to set a modifier for a specific view node, such as a button.
 
 The example above hides the a button in the form view of a product.
 
+Hide Selection Item
+-------------------
+Since version ``1.1.0``, the module allows to hide an item (option) of a selection field.
+
+.. image:: static/description/hide_selection_item_modifier.png
+
+The above example hides the type of address ``Other``.
+
+.. image:: static/description/contact_form_without_selection_item.png
+
+Beware that if the hidden option is already selected on a record,
+it will look as it was never set.
+
+.. image:: static/description/contact_form_type_not_selected.png
+
+Therefore, this feature should only be used to hide options that are never used.
+
 Contributors
 ------------
 * Numigi (tm) and all its contributors (https://bit.ly/numigiens)
