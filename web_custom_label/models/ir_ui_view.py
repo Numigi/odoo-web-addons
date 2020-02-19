@@ -25,12 +25,14 @@ class ViewWithCustomLabels(models.Model):
 
 
 def _add_custom_labels_to_view_arch(labels, arch):
-    if not labels:
+    labels_to_apply = [l for l in labels if l['position'] in ('string', 'placeholder', 'help')]
+
+    if not labels_to_apply:
         return arch
 
     tree = etree.fromstring(arch)
 
-    for label in labels:
+    for label in labels_to_apply:
         _add_custom_label_to_view_tree(label, tree)
 
     return etree.tostring(tree)

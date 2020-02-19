@@ -24,6 +24,7 @@ class WebCustomLabel(models.Model):
         ('string', 'Label'),
         ('placeholder', 'Placeholder'),
         ('selection', 'Selection'),
+        ('help', 'Help'),
     ], default='string', required=True)
     reference = fields.Char(required=True)
     key = fields.Char()
