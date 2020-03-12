@@ -18,7 +18,7 @@ basicFields.HandleWidget.include({
     },
 
     _reset() {
-        this._super.apply(this, arguments)
+        this._super.apply(this, arguments);
 
         if(this._isHandleInvisible()){
             this._hideHandle();
