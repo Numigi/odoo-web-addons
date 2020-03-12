@@ -4,7 +4,7 @@
 {
     'name': 'Web Handle Condition',
     'version': '1.0.0',
-    'author': 'Savoir-faire Linux',
+    'author': 'Numigi',
     'maintainer': 'Numigi',
     'website': 'https://bit.ly/numigi-com',
     'license': 'LGPL-3',
