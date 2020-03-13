@@ -18,6 +18,7 @@ COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
+COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 
 COPY .docker_files/main /mnt/extra-addons/main
