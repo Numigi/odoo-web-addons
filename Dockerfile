@@ -14,6 +14,7 @@ COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favo
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
+COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account

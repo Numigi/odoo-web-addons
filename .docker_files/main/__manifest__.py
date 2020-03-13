@@ -17,6 +17,7 @@
         'web_custom_label',
         'web_custom_modifier',
         'web_form_disable_autocomplete',
+        'web_handle_condition',
         'web_list_column_width',
         'web_search_date_range',
         'web_search_date_range_account',
