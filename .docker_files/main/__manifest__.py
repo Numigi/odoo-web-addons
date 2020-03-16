@@ -21,6 +21,7 @@
         'web_list_column_width',
         'web_search_date_range',
         'web_search_date_range_account',
+        'web_trash_condition',
         'website_menu_by_user_status',
     ],
     'installable': True,
