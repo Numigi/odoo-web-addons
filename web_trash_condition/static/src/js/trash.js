@@ -28,6 +28,7 @@ require("web.ListRenderer").include({
 
     _hideTrashFromRow($row) {
         $row.find('.o_list_record_remove button').addClass("d-none");
+        $row.find('.o_list_record_remove').removeClass("o_list_record_remove");
     },
 });
 });
