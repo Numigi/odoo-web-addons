@@ -4,6 +4,8 @@ This module allows to customize modifiers on form view nodes.
 
 For example, it allows to make a field readonly, invisible or required.
 
+.. contents:: Table of Contents
+
 Usage
 -----
 As system administrator, I go to `Settings / Technical / User Interface / Custom Modifiers`.
@@ -47,6 +49,15 @@ it will look as it was never set.
 .. image:: static/description/contact_form_type_not_selected.png
 
 Therefore, this feature should only be used to hide options that are never used.
+
+Force Save
+----------
+Since version 1.2.0 of the module, a new option ``Force Save`` is available.
+
+.. image:: static/description/force_save_modifier.png
+
+This modifier may be used along with the ``Readonly`` modifier so
+that the field value is saved to the server.
 
 Contributors
 ------------

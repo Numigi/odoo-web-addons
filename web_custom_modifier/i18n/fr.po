@@ -68,6 +68,11 @@ msgid "Field"
 msgstr "Champ"
 
 #. module: web_custom_modifier
+#: selection:web.custom.modifier,modifier:0
+msgid "Force Save"
+msgstr "Forcer la sauvegarde"
+
+#. module: web_custom_modifier
 #: model_terms:ir.ui.view,arch_db:web_custom_modifier.custom_modifier_search
 msgid "Group By"
 msgstr "Grouper par"

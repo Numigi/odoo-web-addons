@@ -11,6 +11,7 @@ MODIFIERS = (
     'invisible',
     'readonly',
     'required',
+    'force_save',
 )
 
 

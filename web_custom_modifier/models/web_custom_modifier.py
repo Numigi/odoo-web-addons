@@ -19,6 +19,7 @@ class WebCustomModifier(models.Model):
         ('invisible', 'Invisible'),
         ('column_invisible', 'Invisible (List Views)'),
         ('readonly', 'Readonly'),
+        ('force_save', 'Force Save'),
         ('required', 'Required'),
         ('selection_hide', 'Hide Selection Item'),
     ], required=True)
