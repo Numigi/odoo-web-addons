@@ -33,7 +33,8 @@ require("web.FavoriteMenu").include({
         _.each(searchData.contexts, context.add, context);
 
         // Only the following lines were modified in the method
-        var domains = (this.searchview.dataset.get_domain() || []).concat(searchData.domains);
+        const searchDomain = this.searchview.dataset.get_domain()
+        var domains = (searchDomain ? [searchDomain] || []).concat(searchData.domains);
         var domain = mergeDomainsWithAndOperators(domains);
         // Modifed lines end here
 
