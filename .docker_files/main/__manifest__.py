@@ -16,6 +16,7 @@
         'web_contextual_search_favorite',
         'web_custom_label',
         'web_custom_modifier',
+        'web_editor_backend_context',
         'web_form_disable_autocomplete',
         'web_handle_condition',
         'web_list_column_width',

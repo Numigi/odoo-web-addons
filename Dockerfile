@@ -13,6 +13,7 @@ COPY google_attachment /mnt/extra-addons/google_attachment
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
+COPY web_editor_backend_context /mnt/extra-addons/web_editor_backend_context
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
 COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
