@@ -59,6 +59,16 @@ Since version 1.2.0 of the module, a new option ``Force Save`` is available.
 This modifier may be used along with the ``Readonly`` modifier so
 that the field value is saved to the server.
 
+Excluded Groups
+---------------
+Since version 1.3.0 of the module, a new field ``Excluded Groups`` is available.
+
+.. image:: static/description/excluded_groups.png
+
+If at least one group of users is selected, the modifier is not applied for users that are member of any of these groups.
+
+This is useful when rendering an element readonly or invisible only for a subset of users.
+
 Contributors
 ------------
 * Numigi (tm) and all its contributors (https://bit.ly/numigiens)

@@ -13,6 +13,7 @@
                 <field name="key"
                     attrs="{'readonly': [('modifier', '!=', 'selection_hide')],
                             'required': [('modifier', '=', 'selection_hide')]}"/>
+                <field name="excluded_group_ids" widget="many2many_tags"/>
                 <field name="active"/>
             </tree>
         </field>
