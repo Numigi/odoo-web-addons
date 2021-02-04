@@ -26,6 +26,13 @@ class WebCustomModifier(models.Model):
     reference = fields.Char(required=True)
     key = fields.Char()
     active = fields.Boolean(default=True)
+    excluded_group_ids = fields.Many2many(
+        "res.groups",
+        "web_custom_modifier_excluded_group_rel",
+        "modifier_id",
+        "group_id",
+        "Excluded Groups",
+    )
 
 
 class WebCustomModifierWithCachedModifiers(models.Model):
@@ -54,13 +61,28 @@ class WebCustomModifierWithCachedModifiers(models.Model):
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return True
 
-    @tools.ormcache('model')
-    def get(self, model):
-        """Find the modifiers matching the given model.
+    @tools.ormcache()
+    def _get_cache(self):
+        return [
+            el._to_dict() for el in
+            self.sudo().env['web.custom.modifier'].search([])
+        ]
 
-        :param model: the name of the model.
-        :return: a list of custom modifiers values (list of dictionaries)
-        """
-        return self.sudo().env['web.custom.modifier'].search([
-            ('model_ids.model', '=', model),
-        ]).read()
+    def _to_dict(self):
+        return {
+            "models": self.mapped("model_ids.model"),
+            "key": self.key,
+            "type_": self.type_,
+            "modifier": self.modifier,
+            "reference": self.reference,
+            "excluded_group_ids": self.excluded_group_ids.ids,
+        }
+
+    def get(self, model):
+        cache = self._get_cache()
+        user_group_ids = self.env.user.groups_id.ids
+        return [
+            el for el in cache
+            if model in el["models"]
+            and all(id_ not in user_group_ids for id_ in el["excluded_group_ids"])
+        ]
