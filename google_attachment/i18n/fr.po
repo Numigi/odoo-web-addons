@@ -43,6 +43,3 @@ msgstr "ID Client Google OAuth2"
 #: model:ir.model,name:google_attachment.model_ir_config_parameter
 msgid "System Parameter"
 msgstr ""
-
-#~ msgid "Attachments From Google Drive"
-#~ msgstr "Pièces Jointes Depuis Google Drive"
