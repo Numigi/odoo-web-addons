@@ -7,9 +7,12 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./.log:/var/log/odoo
+      - ./web_contextual_search_favorite:/mnt/extra-addons/web_contextual_search_favorite
+      - ./web_search_date_range:/mnt/extra-addons/web_search_date_range
+      - ./web_search_date_range_account:/mnt/extra-addons/web_search_date_range_account
     ports:
-      - "8069:8069"
-      - "8071:8071"
+      - "8072:8069"
+      - "8073:8071"
     depends_on:
       - db
     command: odoo
