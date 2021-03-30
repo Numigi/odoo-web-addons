@@ -16,7 +16,6 @@
         'web_custom_label',
         'web_custom_modifier',
         'web_editor_backend_context',
-        'web_form_disable_autocomplete',
         'web_handle_condition',
         'web_trash_condition',
         'website_google_analytics_fixed',
