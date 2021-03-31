@@ -18,6 +18,7 @@
     ],
     'data': [
         'views/website_menu.xml',
+        'security/ir.model.access.csv',
     ],
     'installable': True,
 }

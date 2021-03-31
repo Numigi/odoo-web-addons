@@ -31,7 +31,9 @@ odoo.define("disable_quick_create", function(require) {
             this.nodeOptions.no_quick_create = true;
 
             if (models.includes(this.field.relation)){
+                this.nodeOptions.no_create = true;
                 this.nodeOptions.no_create_edit = true;
+                this.can_create = false;
             }
         },
     });

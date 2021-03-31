@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="google_attachment.GoogleAttachment" owl="1">
+        <center t-on-click="addDocumentsFromPicker">
+            <span class="btn btn-link o_upload_attachments_from_google">From Google...</span>
+        </center>
+    </t>
+
+</templates>
