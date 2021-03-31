@@ -7,6 +7,8 @@ services:
     volumes:
       - odoo-web-data:/var/lib/odoo
       - ./.log:/var/log/odoo
+      - ./web_custom_label:/mnt/extra-addons/web_custom_label
+      - ./web_custom_modifier:/mnt/extra-addons/web_custom_modifier
     ports:
       - "8069:8069"
       - "8071:8071"
@@ -15,10 +17,6 @@ services:
     command: odoo
     environment:
       - LOG_ODOO=/var/log/odoo
-  client:
-    build:
-      context: .
-      dockerfile: Dockerfile-client
   db:
     image: postgres:9.6
     environment:

@@ -49,13 +49,11 @@ class WebCustomModifierWithCachedModifiers(models.Model):
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return new_record
 
-    @api.multi
     def write(self, vals):
         super().write(vals)
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return True
 
-    @api.multi
     def unlink(self):
         super().unlink()
         modules.registry.Registry(self.env.cr.dbname).clear_caches()

@@ -14,8 +14,8 @@ FR_XPATH_LABEL = 'Mon Autre Libellé Personnalisé'
 EN_NAME_PLACEHOLDER = 'My Custom Placeholder'
 FR_NAME_PLACEHOLDER = 'Mon Placeholder Personnalisé'
 
-EN_STREET_LABEL = 'My Custom Street Label'
-FR_STREET_LABEL = 'Mon Libellé de Rue Personnalisé'
+EN_LANG_LABEL = 'My Custom Lang Label'
+FR_LANG_LABEL = 'Mon Libellé de Langue Personnalisé'
 
 EN_SELECTION_LABEL = 'My custom label for partner of type contact'
 FR_SELECTION_LABEL = 'Mon libellé pour les contacts de type personne'
@@ -93,8 +93,8 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'en_US',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'street',
-            'term': EN_STREET_LABEL,
+            'reference': 'lang',
+            'term': EN_LANG_LABEL,
             'position': 'string',
         })
 
@@ -102,8 +102,8 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'fr_FR',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'street',
-            'term': FR_STREET_LABEL,
+            'reference': 'lang',
+            'term': FR_LANG_LABEL,
             'position': 'string',
         })
 
@@ -131,7 +131,7 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'en_US',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'customer',
+            'reference': 'parent_id',
             'term': EN_HELP_LABEL,
             'position': 'help',
         })
@@ -140,7 +140,7 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'fr_FR',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'customer',
+            'reference': 'parent_id',
             'term': FR_HELP_LABEL,
             'position': 'help',
         })
@@ -178,9 +178,9 @@ class TestViewRendering(common.SavepointCase):
         assert el.attrib.get('string') == label
 
     @data(
-        (None, EN_STREET_LABEL),
-        ('en_US', EN_STREET_LABEL),
-        ('fr_FR', FR_STREET_LABEL),
+        (None, EN_LANG_LABEL),
+        ('en_US', EN_LANG_LABEL),
+        ('fr_FR', FR_LANG_LABEL),
     )
     @unpack
     def test_label_node_string(self, lang, label):
@@ -198,7 +198,7 @@ class TestViewRendering(common.SavepointCase):
         A custom label referencing the field street should be applied on the label node as well.
         """
         tree = self._get_rendered_view_tree(lang=lang)
-        el = tree.xpath("//label[@for='street']")[0]
+        el = tree.xpath("//label[@for='lang']")[0]
         assert el.attrib.get('string') == label
 
     @data(
@@ -268,7 +268,7 @@ class TestViewRendering(common.SavepointCase):
     @unpack
     def test_field_help(self, lang, label):
         tree = self._get_rendered_view_tree(lang=lang)
-        el = tree.xpath("//field[@name='customer']")[0]
+        el = tree.xpath("//field[@name='parent_id']")[0]
         assert el.attrib.get('help') == label
 
     @data(
@@ -279,7 +279,7 @@ class TestViewRendering(common.SavepointCase):
     @unpack
     def test_field_help__fields_get(self, lang, label):
         fields = self.env['res.partner'].with_context(lang=lang).fields_get()
-        assert fields['customer']['help'] == label
+        assert fields['parent_id']['help'] == label
 
     @data(
         (None, EN_HELP_LABEL),
@@ -292,4 +292,4 @@ class TestViewRendering(common.SavepointCase):
             self.env['res.partner'].with_context(lang=lang)
             .fields_view_get(view_id=self.view.id)
         )['fields']
-        assert fields['customer']['help'] == label
+        assert fields['parent_id']['help'] == label
