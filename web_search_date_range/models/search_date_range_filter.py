@@ -5,7 +5,6 @@ from odoo import api, fields, models
 
 
 class SearchDateRangeFilter(models.Model):
-    """A model used to define date range filters on models."""
 
     _name = 'search.date.range.filter'
     _description = 'Date Filter'
@@ -18,31 +17,46 @@ class SearchDateRangeFilter(models.Model):
         domain="[('model_id', '=', model_id), ('ttype', 'in', ['date', 'datetime'])]",
     )
     range_id = fields.Many2one('search.date.range', 'Range Type', required=True)
-    domain = fields.Text(compute='_compute_domain', store=True)
+    domain = fields.Text(compute='_compute_domain')
 
     @api.onchange('model_id')
     def _onchange_model_id_empty_field_id(self):
         self.field_id = None
 
-    @api.depends('range_id.domain', 'field_id')
+    @api.depends('range_id', 'field_id')
     def _compute_domain(self):
-        lines_with_range_and_field = self.filtered(lambda l: l.range_id and l.field_id)
-        for line in lines_with_range_and_field:
-            line.domain = line.range_id.generate_domain_from_field_name(line.field_id.name)
+        for line in self.filtered(lambda l: l.range_id and l.field_id):
+            line.domain = f'[("{line.field_id.name}", "range", {line.range_id.id})]'
 
     @api.model
     def get_filter_list(self):
-        """Get a complete list of filter values to display in the web interface."""
-        return [
+        return {
             {
-                'model': line.field_id.model,
-                'field': line.field_id.name,
-                'domain': line.domain,
-                'sequence': line.sequence,
-                'label': line.range_id.label,
-                'field_label': line.field_id.field_description,
-                'technical_name': 'filter_range_{range}_{field}'.format(
-                    range=line.range_id.technical_name, field=line.field_id.name)
+                "description": field.field_description,
+                "type": "filter",
+                "model": field.model,
+                "field": field.name,
+                "options": [
+                    l._get_option() for l in lines
+                ]
             }
-            for line in self.with_context(lang=self.env.user.lang).search([])
-        ]
+            for field, lines in self._group_by_field()
+        }
+
+    def _group_by_field(self):
+        groups = {}
+
+        for line in self:
+            if line.field_id not in groups:
+                groups[line.field_id] = line
+            else:
+                groups[line.field_id] |= line
+
+        return groups.items()
+
+    def _get_option(self):
+        return {
+            "id": f"date_range_filter_{self.id}",
+            "domain": self.domain,
+            "description": self.range_id.label,
+        }

@@ -6,24 +6,18 @@ require("web/static/src/js/control_panel/control_panel_model_extension.js");
 const ActionModel = require("web/static/src/js/views/action_model.js");
 const ControlPanel = ActionModel.registry.get("ControlPanel")
 const pyUtils = require('web.py_utils')
+const filterRegistry = require("web_search_date_range/static/src/js/search_filters.js")
 
 
 class ControlPanelExtension extends ControlPanel {
 
     constructor() {
         super(...arguments);
-        this.relativeDateOptions = [
-            {
-                id: "filter_admin",
-                domain: [["create_uid", "=", 2]],
-                description: "Administrator",
-            },
-            {
-                id: "filter_root",
-                domain: [["create_uid", "=", 1]],
-                description: "Odoobot",
-            },
-        ]
+        this.relativeDateOptions = []
+
+        filterRegistry.getFilters(this.config.modelName).then((filters) => {
+            this.relativeDateOptions = filters
+        })
     }
 
     _addFilters() {

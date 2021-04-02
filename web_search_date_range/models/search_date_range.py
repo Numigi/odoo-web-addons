@@ -1,18 +1,22 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import pytz
+from datetime import datetime
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, fields, models
+from odoo.tests import common
+from odoo.tools.safe_eval import safe_eval
 
 
 class SearchDateRange(models.Model):
-    """A a generic range domain that can be reused for multiple fields."""
 
     _name = 'search.date.range'
     _description = 'Date Range'
     _rec_name = 'label'
     _order = 'sequence'
 
-    technical_name = fields.Char('Technical Name', required=True)
     sequence = fields.Integer()
     label = fields.Char(translate=True, required=True)
     domain = fields.Text(required=True)
@@ -39,9 +43,14 @@ class SearchDateRange(models.Model):
             range_type.xml_id.noupdate = range_type.noupdate
 
     @api.model
-    def generate_domain_from_field_name(self, field):
+    def generate_domain(self, field):
         """Generate a domain for the given field name.
 
         :param field: the field name for which to generate the domain.
         """
-        return self.domain.format(field=field)
+        return safe_eval(self.domain, {
+            'field': field,
+            'today': fields.Date.context_today(self),
+            'datetime': datetime,
+            'relativedelta': relativedelta,
+        })

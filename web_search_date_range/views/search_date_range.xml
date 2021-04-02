@@ -9,7 +9,6 @@
                 <sheet>
                     <group>
                         <field name="label"/>
-                        <field name="technical_name"/>
                         <field name="domain"/>
                         <field name="sequence"/>
                         <field name="xml_id" options="{'no_create': 1}"/>
@@ -38,6 +37,7 @@
         <field name="res_model">search.date.range</field>
         <field name="view_id" ref="date_range_list"/>
     </record>
+
     <menuitem action="date_range_action" id="date_range_menu" parent="base.next_id_2" sequence="7"/>
 
 </odoo>
