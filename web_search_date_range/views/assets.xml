@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="web_search_date_range assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/web_search_date_range/static/src/js/control_panel_model_extension.js"></script>
+            <link rel="stylesheet" type="text/css" href="/web_search_date_range/static/src/css/search_filters.css"/>
+        </xpath>
+    </template>
+
+</odoo>
