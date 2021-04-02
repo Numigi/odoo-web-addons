@@ -20,9 +20,13 @@ class ViewWithCustomModifiers(models.Model):
         This method is called in Odoo when generating the final xml of a view.
         """
         arch, fields = super().postprocess_and_fields(node, model, validate)
-        modifiers = self.env["web.custom.modifier"].get(model)
-        arch_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, arch)
-        set_custom_modifiers_on_fields(modifiers, fields)
+
+        view_model = model or self.model
+        if view_model:
+            modifiers = self.env["web.custom.modifier"].get(view_model)
+            arch_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, arch)
+            set_custom_modifiers_on_fields(modifiers, fields)
+
         return arch_with_custom_modifiers, fields
 
 

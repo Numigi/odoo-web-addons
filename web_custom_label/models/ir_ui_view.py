@@ -16,10 +16,14 @@ class ViewWithCustomLabels(models.Model):
         This method is called in Odoo when generating the final xml of a view.
         """
         arch, fields = super().postprocess_and_fields(node, model, validate)
-        lang = self.env.context.get('lang') or self.env.user.lang
-        labels = self.env['web.custom.label'].get(model, lang)
-        arch_with_custom_labels = _add_custom_labels_to_view_arch(labels, arch)
-        set_custom_labels_on_fields(labels, fields)
+
+        view_model = model or self.model
+        if view_model:
+            lang = self.env.context.get('lang') or self.env.user.lang
+            labels = self.env['web.custom.label'].get(view_model, lang)
+            arch_with_custom_labels = _add_custom_labels_to_view_arch(labels, arch)
+            set_custom_labels_on_fields(labels, fields)
+
         return arch_with_custom_labels, fields
 
 
