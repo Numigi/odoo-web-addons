@@ -30,8 +30,9 @@ class SearchDateRangeFilter(models.Model):
 
     @api.model
     def get_filter_list(self):
-        return {
+        return [
             {
+                "isRelativeDateFilter": True,
                 "description": field.field_description,
                 "type": "filter",
                 "model": field.model,
@@ -40,8 +41,8 @@ class SearchDateRangeFilter(models.Model):
                     l._get_option() for l in lines
                 ]
             }
-            for field, lines in self._group_by_field()
-        }
+            for field, lines in self.search([])._group_by_field()
+        ]
 
     def _group_by_field(self):
         groups = {}

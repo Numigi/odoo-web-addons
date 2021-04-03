@@ -2,13 +2,10 @@
     © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
     License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL.html).
 */
-odoo.define("web_search_date_range.filter_menu_with_date_range", function(require) {
+odoo.define("web_search_date_range/static/src/js/search_filters.js", function(require) {
     "use strict";
 
 var Class = require("web.Class");
-var Widget = require("web.Widget");
-var FilterMenu = require("web.FiltersMenu");
-var searchInputs = require("web.search_inputs");
 var ajax = require("web.ajax");
 
 

@@ -36,6 +36,7 @@
         <field name="res_model">search.date.range.filter</field>
         <field name="view_id" ref="date_range_filters_list"/>
     </record>
+
     <menuitem action="date_range_filters_action" id="date_range_filters_menu" parent="base.next_id_2" sequence="6"/>
 
 </odoo>

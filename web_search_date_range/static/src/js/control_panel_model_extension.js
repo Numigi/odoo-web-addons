@@ -13,25 +13,21 @@ class ControlPanelExtension extends ControlPanel {
 
     constructor() {
         super(...arguments);
-        this.relativeDateOptions = []
+        this.dateRangeFilters = []
 
         filterRegistry.getFilters(this.config.modelName).then((filters) => {
-            this.relativeDateOptions = filters
+            this.dateRangeFilters = filters
+            this._addDateRangeFilters()
         })
     }
 
     _addFilters() {
         super._addFilters()
+        this._addDateRangeFilters()
+    }
 
-        const pregroup = [
-            {
-                description: "My Filter",
-                type: "filter",
-                isDefault: false,
-                isRelativeDateFilter: true,
-            }
-        ]
-
+    _addDateRangeFilters() {
+        const pregroup = [...this.dateRangeFilters]
         this._createGroupOfFilters(pregroup);
     }
 
@@ -40,20 +36,15 @@ class ControlPanelExtension extends ControlPanel {
             return super._enrichFilterCopy(filter, filterQueryElements)
         }
 
-        const isActive = Boolean(filterQueryElements.length);
-        const f = Object.assign({ isActive }, filter);
-
-        function _enrichOptions(options) {
-            return options.map(o => {
-                const { description, id, groupNumber } = o;
-                const isActive = filterQueryElements.some(a => a.optionId === id);
-                return { description, id, groupNumber, isActive };
-            });
-        }
-
-        f.options = _enrichOptions(this.relativeDateOptions);
-
-        return f;
+        return Object.assign({}, filter, {
+            isActive: Boolean(filterQueryElements.length),
+            options: filter.options.map((option) => {
+                return Object.assign({}, option, {
+                    isActive: filterQueryElements.some(a => a.optionId === option.id),
+                    groupNumber: 0,
+                })
+            }),
+        });
     }
 
     toggleFilterWithOptions(filterId, optionId) {
@@ -78,9 +69,8 @@ class ControlPanelExtension extends ControlPanel {
             return super._getFilterDomain(filter, filterQueryElements);
         }
 
-        const { fieldName, fieldType } = filter;
-        const options = this._getSelectedRelativeDateOptions(filterQueryElements)
-        const domains = options.map(o => JSON.stringify(o.domain))
+        const options = this._getSelectedDateRangeOptions(filter, filterQueryElements)
+        const domains = options.map(o => o.domain)
         return pyUtils.assembleDomains(domains, 'OR')
     }
 
@@ -106,13 +96,13 @@ class ControlPanelExtension extends ControlPanel {
 
     _getRelativeDateFilterDescription(activity) {
         const { filter, filterQueryElements } = activity
-        const options = this._getSelectedRelativeDateOptions(filterQueryElements)
+        const options = this._getSelectedDateRangeOptions(filter, filterQueryElements)
         return filter.description + ': ' + options.map(o => o.description).join(" | ")
     }
 
-    _getSelectedRelativeDateOptions(filterQueryElements) {
+    _getSelectedDateRangeOptions(filter, filterQueryElements) {
         const optionIds = filterQueryElements.map(el => el.optionId);
-        return this.relativeDateOptions.filter(o => optionIds.indexOf(o.id) !== -1)
+        return filter.options.filter(o => optionIds.indexOf(o.id) !== -1)
     }
 }
 

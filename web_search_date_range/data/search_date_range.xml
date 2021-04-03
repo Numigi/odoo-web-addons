@@ -64,8 +64,8 @@
         <field name="label">Previous Month</field>
         <field name="domain">[
             '&amp;',
-            (field, '&gt;=', (today - relativedelta(days=today.day - 1) + relativedelta(months=-1)).strftime('%Y-%m-%d')),
-            (field, '&lt;', (today - relativedelta(days=today.day - 1)).strftime('%Y-%m-%d')),
+            (field, '&gt;=', (today + relativedelta(day=1, months=-1)).strftime('%Y-%m-%d')),
+            (field, '&lt;', (today + relativedelta(day=1)).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="6"/>
     </record>
@@ -74,8 +74,8 @@
         <field name="label">Current Month</field>
         <field name="domain">[
             '&amp;',
-            (field, '&gt;=', (today - relativedelta(days=today.day - 1)).strftime('%Y-%m-%d')),
-            (field, '&lt;', (today - relativedelta(days=today.day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
+            (field, '&gt;=', (today + relativedelta(day=1)).strftime('%Y-%m-%d')),
+            (field, '&lt;', (today + relativedelta(day=1, months=1)).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="7"/>
     </record>
@@ -84,8 +84,8 @@
         <field name="label">Next Month</field>
         <field name="domain">[
             '&amp;',
-            (field, '&gt;=', (today - relativedelta(days=today.day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
-            (field, '&lt;', (today - relativedelta(days=today.day - 1) + relativedelta(months=2)).strftime('%Y-%m-%d')),
+            (field, '&gt;=', (today + relativedelta(day=1, months=1)).strftime('%Y-%m-%d')),
+            (field, '&lt;', (today + relativedelta(day=1, months=2)).strftime('%Y-%m-%d')),
         ]</field>
         <field name="sequence" eval="8"/>
     </record>
