@@ -8,7 +8,7 @@
             <tree string="Date Filters" editable="top">
                 <field name="model_id" options="{'no_create': 1}"/>
                 <field name="field_id" options="{'no_create': 1}"/>
-                <field name="range_id" options="{'no_create': 1}"/>
+                <field name="range_ids" options="{'no_create': 1}" widget="many2many_tags"/>
             </tree>
         </field>
     </record>
@@ -20,11 +20,10 @@
             <search string="Date Filters">
                 <field name="model_id"/>
                 <field name="field_id"/>
-                <field name="range_id"/>
+                <field name="range_ids"/>
                 <group expand="0" string="Group By">
                     <filter name="group_by_model_id" string="Model" context="{'group_by': 'model_id'}"/>
                     <filter name="group_by_field_id" string="Field" context="{'group_by': 'field_id'}"/>
-                    <filter name="group_by_range_id" string="Range Type" context="{'group_by': 'range_id'}"/>
                 </group>
             </search>
         </field>

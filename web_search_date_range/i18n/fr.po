@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-18 21:07+0000\n"
-"PO-Revision-Date: 2018-10-18 17:12-0400\n"
+"POT-Creation-Date: 2021-04-03 02:07+0000\n"
+"PO-Revision-Date: 2021-04-02 22:07-0400\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -16,6 +16,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: \n"
 "X-Generator: Poedit 2.0.6\n"
+
+#. module: web_search_date_range
+#: model:ir.model,name:web_search_date_range.model_base
+msgid "Base"
+msgstr ""
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_before_today
@@ -70,6 +75,7 @@ msgstr "Intervalle de dates"
 
 #. module: web_search_date_range
 #: model:ir.actions.act_window,name:web_search_date_range.date_range_action
+#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__range_ids
 #: model:ir.ui.menu,name:web_search_date_range.date_range_menu
 #: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_list
 msgid "Date Ranges"
@@ -83,7 +89,6 @@ msgstr "Nom affiché"
 
 #. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__domain
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__domain
 msgid "Domain"
 msgstr "Domaine"
 
@@ -174,21 +179,9 @@ msgid "Previous Year"
 msgstr "Année précédente"
 
 #. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__range_id
-#: model_terms:ir.ui.view,arch_db:web_search_date_range.date_range_filters_search
-msgid "Range Type"
-msgstr "Type d'intervalle de dates"
-
-#. module: web_search_date_range
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__sequence
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range_filter__sequence
 msgid "Sequence"
 msgstr "Séquence"
-
-#. module: web_search_date_range
-#: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__technical_name
-msgid "Technical Name"
-msgstr "Nom technique"
 
 #. module: web_search_date_range
 #: model:search.date.range,label:web_search_date_range.range_today
@@ -199,3 +192,9 @@ msgstr "Aujourd'hui"
 #: model:ir.model.fields,field_description:web_search_date_range.field_search_date_range__xml_id
 msgid "XML ID"
 msgstr "XML ID"
+
+#~ msgid "Range Type"
+#~ msgstr "Type d'intervalle de dates"
+
+#~ msgid "Technical Name"
+#~ msgstr "Nom technique"
