@@ -1,15 +1,11 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import pytz
-
 from ddt import data, ddt
 from dateutil.relativedelta import relativedelta
 from freezegun import freeze_time
 from datetime import datetime
-
 from odoo.tests import common
-from odoo.tools.safe_eval import safe_eval
 
 
 @ddt
