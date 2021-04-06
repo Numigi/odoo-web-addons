@@ -1,12 +1,9 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import pytz
 from datetime import datetime
 from dateutil.relativedelta import relativedelta, MO, TU, WE, TH, FR, SA, SU
-
 from odoo import api, fields, models
-from odoo.tests import common
 from odoo.tools.safe_eval import safe_eval
 
 
@@ -49,10 +46,6 @@ class SearchDateRange(models.Model):
 
     @api.model
     def generate_domain(self, field):
-        """Generate a domain for the given field name.
-
-        :param field: the field name for which to generate the domain.
-        """
         return safe_eval(self.domain, self._get_domain_context(field))
 
     def _get_domain_context(self, field):

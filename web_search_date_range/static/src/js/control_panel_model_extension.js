@@ -78,20 +78,16 @@ class ControlPanelExtension extends ControlPanel {
         if (type === "field" || type === "groupBy") {
             return super._getFacetDescriptions(activities, type)
         }
+        return activities.map((a) => this._getFilterFacetDescription(a, type))
+    }
 
-        const descriptions = [];
-        let description;
-
-        for (const activity of activities) {
-            if (activity.filter.isRelativeDateFilter) {
-                description = this._getRelativeDateFilterDescription(activity)
-            }
-            else {
-                description = super._getFacetDescriptions([activity], type)[0]
-            }
-            descriptions.push(description);
+    _getFilterFacetDescription(activity, type) {
+        if (activity.filter.isRelativeDateFilter) {
+            return this._getRelativeDateFilterDescription(activity)
         }
-        return descriptions
+        else {
+            return super._getFacetDescriptions([activity], type)[0]
+        }
     }
 
     _getRelativeDateFilterDescription(activity) {
