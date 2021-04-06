@@ -85,9 +85,7 @@ class ControlPanelExtension extends ControlPanel {
         if (activity.filter.isRelativeDateFilter) {
             return this._getRelativeDateFilterDescription(activity)
         }
-        else {
-            return super._getFacetDescriptions([activity], type)[0]
-        }
+        return super._getFacetDescriptions([activity], type)[0]
     }
 
     _getRelativeDateFilterDescription(activity) {
