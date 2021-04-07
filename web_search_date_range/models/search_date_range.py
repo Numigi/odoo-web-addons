@@ -44,10 +44,10 @@ class SearchDateRange(models.Model):
         for range_type in range_types_with_xml_id:
             range_type.xml_id.noupdate = range_type.noupdate
 
-    @api.model
     def generate_domain(self, field):
         return safe_eval(self.domain, self._get_domain_context(field))
 
+    @api.model
     def _get_domain_context(self, field):
         return {
             "field": field,
