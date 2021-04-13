@@ -69,6 +69,14 @@ If at least one group of users is selected, the modifier is not applied for user
 
 This is useful when rendering an element readonly or invisible only for a subset of users.
 
+Custom Widget
+-------------
+Since version 1.4.0 of the module, it is possible to customize the widget used for a given field.
+
+.. image:: static/description/custom_widget.png
+
+.. image:: static/description/task_form_with_custom_widget.png
+
 Contributors
 ------------
 * Numigi (tm) and all its contributors (https://bit.ly/numigiens)
