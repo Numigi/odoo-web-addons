@@ -11,6 +11,7 @@
     'category': 'Other',
     'summary': 'Install all addons required for testing.',
     'depends': [
+        'test_http_request',
         'disable_quick_create',
         'google_attachment',
         'web_contextual_search_favorite',
