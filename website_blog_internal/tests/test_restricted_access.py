@@ -8,7 +8,6 @@ from odoo.addons.test_http_request.common import mock_odoo_request
 
 
 class TestWebsiteMenu(SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -31,7 +30,7 @@ class TestWebsiteMenu(SavepointCase):
     def test_customer_access_page(self):
         with mock_odoo_request(self.env(user=self.customer)), pytest.raises(NotFound):
             WebsiteBlogInternal().blog(blog=self.blog)
-    
+
     def test_employee_access_feed(self):
         with mock_odoo_request(self.env(user=self.employee)):
             WebsiteBlogInternal().blog_feed(blog=self.blog)
@@ -42,8 +41,12 @@ class TestWebsiteMenu(SavepointCase):
 
     def test_employee_access_post(self):
         with mock_odoo_request(self.env(user=self.employee)):
-            WebsiteBlogInternal().blog_post(blog=self.blog, blog_post=self.env["blog.post"].search([], limit=1))
+            WebsiteBlogInternal().blog_post(
+                blog=self.blog, blog_post=self.env["blog.post"].search([], limit=1)
+            )
 
     def test_customer_access_post(self):
         with mock_odoo_request(self.env(user=self.customer)), pytest.raises(NotFound):
-            WebsiteBlogInternal().blog_post(blog=self.blog, blog_post=self.env["blog.post"].search([], limit=1))
+            WebsiteBlogInternal().blog_post(
+                blog=self.blog, blog_post=self.env["blog.post"].search([], limit=1)
+            )
