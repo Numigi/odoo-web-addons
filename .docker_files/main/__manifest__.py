@@ -24,6 +24,7 @@
         'web_search_date_range',
         'web_search_date_range_account',
         'web_trash_condition',
+        'website_blog_internal',
         'website_google_analytics_fixed',
         'website_menu_by_user_status',
     ],
