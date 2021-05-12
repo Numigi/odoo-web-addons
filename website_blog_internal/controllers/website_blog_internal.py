@@ -1,7 +1,7 @@
 # Copyright 2021 Numigi
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models, http
+from odoo import http
 from odoo.addons.website_blog.controllers.main import WebsiteBlog
 from werkzeug.exceptions import NotFound
 
