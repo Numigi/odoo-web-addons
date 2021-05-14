@@ -42,7 +42,7 @@ class WebsiteBlogInternal(WebsiteBlog):
             """/blog/<model("blog.blog", "[('website_id', 'in', (False, current_website_id))]"):blog>/feed"""
         ],
         type="http",
-        auth="public",
+        auth="user",
         website=True,
     )
     def blog_feed(self, blog, limit="15", **kwargs):
