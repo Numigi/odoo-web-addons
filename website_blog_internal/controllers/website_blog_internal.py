@@ -55,7 +55,7 @@ class WebsiteBlogInternal(WebsiteBlog):
             """/blog/<model("blog.blog", "[('website_id', 'in', (False, current_website_id))]"):blog>/post/<model("blog.post", "[('blog_id','=',blog[0])]"):blog_post>""",
         ],
         type="http",
-        auth="public",
+        auth="user",
         website=True,
     )
     def blog_post(
