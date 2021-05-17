@@ -11,6 +11,7 @@
     'category': 'Other',
     'summary': 'Install all addons required for testing.',
     'depends': [
+        'test_http_request',
         'disable_quick_create',
         'google_attachment',
         'web_contextual_search_favorite',
@@ -23,6 +24,7 @@
         'web_search_date_range',
         'web_search_date_range_account',
         'web_trash_condition',
+        'website_blog_internal',
         'website_google_analytics_fixed',
         'website_menu_by_user_status',
     ],
