@@ -86,7 +86,7 @@ function addImportFromGoogleToSideBar(clientId, apiKey){
 
                 // Reload the form view when all attachments are created.
                 $.when.apply($, deferredArray).then(function(){
-                    self._onUploaded();
+                    self.trigger_up('reload_attachment_box');
                 });
             });
         },
