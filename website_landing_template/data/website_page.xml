@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+
+    <record id="template_page" model="website.page">
+        <field name="name">Landing Template</field>
+        <field name="type">qweb</field>
+        <field name="url">/landing-template</field>
+        <field name="key">landing.template</field>
+        <field name="website_published" eval="False"/>
+        <field name="arch" type="xml">
+            <t name="Landing Template" t-name="landing.template">
+                <t t-call="website.layout">
+                    <t t-set="website_layout_hidden" t-value="1"/>
+                    <div id="wrap" class="oe_structure oe_empty"/>
+                </t>
+            </t>
+        </field>
+    </record>
+
+</odoo>
