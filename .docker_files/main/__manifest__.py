@@ -26,6 +26,7 @@
         "web_trash_condition",
         "website_blog_internal",
         "website_google_analytics_fixed",
+        "website_hr_recruitment_simplified",
         "website_landing_template",
         "website_menu_by_user_status",
     ],
