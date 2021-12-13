@@ -30,6 +30,7 @@ COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_accou
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
+COPY website_hr_recruitment_simplified /mnt/extra-addons/website_hr_recruitment_simplified
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 
