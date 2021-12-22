@@ -10,6 +10,9 @@ from odoo.addons.base.models.ir_ui_view import (
 from .common import set_custom_modifiers_on_fields
 
 
+STANDARD_MODIFIERS = ("invisible" "column_invisible" "readonly" "force_save" "required")
+
+
 class ViewWithCustomModifiers(models.Model):
 
     _inherit = "ir.ui.view"
@@ -30,23 +33,6 @@ class ViewWithCustomModifiers(models.Model):
         return arch_with_custom_modifiers, fields
 
 
-def _add_custom_modifier_to_view_tree(modifier, tree):
-    """Add a custom modifier to the given view architecture."""
-    xpath_expr = (
-        "//field[@name='{field_name}'] | //modifier[@for='{field_name}']".format(
-            field_name=modifier["reference"]
-        )
-        if modifier["type_"] == "field"
-        else modifier["reference"]
-    )
-
-    for node in tree.xpath(xpath_expr):
-        modifiers = {}
-        transfer_node_to_modifiers(node, modifiers)
-        modifiers[modifier["modifier"]] = True
-        transfer_modifiers_to_node(modifiers, node)
-
-
 def _add_custom_modifiers_to_view_arch(modifiers, arch):
     """Add custom modifiers to the given view architecture."""
     if not modifiers:
@@ -58,3 +44,30 @@ def _add_custom_modifiers_to_view_arch(modifiers, arch):
         _add_custom_modifier_to_view_tree(modifier, tree)
 
     return etree.tostring(tree)
+
+
+def _add_custom_modifier_to_view_tree(modifier, tree):
+    """Add a custom modifier to the given view architecture."""
+    xpath_expr = (
+        "//field[@name='{field_name}'] | //modifier[@for='{field_name}']".format(
+            field_name=modifier["reference"]
+        )
+        if modifier["type_"] == "field"
+        else modifier["reference"]
+    )
+
+    for node in tree.xpath(xpath_expr):
+        _add_custom_modifier_to_node(node, modifier)
+
+
+def _add_custom_modifier_to_node(node, modifier):
+    key = modifier['modifier']
+
+    if key == "widget":
+        node.attrib["widget"] = modifier["key"]
+
+    elif key in STANDARD_MODIFIERS:
+        modifiers = {}
+        transfer_node_to_modifiers(node, modifiers)
+        modifiers[modifier['modifier']] = True
+        transfer_modifiers_to_node(modifiers, node)

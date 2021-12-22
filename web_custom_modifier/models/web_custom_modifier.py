@@ -22,6 +22,7 @@ class WebCustomModifier(models.Model):
         ('force_save', 'Force Save'),
         ('required', 'Required'),
         ('selection_hide', 'Hide Selection Item'),
+        ('widget', 'Widget'),
     ], required=True)
     reference = fields.Char(required=True)
     key = fields.Char()
