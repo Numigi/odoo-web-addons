@@ -69,6 +69,16 @@ class TestViewRendering(common.SavepointCase):
         el = tree.xpath("//field[@name='email']")[0]
         assert _extract_modifier_value(el, modifier) is True
 
+    def test_two_modifier_same_field(self):
+        self.email_modifier.modifier = "invisible"
+        self.email_modifier.copy().modifier = "readonly"
+        self.email_modifier.copy().modifier = "column_invisible"
+        tree = self._get_rendered_view_tree()
+        el = tree.xpath("//field[@name='email']")[0]
+        assert _extract_modifier_value(el, "column_invisible") is True
+        assert _extract_modifier_value(el, "readonly") is True
+        assert _extract_modifier_value(el, "invisible") is True
+
     @data(*MODIFIERS)
     def test_xpath_modifier(self, modifier):
         self.street_modifier.modifier = modifier
