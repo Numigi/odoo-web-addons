@@ -1,9 +1,9 @@
 # © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+import json
 from lxml import etree
 from odoo import api, models
-from odoo.osv.orm import transfer_node_to_modifiers, transfer_modifiers_to_node
 from .common import set_custom_modifiers_on_fields
 
 
@@ -59,7 +59,15 @@ def _add_custom_modifier_to_node(node, modifier):
         node.attrib["widget"] = modifier["key"]
 
     elif key in STANDARD_MODIFIERS:
-        modifiers = {}
-        transfer_node_to_modifiers(node, modifiers)
-        modifiers[modifier['modifier']] = True
-        transfer_modifiers_to_node(modifiers, node)
+        modifiers = _get_node_modifiers(node)
+        modifiers[key] = True
+        _set_node_modifiers(modifiers, node)
+
+
+def _get_node_modifiers(node):
+    modifiers = node.get('modifiers')
+    return json.loads(modifiers) if modifiers else {}
+
+
+def _set_node_modifiers(modifiers, node):
+    node.set('modifiers', json.dumps(modifiers))
