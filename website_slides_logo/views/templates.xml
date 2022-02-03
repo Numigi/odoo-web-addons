@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="slide_detail_view" name="slide_detail_view" inherit_id="website_slides.slide_detail_view">
+        <xpath expr="//i[hasclass('fa-circle-o')]" position="attributes">
+            <attribute name="t-if">0</attribute>
+        </xpath>
+        <xpath expr="//i[hasclass('fa-circle-o')]" position="after">
+            <img
+                t-if="slide.channel_id.logo"
+                t-att-src="image_data_uri(slide.channel_id.logo)"
+                width="72" height="72"
+                alt="Logo"
+                />
+        </xpath>
+    </template>
+
+</odoo>

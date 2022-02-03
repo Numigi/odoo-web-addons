@@ -29,6 +29,7 @@
         "website_hr_recruitment_simplified",
         "website_landing_template",
         "website_menu_by_user_status",
+        "website_slides_logo",
     ],
     "installable": True,
 }

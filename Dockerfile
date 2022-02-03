@@ -33,6 +33,7 @@ COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_f
 COPY website_hr_recruitment_simplified /mnt/extra-addons/website_hr_recruitment_simplified
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
+COPY website_slides_logo /mnt/extra-addons/website_slides_logo
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
