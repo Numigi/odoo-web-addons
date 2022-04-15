@@ -10,7 +10,12 @@ from odoo.addons.base.models.ir_ui_view import (
 from .common import set_custom_modifiers_on_fields
 
 
-STANDARD_MODIFIERS = ("invisible" "column_invisible" "readonly" "force_save" "required")
+STANDARD_MODIFIERS = (
+    "invisible",
+    "column_invisible",
+    "readonly",
+    "required",
+)
 
 
 class ViewWithCustomModifiers(models.Model):
@@ -61,10 +66,13 @@ def _add_custom_modifier_to_view_tree(modifier, tree):
 
 
 def _add_custom_modifier_to_node(node, modifier):
-    key = modifier['modifier']
+    key = modifier["modifier"]
 
     if key == "widget":
         node.attrib["widget"] = modifier["key"]
+
+    elif key == "force_save":
+        node.attrib["force_save"] = "1"
 
     elif key in STANDARD_MODIFIERS:
         modifiers = {}
