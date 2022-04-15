@@ -7,12 +7,17 @@ from odoo import api, models
 from .common import set_custom_modifiers_on_fields
 
 
-STANDARD_MODIFIERS = ("invisible" "column_invisible" "readonly" "force_save" "required")
+STANDARD_MODIFIERS = (
+    "invisible",
+    "column_invisible",
+    "readonly",
+    "required",
+)
 
 
 class ViewWithCustomModifiers(models.Model):
 
-    _inherit = 'ir.ui.view'
+    _inherit = "ir.ui.view"
 
     @api.model
     def postprocess_and_fields(self, model, node, view_id):
@@ -21,7 +26,7 @@ class ViewWithCustomModifiers(models.Model):
         This method is called in Odoo when generating the final xml of a view.
         """
         arch, fields = super().postprocess_and_fields(model, node, view_id)
-        modifiers = self.env['web.custom.modifier'].get(model)
+        modifiers = self.env["web.custom.modifier"].get(model)
         arch_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, arch)
         set_custom_modifiers_on_fields(modifiers, fields)
         return arch_with_custom_modifiers, fields
@@ -43,9 +48,11 @@ def _add_custom_modifiers_to_view_arch(modifiers, arch):
 def _add_custom_modifier_to_view_tree(modifier, tree):
     """Add a custom modifier to the given view architecture."""
     xpath_expr = (
-        "//field[@name='{field_name}'] | //modifier[@for='{field_name}']"
-        .format(field_name=modifier['reference'])
-        if modifier['type_'] == 'field' else modifier['reference']
+        "//field[@name='{field_name}'] | //modifier[@for='{field_name}']".format(
+            field_name=modifier["reference"]
+        )
+        if modifier["type_"] == "field"
+        else modifier["reference"]
     )
 
     for node in tree.xpath(xpath_expr):
@@ -53,10 +60,13 @@ def _add_custom_modifier_to_view_tree(modifier, tree):
 
 
 def _add_custom_modifier_to_node(node, modifier):
-    key = modifier['modifier']
+    key = modifier["modifier"]
 
     if key == "widget":
         node.attrib["widget"] = modifier["key"]
+
+    elif key == "force_save":
+        node.attrib["force_save"] = "1"
 
     elif key in STANDARD_MODIFIERS:
         modifiers = _get_node_modifiers(node)
@@ -65,9 +75,9 @@ def _add_custom_modifier_to_node(node, modifier):
 
 
 def _get_node_modifiers(node):
-    modifiers = node.get('modifiers')
+    modifiers = node.get("modifiers")
     return json.loads(modifiers) if modifiers else {}
 
 
 def _set_node_modifiers(modifiers, node):
-    node.set('modifiers', json.dumps(modifiers))
+    node.set("modifiers", json.dumps(modifiers))
