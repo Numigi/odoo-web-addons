@@ -11,7 +11,6 @@ MODIFIERS = (
     'invisible',
     'readonly',
     'required',
-    'force_save',
 )
 
 
@@ -68,6 +67,12 @@ class TestViewRendering(common.SavepointCase):
         tree = self._get_rendered_view_tree()
         el = tree.xpath("//field[@name='email']")[0]
         assert _extract_modifier_value(el, modifier) is True
+
+    def test_field_force_save(self):
+        self.email_modifier.modifier = "force_save"
+        tree = self._get_rendered_view_tree()
+        el = tree.xpath("//field[@name='email']")[0]
+        assert el.attrib["force_save"] == "1"
 
     @data(*MODIFIERS)
     def test_xpath_modifier(self, modifier):
