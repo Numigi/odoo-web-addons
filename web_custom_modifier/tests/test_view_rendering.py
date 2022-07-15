@@ -1,4 +1,4 @@
-# © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2022 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
@@ -55,6 +55,14 @@ class TestViewRendering(common.SavepointCase):
             'reference': 'parent_id',
             'modifier': 'widget',
             'key': 'custom_widget',
+        })
+
+        cls.env["web.custom.modifier"].create({
+            'model_ids': [(4, cls.env.ref('base.model_ir_model').id)],
+            'type_': 'xpath',
+            'reference': "//field[@name='field_id']//tree",
+            'modifier': 'limit',
+            'key': '20',
         })
 
     def _get_rendered_view_tree(self):
@@ -131,3 +139,11 @@ class TestViewRendering(common.SavepointCase):
         tree = self._get_rendered_view_tree()
         el = tree.xpath("//field[@name='parent_id']")[0]
         assert el.attrib.get('widget') == "custom_widget"
+
+    def test_nbr_line_per_page(self):
+        model_view = self.env.ref('base.view_model_form')
+        arch = self.env['ir.model'].fields_view_get(view_id=model_view.id)[
+            'fields']['field_id']['views']['tree']['arch']
+        tree = etree.fromstring(arch)
+        el = tree.xpath("//tree")[0]
+        assert el.attrib.get('limit') == "20"
