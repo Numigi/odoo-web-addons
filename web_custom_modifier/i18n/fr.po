@@ -4,18 +4,16 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 11.0+e\n"
+"Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-17 18:41+0000\n"
-"PO-Revision-Date: 2020-02-17 13:42-0500\n"
+"POT-Creation-Date: 2022-07-15 15:07+0000\n"
+"PO-Revision-Date: 2022-07-15 15:07+0000\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit\n"
+"Content-Transfer-Encoding: \n"
 "Plural-Forms: \n"
-"X-Generator: Poedit 2.0.6\n"
 
 #. module: web_custom_modifier
 #: model:ir.model.fields,field_description:web_custom_modifier.field_web_custom_modifier__active
@@ -30,7 +28,7 @@ msgstr "Archivé"
 #. module: web_custom_modifier
 #: model:ir.model,name:web_custom_modifier.model_base
 msgid "Base"
-msgstr ""
+msgstr "Base"
 
 #. module: web_custom_modifier
 #: model:ir.model.fields,field_description:web_custom_modifier.field_web_custom_modifier__create_uid
@@ -59,6 +57,11 @@ msgstr "Modificateurs de vue personnalisés"
 #: model:ir.model.fields,field_description:web_custom_modifier.field_web_custom_modifier__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
+
+#. module: web_custom_modifier
+#: model:ir.model.fields,field_description:web_custom_modifier.field_web_custom_modifier__excluded_group_ids
+msgid "Excluded Groups"
+msgstr "Groupes exclus"
 
 #. module: web_custom_modifier
 #: model_terms:ir.ui.view,arch_db:web_custom_modifier.custom_modifier_list
@@ -130,6 +133,11 @@ msgstr "Modificateur"
 
 #. module: web_custom_modifier
 #: selection:web.custom.modifier,modifier:0
+msgid "Number of lines per page (List Views)"
+msgstr "Nombre de lignes par page (Vues listes)"
+
+#. module: web_custom_modifier
+#: selection:web.custom.modifier,modifier:0
 msgid "Readonly"
 msgstr "Lecture seule"
 
@@ -152,7 +160,12 @@ msgstr "Type"
 #. module: web_custom_modifier
 #: model:ir.model,name:web_custom_modifier.model_ir_ui_view
 msgid "View"
-msgstr ""
+msgstr "View"
+
+#. module: web_custom_modifier
+#: selection:web.custom.modifier,modifier:0
+msgid "Widget"
+msgstr "Widget"
 
 #. module: web_custom_modifier
 #: selection:web.custom.modifier,type_:0

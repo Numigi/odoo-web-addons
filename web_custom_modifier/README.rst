@@ -77,6 +77,19 @@ Since version 1.4.0 of the module, it is possible to customize the widget used f
 
 .. image:: static/description/task_form_with_custom_widget.png
 
+Number of lines per page (List Views)
+-------------------------------------
+
+Since version 1.5.0, a new modifier is added to set the number of lines per page in list view.
+
+In the following example, we set a limit of 20 sale order lines per page on a sale order form view.
+
+.. image:: static/description/number_lines_per_page_modifier.png
+
+Result:
+
+.. image:: static/description/sale_order_with_limited_sol_per_page.png
+
 Contributors
 ------------
 * Numigi (tm) and all its contributors (https://bit.ly/numigiens)
