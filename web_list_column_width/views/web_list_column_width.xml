@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="assets_backend" name="web_listview_width_assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/web_list_column_width/static/src/js/list_renderer.js"></script>
+        </xpath>
+    </template>
+
+</odoo>
