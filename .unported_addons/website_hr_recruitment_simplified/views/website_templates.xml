@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template
+        id="open_positions_count_hidden"
+        inherit_id="website_hr_recruitment.index"
+        customize_show="True"
+        name="Hide Open Job Position Count"
+        priority="99"
+        >
+        <xpath expr="//t[@t-esc='job.no_of_recruitment']/.." position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+    </template>
+
+    <template
+        id="publication_date_hidden"
+        inherit_id="website_hr_recruitment.index"
+        customize_show="True"
+        name="Hide Publication Date"
+        priority="99"
+        >
+        <xpath expr="//span[@t-field='job.write_date']/.." position="attributes">
+            <attribute name="t-if">False</attribute>
+        </xpath>
+    </template>
+
+</odoo>

@@ -46,7 +46,7 @@ In the list view, you must add the field ``handle_widget_invisible``, otherwise,
 
 Here is the result:
 
-.. image:: static/description/sale_order_form.png
+.. image:: web_handle_condition/static/description/sale_order_form.png
 
 Contributors
 ------------

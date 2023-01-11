@@ -5,7 +5,7 @@ Context
 -------
 In vanilla Odoo 12.0, the product configurator is wrongly translated.
 
-.. image:: static/description/product_configurator_before.png
+.. image:: web_editor_backend_context/static/description/product_configurator_before.png
 
 This is because it uses utilities from the module web_editor.
 This later module was developped mainly for frontend purposes,
@@ -17,7 +17,7 @@ Usage
 -----
 After installing this module, backend widgets using the web_editor features are correctly translated.
 
-.. image:: static/description/product_configurator_after.png
+.. image:: web_editor_backend_context/static/description/product_configurator_after.png
 
 Contributors
 ------------
