@@ -70,6 +70,8 @@ class TestWebsiteMenu(SavepointCase):
     def test_visible_for_specific_group_and_user_has_no_group(self):
 
         self.page.is_visible = True
+        self.page.invalidate_cache()
         self.menu.user_logged = True
-        self.menu.group_ids = self.group_1 | self.group_2
-        self.assertFalse(self.menu.sudo(self.demo_user).is_visible)
+        self.menu.group_ids= self.group_1 | self.group_2
+        self.env = self.env(user=self.demo_user)
+        self.assertFalse(self.menu.is_visible)
