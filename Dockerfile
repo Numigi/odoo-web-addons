@@ -18,7 +18,7 @@ COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 #COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 #COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
-#COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
+COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo

@@ -21,7 +21,7 @@
         'web_list_column_width',
         # 'web_trash_condition',
         # 'website_google_analytics_fixed',
-        # 'website_menu_by_user_status',
+        'website_menu_by_user_status',
     ],
     'installable': True,
 }
