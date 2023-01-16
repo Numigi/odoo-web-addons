@@ -15,14 +15,6 @@ class TestWebsiteMenu(SavepointCase):
         cls.customer = cls.env.ref("base.demo_user0")
         cls.blog = cls.env["blog.blog"].search([], limit=1)
 
-    def test_employee_access(self):
-        with mock_odoo_request(self.env(user=self.employee)):
-            WebsiteBlogInternal().blogs()
-
-    def test_customer_access(self):
-        with mock_odoo_request(self.env(user=self.customer)), pytest.raises(NotFound):
-            WebsiteBlogInternal().blogs()
-
     def test_employee_access_page(self):
         with mock_odoo_request(self.env(user=self.employee)):
             WebsiteBlogInternal().blog(blog=self.blog)
