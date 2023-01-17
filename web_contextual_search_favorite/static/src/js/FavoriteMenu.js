@@ -16,8 +16,7 @@ var _t = core._t;
 
 var mergeDomainsWithAndOperators = webContextualSearchFavorite.domainParsing.mergeDomainsWithAndOperators;
 
-
-require("web.FavoriteMenu").include({
+FavoriteMenu.include({
     /**
      * When adding a filtered view to the dashboard, render a contextual domain filter.
      *

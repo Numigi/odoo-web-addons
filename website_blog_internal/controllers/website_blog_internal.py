@@ -20,7 +20,7 @@ class WebsiteBlogInternal(WebsiteBlog):
             '''/blog/<model("blog.blog"):blog>/tag/<string:tag>/page/<int:page>'''
         ],
         type="http",
-        auth="public",
+        auth="user",
         website=True,
         sitemap=True
     )
@@ -29,7 +29,7 @@ class WebsiteBlogInternal(WebsiteBlog):
             raise NotFound()
         return super(WebsiteBlogInternal, self).blog(blog=blog, tag=tag, page=page, **opt)
 
-    @http.route(['''/blog/<model("blog.blog"):blog>/feed'''], type='http', auth="public", website=True, sitemap=True)
+    @http.route(['''/blog/<model("blog.blog"):blog>/feed'''], type='http', auth="user", website=True, sitemap=True)
     def blog_feed(self, blog, limit="15", **kwargs):
         if not http.request.env.user.has_group("base.group_user"):
             raise NotFound()
@@ -37,7 +37,7 @@ class WebsiteBlogInternal(WebsiteBlog):
 
     @http.route([
         '''/blog/<model("blog.blog"):blog>/<model("blog.post", "[('blog_id','=',blog.id)]"):blog_post>''',
-    ], type='http', auth="public", website=True, sitemap=True)
+    ], type='http', auth="user", website=True, sitemap=True)
     def blog_post(
             self, blog, blog_post, tag_id=None, page=1, enable_editor=None, **post
     ):

@@ -4,7 +4,7 @@
     <template id="assets_backend" name="web_contextual_search_favorite assets" inherit_id="web.assets_backend">
         <xpath expr="." position="inside">
             <script type="text/javascript" src="/web_contextual_search_favorite/static/dist/webContextualSearchFavorite.js"></script>
-            <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/FavoriteMenu.js"></script>
+            <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/add_to_board_menu.js"></script>
             <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/pyeval.js"></script>
             <script type="text/javascript" src="/web_contextual_search_favorite/static/src/js/dashboard.js"></script>
         </xpath>
