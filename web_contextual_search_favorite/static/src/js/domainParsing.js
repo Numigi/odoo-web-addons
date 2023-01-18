@@ -185,8 +185,6 @@ function addExplicitAndOperatorsToDomainContent(domainContent){
  * @returns {String} the resulting domain
  */
 function mergeDomainsWithAndOperators(domains){
-console.log("---------------------extractContentFromDomain--------------");
-    console.log(extractContentFromDomain);
     var domainContents = domains.map(extractContentFromDomain).map(_normalizeOperators);
 
     var nonEmptyDomainContents = domainContents.filter((c) => c !== "");

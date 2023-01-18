@@ -17,7 +17,7 @@ COPY web_editor_backend_context /mnt/extra-addons/web_editor_backend_context
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
 COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
-COPY web_search_date_range /mnt/extra-addons/web_search_date_range
+#COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 #COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 #COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
