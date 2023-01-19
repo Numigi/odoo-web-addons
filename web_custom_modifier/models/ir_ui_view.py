@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
+import logging
 from odoo import api, models
 from .common import set_custom_modifiers_on_fields
 
@@ -12,24 +13,23 @@ STANDARD_MODIFIERS = (
     "readonly",
     "required",
 )
-
+_logger = logging.getLogger(__name__)
 
 class ViewWithCustomModifiers(models.Model):
 
     _inherit = "ir.ui.view"
 
-    @api.model
-    def postprocess(self, model, node, view_id, in_tree_view, model_fields):
+    def postprocess(self, node, current_node_path, editable, name_manager):
         """Add custom modifiers to the view xml.
 
         This method is called in Odoo when generating the final xml of a view.
         """
-        modifiers = self.env["web.custom.modifier"].get(model)
+        modifiers = self.env["web.custom.modifier"].get(self.model)
         node_with_custom_modifiers = _add_custom_modifiers_to_view_arch(
             modifiers, node)
-        set_custom_modifiers_on_fields(modifiers, model_fields)
-        return super().postprocess(model, node_with_custom_modifiers,
-                                   view_id, in_tree_view, model_fields)
+        self.flush()
+        set_custom_modifiers_on_fields(modifiers, name_manager.available_fields)
+        return super().postprocess(node_with_custom_modifiers, current_node_path, editable, name_manager)
 
 
 def _add_custom_modifiers_to_view_arch(modifiers, arch):

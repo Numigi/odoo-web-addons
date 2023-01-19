@@ -10,8 +10,8 @@ USER odoo
 
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 #COPY google_attachment /mnt/extra-addons/google_attachment
-#COPY web_custom_label /mnt/extra-addons/web_custom_label
-#COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
+COPY web_custom_label /mnt/extra-addons/web_custom_label
+COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_editor_backend_context /mnt/extra-addons/web_editor_backend_context
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete

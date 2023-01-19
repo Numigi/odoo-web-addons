@@ -35,7 +35,7 @@ The example above hides the a button in the form view of a product.
 
 Hide Selection Item
 -------------------
-Since version ``1.1.0``, the module allows to hide an item (option) of a selection field.
+The module allows to hide an item (option) of a selection field.
 
 .. image:: static/description/hide_selection_item_modifier.png
 
@@ -52,7 +52,7 @@ Therefore, this feature should only be used to hide options that are never used.
 
 Force Save
 ----------
-Since version 1.2.0 of the module, a new option ``Force Save`` is available.
+A new option ``Force Save`` is available.
 
 .. image:: static/description/force_save_modifier.png
 
@@ -61,7 +61,7 @@ that the field value is saved to the server.
 
 Excluded Groups
 ---------------
-Since version 1.3.0 of the module, a new field ``Excluded Groups`` is available.
+A new field ``Excluded Groups`` is available.
 
 .. image:: static/description/excluded_groups.png
 
@@ -71,7 +71,7 @@ This is useful when rendering an element readonly or invisible only for a subset
 
 Custom Widget
 -------------
-Since version 1.4.0 of the module, it is possible to customize the widget used for a given field.
+It is possible to customize the widget used for a given field.
 
 .. image:: static/description/custom_widget.png
 
@@ -80,7 +80,7 @@ Since version 1.4.0 of the module, it is possible to customize the widget used f
 Number of lines per page (List Views)
 -------------------------------------
 
-Since version 1.5.0, a new modifier is added to set the number of lines per page in list view.
+A new modifier is added to set the number of lines per page in list view.
 
 In the following example, we set a limit of 20 sale order lines per page on a sale order form view.
 

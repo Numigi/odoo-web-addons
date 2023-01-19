@@ -1,4 +1,4 @@
-# © 2018 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2023 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from lxml import etree
@@ -10,18 +10,14 @@ class ViewWithCustomLabels(models.Model):
 
     _inherit = 'ir.ui.view'
 
-    @api.model
-    def postprocess_and_fields(self, model, node, view_id):
-        """Add custom labels to the view xml.
-
-        This method is called in Odoo when generating the final xml of a view.
-        """
-        arch, fields = super().postprocess_and_fields(model, node, view_id)
+    def _postprocess_view(self, node, model, validate=True, editable=True):
+        arch, name_manager = super()._postprocess_view(node, model, validate=validate, editable=editable)
         lang = self.env.context.get('lang') or self.env.user.lang
         labels = self.env['web.custom.label'].get(model, lang)
+
         arch_with_custom_labels = _add_custom_labels_to_view_arch(labels, arch)
-        set_custom_labels_on_fields(labels, fields)
-        return arch_with_custom_labels, fields
+        set_custom_labels_on_fields(labels, name_manager.available_fields)
+        return arch_with_custom_labels, name_manager
 
 
 def _add_custom_labels_to_view_arch(labels, arch):

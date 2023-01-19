@@ -1,4 +1,4 @@
-# © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models, modules, tools
@@ -51,13 +51,11 @@ class WebCustomModifierWithCachedModifiers(models.Model):
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return new_record
 
-    @api.multi
     def write(self, vals):
         super().write(vals)
         modules.registry.Registry(self.env.cr.dbname).clear_caches()
         return True
 
-    @api.multi
     def unlink(self):
         super().unlink()
         modules.registry.Registry(self.env.cr.dbname).clear_caches()

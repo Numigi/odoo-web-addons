@@ -40,7 +40,7 @@
         <field name="name">Custom Labels</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">web.custom.label</field>
-        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
         <field name="view_id" ref="custom_label_list"/>
     </record>
     <menuitem action="custom_label_action" id="custom_label_menu" parent="base.menu_translation_app" sequence="99"/>
