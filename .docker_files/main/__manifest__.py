@@ -25,7 +25,7 @@
         'website_blog_internal',
         'website_landing_template',
         'website_menu_by_user_status',
-        'web_search_date_range',
+        #'web_search_date_range',
     ],
     'installable': True,
 }
