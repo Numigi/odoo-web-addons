@@ -21,10 +21,11 @@
         'web_handle_condition',
         'web_list_column_width',
         'web_trash_condition',
-        # 'website_google_analytics_fixed',
-        #'website_blog_internal',
+        'website_google_analytics_fixed',
+        'website_blog_internal',
         'website_landing_template',
         'website_menu_by_user_status',
+        'web_search_date_range',
     ],
     'installable': True,
 }

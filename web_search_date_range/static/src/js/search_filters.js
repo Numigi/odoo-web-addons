@@ -1,5 +1,5 @@
 /*
-    © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+    © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
     License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL.html).
 */
 odoo.define("web_search_date_range.filter_menu_with_date_range", function(require) {
@@ -7,7 +7,7 @@ odoo.define("web_search_date_range.filter_menu_with_date_range", function(requir
 
 var Class = require("web.Class");
 var Widget = require("web.Widget");
-var FilterMenu = require("web.FiltersMenu");
+var FilterMenu = require("web.FilterMenu");
 var searchInputs = require("web.search_inputs");
 var ajax = require("web.ajax");
 
@@ -17,6 +17,8 @@ var ajax = require("web.ajax");
  */
 var DateRangeFilterRegistry = Class.extend({
     init(){
+        console.log("------------------jjj-----------------------hi");
+
         this._deferred = new $.Deferred();
         this._filtersFetched = false;
         this._filtersByModel = new Map();
@@ -81,6 +83,7 @@ var SearchDateRangeProposition = Widget.extend({
 
 FilterMenu.include({
     start(){
+    console.log("-----------------------------------------hi");
         this._super.apply(this, arguments);
         var self = this;
 

@@ -19,9 +19,8 @@ COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 #COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
-#COPY web_trash_condition /mnt/extra-addons/web_trash_condition
-#COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
-#COPY website_blog_internal /mnt/extra-addons/website_blog_internal
+COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
+COPY website_blog_internal /mnt/extra-addons/website_blog_internal
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 

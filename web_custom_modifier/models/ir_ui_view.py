@@ -1,11 +1,11 @@
-# © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
-import logging
-from odoo import api, models
-from .common import set_custom_modifiers_on_fields
 
+from odoo import models
+
+from .common import set_custom_modifiers_on_fields
 
 STANDARD_MODIFIERS = (
     "invisible",
@@ -13,10 +13,9 @@ STANDARD_MODIFIERS = (
     "readonly",
     "required",
 )
-_logger = logging.getLogger(__name__)
+
 
 class ViewWithCustomModifiers(models.Model):
-
     _inherit = "ir.ui.view"
 
     def postprocess(self, node, current_node_path, editable, name_manager):
@@ -24,11 +23,12 @@ class ViewWithCustomModifiers(models.Model):
 
         This method is called in Odoo when generating the final xml of a view.
         """
-        modifiers = self.env["web.custom.modifier"].get(self.model)
+        model_name = name_manager.Model._name
+        modifiers = self.env["web.custom.modifier"].get(model_name)
         node_with_custom_modifiers = _add_custom_modifiers_to_view_arch(
             modifiers, node)
-        self.flush()
         set_custom_modifiers_on_fields(modifiers, name_manager.available_fields)
+        self.clear_caches()  # Clear the cache in order to recompute _get_active_rules
         return super().postprocess(node_with_custom_modifiers, current_node_path, editable, name_manager)
 
 
@@ -50,14 +50,12 @@ def _add_custom_modifier_to_view_tree(modifier, tree):
         if modifier["type_"] == "field"
         else modifier["reference"]
     )
-
     for node in tree.xpath(xpath_expr):
         _add_custom_modifier_to_node(node, modifier)
 
 
 def _add_custom_modifier_to_node(node, modifier):
     key = modifier["modifier"]
-
     if key == "widget":
         node.attrib["widget"] = modifier["key"]
 
@@ -68,6 +66,7 @@ def _add_custom_modifier_to_node(node, modifier):
         node.attrib["limit"] = modifier["key"]
 
     elif key in STANDARD_MODIFIERS:
+        node.set(key, "1")
         modifiers = _get_node_modifiers(node)
         modifiers[key] = True
         _set_node_modifiers(modifiers, node)
