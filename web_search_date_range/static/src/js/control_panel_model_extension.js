@@ -1,20 +1,22 @@
-/*
-    © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
-    License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL.html).
-*/
-odoo.define("web_search_date_range.filter_menu_with_date_range", function(require) {
+odoo.define("web_search_date_range/static/src/js/control_panel_model_extension.js", function (require) {
     "use strict";
 
-var Class = require("web.Class");
+    var ControlPanelModelExtension = require("web/static/src/js/control_panel/control_panel_model_extension.js");
+    const ActionModel = require("web/static/src/js/views/action_model.js");
+    const Domain = require('web.Domain');
+    const pyUtils = require('web.py_utils');
+    var Class = require("web.Class");
 var Widget = require("web.Widget");
+
 //var FilterMenu = require("web.FilterMenu");
 //var searchInputs = require("web.search_inputs");
 var ajax = require("web.ajax");
 
 
-/**
- * A class responsible for managing the metadata related to date filters.
- */
+
+    const FAVORITE_PRIVATE_GROUP = 1;
+    const FAVORITE_SHARED_GROUP = 2;
+    const DISABLE_FAVORITE = "search_disable_custom_filters";
 var DateRangeFilterRegistry = Class.extend({
     init(){
 
@@ -48,7 +50,6 @@ var DateRangeFilterRegistry = Class.extend({
      * This method is called only one time per session.
      */
     _fetchFilters(){
-    console.log('Fetch------------------');
         var self = this;
         return ajax.rpc("/web/dataset/call_kw/search.date.range.filter/get_filter_list", {
             model: "search.date.range.filter",
@@ -65,13 +66,6 @@ var DateRangeFilterRegistry = Class.extend({
         });
     },
 });
-
-
-
-
-/**
- * A clickable list item widget used to show / hide the filters of a given field.
- */
 var SearchDateRangeProposition = Widget.extend({
     template: "web_search_date_range.search_date_range_proposition",
     init(parent, label){
@@ -80,16 +74,23 @@ var SearchDateRangeProposition = Widget.extend({
     },
 });
 
+var filterRegistry = new DateRangeFilterRegistry();
+    let filterId = 1;
+    let groupId = 1;
+    let groupNumber = 0;
 
-/*
-FilterMenu.include({
-    start(){
-    console.log("-----------------------------------------hi");
-        this._super.apply(this, arguments);
-        var self = this;
+     class ControlPanelModelExtensionCustom  extends ControlPanelModelExtension{
+     constructor() {
+            super(...arguments);
+            console.log("------------------test--------------------------");
+           }
 
-        var model = this.getParent().dataset.model;
-        filterRegistry.getFilters(model).then(function(filterArray){
+      prepareState() {
+            Object.assign(this.state, {
+                filters: {},
+                query: [],
+            });
+            filterRegistry.getFilters(this.config.).then(function(filterArray){
             // Group the filters by field
             var filterArraysByField = _.values(_.groupBy(filterArray, function(f){return f.field;}));
 
@@ -103,18 +104,21 @@ FilterMenu.include({
                 self._addFilterWidgetsForSingleField(filterArrayForSingleField);
             });
         });
-    },
-    *//**
-     * Add the date filters related to a single field to the search view.
-     *
-     * @param {Array} filterArray - an array of filters that belong to the same field.
-     *//*
-    _addFilterWidgetsForSingleField(filterArray) {
+
+
+        console.log('-----------------------------------------------------------------');
+
+            if (this.config.withSearchBar !== false) {
+                this._addFilters();
+                this._activateDefaultFilters();
+            }
+        }
+        _addFilterWidgetsForSingleField(filterArray) {
         var sortedfilterArray = filterArray.sort(function(f){return -f.sequence;});
 
         var self = this;
-        var proposition = new SearchDateRangeProposition(this, sortedfilterArray[0].field_label);
-        proposition.insertBefore(this.$addCustomFilter);
+//        var proposition = new SearchDateRangeProposition(this, sortedfilterArray[0].field_label);
+//        proposition.insertBefore(this.$addCustomFilter);
 
         // Create the search items
         var filterWidgets = sortedfilterArray.map(function(filter){
@@ -143,11 +147,6 @@ FilterMenu.include({
         proposition.$el.addClass("o_closed_menu");
         filterGroup.$el.hide();
     },
-    *//**
-     * Create a single filter widget.
-     *
-     * @param {Object} filter - the filter values
-     *//*
     _createDateRangeFilterWidget(filter) {
         var filterXMLNode = {
             attrs: {
@@ -158,8 +157,17 @@ FilterMenu.include({
             children: [],
             tag: "filter",
         };
-        return new searchInputs.Filter(filterXMLNode, this.getParent());
-    },
-});*/
+        return createNewFilters(filterXMLNode)
+            //this.model.dispatch('createNewFilters', preFilters);
 
+    },
+
+      }
+
+
+
+
+    ActionModel.registry.add("ControlPanel", ControlPanelModelExtensionCustom, 10);
+
+    return ControlPanelModelExtensionCustom;
 });
