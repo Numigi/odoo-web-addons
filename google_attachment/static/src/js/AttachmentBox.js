@@ -1,4 +1,4 @@
-// Copyright 2018 Numigi
+// Copyright 2023 Numigi
 // License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 odoo.define("google_attachment.AttachmentBox", function(require) {

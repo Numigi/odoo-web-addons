@@ -14,9 +14,9 @@ var GoogleOAuthAuthenticator = Class.extend({
      */
     init(clientId, scope) {
         this._clientId = clientId;
-        this.scope = scope;
         this._googleAuth = null;
         this._apiLoaded = false;
+        this._scope = scope
         this._signInOptions = {
             scope,
             prompt: "select_account",
@@ -29,19 +29,13 @@ var GoogleOAuthAuthenticator = Class.extend({
      * @returns {$.Deferred} a deferred that resolves when the user is authentified.
      */
     authenticate() {
-        var self = this;
-        var deferred = new $.Deferred();
-        console.log(google.accounts);
-        console.log("7777777777777777777777777777777777777777777");
+        const self = this;
+        const deferred = new $.Deferred();
 
         this._loadApi().then(function(){
-
             self._googleAuth = gapi.auth2.init({client_id: self._clientId});
-          console.log('---uuuuuuuuuuuuuuuu--------------------')
-          console.log(self._googleAuth.currentUser)
-
             self._googleAuth.then(function(){
-                if(self._googleAuth.isSignedIn.get()){
+                if(self._isSignedIn()){
                     deferred.resolve();
                 }
                 else{
@@ -56,20 +50,28 @@ var GoogleOAuthAuthenticator = Class.extend({
         return deferred;
     },
 
+    getToken(){
+        const user = this._getOauthUser()
+        const data = user.getAuthResponse(true)
+        return data.access_token;
+    },
 
-    /**
-     * Load the google oauth2 api.
-     *
-     * @returns {$.Deferred} a deferred that resolves when the api is loaded.
-     */
+    _isSignedIn() {
+        if (!this._googleAuth.isSignedIn.get()) {
+            return false
+        }
+        const user = this._getOauthUser()
+        return user.hasGrantedScopes(this._scope)
+    },
+
     _loadApi(){
-        var deferred = new $.Deferred();
+        const deferred = new $.Deferred();
 
         if(this._apiLoaded){
             deferred.resolve();
         }
         else {
-            var self = this;
+            const self = this;
             gapi.load("auth2", function(){
                 self._apiLoaded = true;
                 deferred.resolve();
@@ -79,14 +81,8 @@ var GoogleOAuthAuthenticator = Class.extend({
         return deferred;
     },
 
-    /**
-     * Get the user's oauth token.
-     *
-     * @returns {String} the token
-     */
-    getToken(){
-        var user = this._googleAuth.currentUser.get();
-        return user.getAuthResponse(true).access_token;
+    _getOauthUser() {
+        return this._googleAuth.currentUser.get();
     },
 });
 

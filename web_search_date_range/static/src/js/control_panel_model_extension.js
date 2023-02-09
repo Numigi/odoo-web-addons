@@ -12,26 +12,27 @@ class ControlPanelModelExtensionCustom  extends ControlPanelModelExtension{
      constructor() {
             super(...arguments);
            }
+
+
            createNewFiltersDateRange(prefilters) {
-            if (!prefilters.length) {
-                return [];
-            }
-            const newFilterIdS = [];
-            prefilters.forEach(preFilter => {
-                const filter = Object.assign(preFilter, {
-                    groupId,
-                    groupNumber,
-                    id: filterId,
-                    type: 'filter',
+                if (!prefilters.length) {
+                    return [];
+                }
+                const newFilterIdS = [];
+                prefilters.forEach(preFilter => {
+                    const filter = Object.assign(preFilter, {
+                        groupId,
+                        groupNumber,
+                        id: filterId,
+                        type: 'filter',
+                    });
+                    this.state.filters[filterId] = filter;
+                    newFilterIdS.push(filterId);
+                    filterId++;
                 });
-                this.state.filters[filterId] = filter;
-                //this.state.query.push({ groupId, filterId });
-                newFilterIdS.push(filterId);
-                filterId++;
-            });
-            groupId++;
-            groupNumber++;
-            return newFilterIdS;
+                groupId++;
+                groupNumber++;
+                return newFilterIdS;
         }
 
      }

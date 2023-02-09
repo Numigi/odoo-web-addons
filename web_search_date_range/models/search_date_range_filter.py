@@ -30,6 +30,12 @@ class SearchDateRangeFilter(models.Model):
         for line in lines_with_range_and_field:
             line.domain = line.range_id.generate_domain_from_field_name(line.field_id.name)
 
+    @api.depends('range_id.label', 'field_id')
+    def _compute_filter_name(self):
+        for f in self:
+            if f.range_id.label and  f.field_id.field_description:
+                f.filter_name = '%s (%s)' % (f.range_id.label, f.field_id.field_description)
+
     @api.model
     def get_filter_list(self):
         """Get a complete list of filter values to display in the web interface."""
@@ -42,7 +48,8 @@ class SearchDateRangeFilter(models.Model):
                 'label': line.range_id.label,
                 'field_label': line.field_id.field_description,
                 'technical_name': 'filter_range_{range}_{field}'.format(
-                    range=line.range_id.technical_name, field=line.field_id.name)
+                    range=line.range_id.technical_name, field=line.field_id.name),
+                'filter_name': '%s (%s)' % (line.range_id.label, line.field_id.field_description),
             }
             for line in self.with_context(lang=self.env.user.lang).search([])
         ]

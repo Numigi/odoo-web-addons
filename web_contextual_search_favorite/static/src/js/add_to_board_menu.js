@@ -45,14 +45,14 @@ class AddToBoardMenuCustom extends AddToBoardMenu {
 
         // Only the following lines were modified in the method
         const domain1 = this.env.action.domain || [];
+
         const controlPanelModelExtension  = searchModel.extensions[0].find(
-        (ext) => ext.constructor.name === "ControlPanelModelExtension");
+        (ext) => ext.constructor.name === "ControlPanelModelExtension" || ext.constructor.name === "ControlPanelModelExtensionCustom");
         const groups = controlPanelModelExtension._getGroups();
         var domain2 = [controlPanelModelExtension._getDomain(groups)];
         var domains = (domain1 ? [domain1] : []).concat(domain2)
         var domain = mergeDomainsWithAndOperators(domains);
         // Modifed lines end here
-
 
         const evalutatedContext = context.eval();
         for (const key in evalutatedContext) {

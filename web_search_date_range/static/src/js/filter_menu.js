@@ -1,22 +1,15 @@
 odoo.define('web_search_date_range.FilterMenu', function (require) {
     "use strict";
 
-    const CustomFilterItem = require('web.CustomFilterItem');
-    const DropdownMenu = require('web.DropdownMenu');
-    const { FACET_ICONS } = require("web.searchUtils");
-    const { useModel } = require('web/static/src/js/model.js');
-        var Class = require("web.Class");
-var Widget = require("web.Widget");
-//var FilterMenu = require("web.FilterMenu");
-//var searchInputs = require("web.search_inputs");
-var ajax = require("web.ajax");
-const FilterMenu = require('web.FilterMenu');
-const ControlPanel = require('web.ControlPanel');
-console.log('----------------------------------------ControlPanel');
-console.log(ControlPanel.components);
+    var Class = require("web.Class");
+    var Widget = require("web.Widget");
+    var ajax = require("web.ajax");
+    const FilterMenu = require('web.FilterMenu');
+    const ControlPanel = require('web.ControlPanel');
 
 
-   var DateRangeFilterRegistry = Class.extend({
+
+var DateRangeFilterRegistry = Class.extend({
     init(){
         this._deferred = new $.Deferred();
         this._filtersFetched = false;
@@ -76,17 +69,13 @@ var SearchDateRangeProposition = Widget.extend({
 
 class FilterMenuCustom extends FilterMenu{
 
-       constructor() {
-            super(...arguments);
+    constructor() {
+        super(...arguments);
+        this.add_filter();
+    }
 
-            console.log('----------------------------------------gggg');
-
-            this.model = useModel('searchModel');
-            this.add_filter();
-
-        }
-        add_filter() {
-    var self = this;
+    add_filter() {
+        var self = this;
         filterRegistry.getFilters(this.model.config.modelName).then(function(filterArray){
         // Group the filters by field
         var filterArraysByField = _.values(_.groupBy(filterArray, function(f){return f.field;}));
@@ -101,53 +90,27 @@ class FilterMenuCustom extends FilterMenu{
                 self._addFilterWidgetsForSingleField(filterArrayForSingleField);
                 });
             });
-        }
+    }
     _addFilterWidgetsForSingleField(filterArray) {
         var sortedfilterArray = filterArray.sort(function(f){return -f.sequence;});
-
         var self = this;
-        var proposition = new SearchDateRangeProposition(this, sortedfilterArray[0].field_label);
-        /*var filterWidgets = sortedfilterArray.map(function(filter){
-            return self._createDateRangeFilterWidget(filter);
-        });*/
-
-
-
-
- var prefilter = [];
+        var prefilter = [];
         sortedfilterArray.forEach(function(filter){
 
-        prefilter.push({
-            description: filter.label,
-            domain: filter.domain,
-            name: filter.technical_name,
-            type: 'filter',
+            prefilter.push({
+                description: filter.filter_name,
+                domain: filter.domain,
+                name: filter.technical_name,
+                type: 'filter',
+                });
         });
-        });
 
-
-         this.model.dispatch('createNewFiltersDateRange', prefilter);
-
-
-
-        /*var filterGroup = new searchInputs.FilterGroup(filterWidgets, this.getParent(), {}, {});
-        filterGroup.insertBefore(this.$addCustomFilter);
-        $("<li class=\"divider\">").insertBefore(this.$addCustomFilter);*/
-
-        // Show / hide filters when clicking on the field name
-
-    }
-
-    _createDateRangeFilterWidget(filter) {
-
-
-    }
-
-
+        this.model.dispatch('createNewFiltersDateRange', prefilter);
+        }
     }
 
     ControlPanel.components["FilterMenu"] = FilterMenuCustom;
-    return FilterMenuCustom
+    return FilterMenuCustom;
 
 
 

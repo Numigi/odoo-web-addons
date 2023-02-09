@@ -2,14 +2,13 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import datetime
+
 import pytz
-
-from ddt import data, ddt
 from dateutil.relativedelta import relativedelta
+from ddt import data, ddt
 from freezegun import freeze_time
-
 from odoo.tests import common
-from odoo.tools.safe_eval import safe_eval
+from odoo.tools.safe_eval import safe_eval, wrap_module
 
 
 @ddt
@@ -31,9 +30,10 @@ class TestSearchDateRange(common.SavepointCase):
 
     def _eval_filter_domain(self, range_ref):
         date_filter = self._generate_filter(range_ref)
+        wrapped_datetime = wrap_module(datetime, ['datetime', 'timedelta'])
         return safe_eval(date_filter.domain, {
-            'context_today': lambda: datetime.datetime.now(pytz.utc),
-            'datetime': datetime,
+            'context_today': lambda: wrapped_datetime.datetime.now(pytz.utc),
+            'datetime': wrapped_datetime,
             'relativedelta': relativedelta,
         })
 
