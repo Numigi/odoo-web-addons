@@ -12,7 +12,7 @@
     'summary': 'Install all addons required for testing.',
     'depends': [
         'disable_quick_create',
-        # 'google_attachment',
+        'google_attachment',
         'web_custom_label',
         'web_custom_modifier',
         'web_contextual_search_favorite',
@@ -25,7 +25,8 @@
         'website_blog_internal',
         'website_landing_template',
         'website_menu_by_user_status',
-        #'web_search_date_range',
+        'web_search_date_range',
+        'web_search_date_range_account',
     ],
     'installable': True,
 }
