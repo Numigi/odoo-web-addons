@@ -1,9 +1,10 @@
 # Copyright 2013-2017 Savoir-faire Linux (<http://www.savoirfairelinux.com>)
 # Copyright 2018 Numigi
+# Copyright 2023 Numigi
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 {
     'name': 'Website Menu By User Status',
-    'version': '1.0.1',
+    'version': '14.0.1.0.0',
     'author': (
         'Savoir-faire Linux,'
         'Numigi,'
@@ -18,7 +19,6 @@
     ],
     'data': [
         'views/website_menu.xml',
-        'security/ir.model.access.csv',
     ],
     'installable': True,
 }
