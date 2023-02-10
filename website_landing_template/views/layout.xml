@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="frontend_layout" name="frontend_layout" inherit_id="portal.frontend_layout">
+        <xpath expr="//header" position="attributes">
+            <attribute name="t-attf-style">#{'display: none' if website_layout_hidden else ''}</attribute>
+        </xpath>
+        <xpath expr="//footer" position="attributes">
+            <attribute name="t-attf-style">#{'display: none' if website_layout_hidden else ''}</attribute>
+        </xpath>
+    </template>
+
+</odoo>

@@ -17,6 +17,13 @@ COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
+COPY web_search_date_range /mnt/extra-addons/web_search_date_range
+COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
+COPY website_blog_internal /mnt/extra-addons/website_blog_internal
+COPY website_landing_template /mnt/extra-addons/website_landing_template
+COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
+COPY web_list_column_width /mnt/extra-addons/web_list_column_width
+COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
