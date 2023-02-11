@@ -15,7 +15,7 @@ EN_NAME_PLACEHOLDER = 'My Custom Placeholder'
 FR_NAME_PLACEHOLDER = 'Mon Placeholder Personnalisé'
 
 EN_LANG_LABEL = 'My Custom Lang Label'
-FR_LANG_LABEL = 'Mon Libellé de Langue Personnalisé'
+FR_LANG_LABEL = 'Mon Libellé de langue'
 
 EN_SELECTION_LABEL = 'My custom label for partner of type contact'
 FR_SELECTION_LABEL = 'Mon libellé pour les contacts de type personne'
@@ -131,7 +131,7 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'en_US',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'parent_id',
+            'reference': 'user_id',
             'term': EN_HELP_LABEL,
             'position': 'help',
         })
@@ -140,7 +140,7 @@ class TestViewRendering(common.SavepointCase):
             'lang': 'fr_FR',
             'model_ids': [(4, cls.env.ref('base.model_res_partner').id)],
             'type_': 'field',
-            'reference': 'parent_id',
+            'reference': 'user_id',
             'term': FR_HELP_LABEL,
             'position': 'help',
         })
@@ -268,7 +268,7 @@ class TestViewRendering(common.SavepointCase):
     @unpack
     def test_field_help(self, lang, label):
         tree = self._get_rendered_view_tree(lang=lang)
-        el = tree.xpath("//field[@name='parent_id']")[0]
+        el = tree.xpath("//field[@name='user_id']")[0]
         assert el.attrib.get('help') == label
 
     @data(
@@ -279,7 +279,7 @@ class TestViewRendering(common.SavepointCase):
     @unpack
     def test_field_help__fields_get(self, lang, label):
         fields = self.env['res.partner'].with_context(lang=lang).fields_get()
-        assert fields['parent_id']['help'] == label
+        assert fields['user_id']['help'] == label
 
     @data(
         (None, EN_HELP_LABEL),
@@ -292,4 +292,4 @@ class TestViewRendering(common.SavepointCase):
             self.env['res.partner'].with_context(lang=lang)
             .fields_view_get(view_id=self.view.id)
         )['fields']
-        assert fields['parent_id']['help'] == label
+        assert fields['user_id']['help'] == label
