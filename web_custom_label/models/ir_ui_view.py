@@ -10,21 +10,14 @@ class ViewWithCustomLabels(models.Model):
 
     _inherit = 'ir.ui.view'
 
-    def postprocess_and_fields(self, node, model=None, validate=False):
-        """Add custom labels to the view xml.
+    def _postprocess_view(self, node, model, validate=True, editable=True):
+        arch, name_manager = super()._postprocess_view(node, model, validate=validate, editable=editable)
+        lang = self.env.context.get('lang') or self.env.user.lang
+        labels = self.env['web.custom.label'].get(model, lang)
 
-        This method is called in Odoo when generating the final xml of a view.
-        """
-        arch, fields = super().postprocess_and_fields(node, model, validate)
-
-        view_model = model or self.model
-        if view_model:
-            lang = self.env.context.get('lang') or self.env.user.lang
-            labels = self.env['web.custom.label'].get(view_model, lang)
-            arch_with_custom_labels = _add_custom_labels_to_view_arch(labels, arch)
-            set_custom_labels_on_fields(labels, fields)
-
-        return arch_with_custom_labels, fields
+        arch_with_custom_labels = _add_custom_labels_to_view_arch(labels, arch)
+        set_custom_labels_on_fields(labels, name_manager.available_fields)
+        return arch_with_custom_labels, name_manager
 
 
 def _add_custom_labels_to_view_arch(labels, arch):

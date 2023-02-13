@@ -1,4 +1,4 @@
-# © 2019 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models, modules, tools
@@ -23,6 +23,7 @@ class WebCustomModifier(models.Model):
         ('required', 'Required'),
         ('selection_hide', 'Hide Selection Item'),
         ('widget', 'Widget'),
+        ('limit', 'Number of lines per page (List Views)'),
     ], required=True)
     reference = fields.Char(required=True)
     key = fields.Char()

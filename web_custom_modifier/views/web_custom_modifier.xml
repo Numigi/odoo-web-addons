@@ -11,8 +11,8 @@
                 <field name="reference" string="Field"/>
                 <field name="modifier"/>
                 <field name="key"
-                    attrs="{'readonly': [('modifier', 'not in', ('selection_hide', 'widget'))],
-                            'required': [('modifier', '=', 'selection_hide')]}"/>
+                       attrs="{'readonly': [('modifier', 'not in', ('selection_hide', 'widget', 'limit'))],
+                            'required': [('modifier', 'in', ('selection_hide', 'limit'))]}"/>
                 <field name="excluded_group_ids" widget="many2many_tags"/>
                 <field name="active"/>
             </tree>
@@ -42,6 +42,7 @@
         <field name="name">Custom Modifiers</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">web.custom.modifier</field>
+        <field name="view_mode">tree,form</field>
         <field name="view_id" ref="custom_modifier_list"/>
     </record>
     <menuitem action="custom_modifier_action" id="custom_modifier_menu" parent="base.next_id_2" sequence="99"/>

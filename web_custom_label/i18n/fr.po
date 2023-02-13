@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 11.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-03-31 14:24+0000\n"
-"PO-Revision-Date: 2021-03-31 10:25-0400\n"
+"POT-Creation-Date: 2020-02-17 19:52+0000\n"
+"PO-Revision-Date: 2020-02-17 14:52-0500\n"
 "Last-Translator: <>\n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -51,15 +51,14 @@ msgid "Custom View Label"
 msgstr "Libellés de vue personnalisés"
 
 #. module: web_custom_label
-#: model:ir.model.fields,field_description:web_custom_label.field_ir_ui_view__display_name
 #: model:ir.model.fields,field_description:web_custom_label.field_web_custom_label__display_name
 msgid "Display Name"
 msgstr "Nom affiché"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__type___field
 #: model_terms:ir.ui.view,arch_db:web_custom_label.custom_label_list
 #: model_terms:ir.ui.view,arch_db:web_custom_label.custom_label_search
+#: selection:web.custom.label,type_:0
 msgid "Field"
 msgstr "Champ"
 
@@ -69,12 +68,11 @@ msgid "Group By"
 msgstr "Grouper par"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__position__help
+#: selection:web.custom.label,position:0
 msgid "Help"
 msgstr "Aide"
 
 #. module: web_custom_label
-#: model:ir.model.fields,field_description:web_custom_label.field_ir_ui_view__id
 #: model:ir.model.fields,field_description:web_custom_label.field_web_custom_label__id
 msgid "ID"
 msgstr "ID"
@@ -85,7 +83,7 @@ msgid "Key"
 msgstr "Clé"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__position__string
+#: selection:web.custom.label,position:0
 msgid "Label"
 msgstr "Libellé"
 
@@ -96,7 +94,6 @@ msgid "Language"
 msgstr "Langue"
 
 #. module: web_custom_label
-#: model:ir.model.fields,field_description:web_custom_label.field_ir_ui_view____last_update
 #: model:ir.model.fields,field_description:web_custom_label.field_web_custom_label____last_update
 msgid "Last Modified on"
 msgstr "Dernière modification le"
@@ -117,7 +114,7 @@ msgid "Model"
 msgstr "Modèle"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__position__placeholder
+#: selection:web.custom.label,position:0
 msgid "Placeholder"
 msgstr "Texte substitution (placeholder)"
 
@@ -132,7 +129,7 @@ msgid "Reference"
 msgstr "Référence"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__position__selection
+#: selection:web.custom.label,position:0
 msgid "Selection"
 msgstr "Sélection"
 
@@ -157,6 +154,6 @@ msgid "View"
 msgstr "Vue"
 
 #. module: web_custom_label
-#: model:ir.model.fields.selection,name:web_custom_label.selection__web_custom_label__type___xpath
+#: selection:web.custom.label,type_:0
 msgid "Xpath"
 msgstr "Xpath"
