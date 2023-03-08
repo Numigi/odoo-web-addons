@@ -34,6 +34,7 @@ COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
+COPY website_login_as /mnt/extra-addons/website_login_as
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
