@@ -1,0 +1,63 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* website_login_as
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-03-08 08:56+0000\n"
+"PO-Revision-Date: 2023-03-08 08:56+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: website_login_as
+#: model_terms:ir.ui.view,arch_db:website_login_as.view_res_users_login_as_form
+msgid "Access to website"
+msgstr "Accéder au site web"
+
+#. module: website_login_as
+#: model:ir.model.fields,field_description:website_login_as.field_ir_http__display_name
+#: model:ir.model.fields,field_description:website_login_as.field_res_users__display_name
+msgid "Display Name"
+msgstr "Nom affiché"
+
+#. module: website_login_as
+#: model:ir.model,name:website_login_as.model_ir_http
+msgid "HTTP Routing"
+msgstr "Routage HTTP"
+
+#. module: website_login_as
+#: model:ir.model.fields,field_description:website_login_as.field_ir_http__id
+#: model:ir.model.fields,field_description:website_login_as.field_res_users__id
+msgid "ID"
+msgstr ""
+
+#. module: website_login_as
+#: model:ir.model.fields,field_description:website_login_as.field_ir_http____last_update
+#: model:ir.model.fields,field_description:website_login_as.field_res_users____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: website_login_as
+#. openerp-web
+#: code:addons/website_login_as/static/src/js/login_as.js:0
+#: code:addons/website_login_as/static/src/xml/login_as.xml:0
+#: model:ir.model.fields,field_description:website_login_as.field_res_users__login_as_user_id
+#, python-format
+msgid "Login as"
+msgstr "Se connecter en tant que"
+
+#. module: website_login_as
+#: model_terms:ir.ui.view,arch_db:website_login_as.view_res_users_login_as_form
+msgid "Logout as"
+msgstr "Se déconnecter en tant que"
+
+#. module: website_login_as
+#: model:ir.model,name:website_login_as.model_res_users
+msgid "Users"
+msgstr "Utilisateurs"

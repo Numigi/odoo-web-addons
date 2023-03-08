@@ -10,6 +10,9 @@
                 </sheet>
                 <footer>
                     <button name="login_as" type="object" string="Access to website" class="oe_highlight"/>
+                    <button name="logout_as" type="object" string="Logout as" class="oe_highlight"
+                            attrs="{'invisible': [('login_as_user_id', '=', False)]}"
+                    />
                 </footer>
             </form>
         </field>

@@ -5,8 +5,8 @@
     "name": "Login as another user in website",
     "version": "14.0.1.0.0",
     "author": "Numigi",
-    "website": 'http://www.smile.fr',
-    "license": 'AGPL-3',
+    "website": "https://bit.ly/numigi-com",
+    "license": "AGPL-3",
     "category": "Tools",
     "description": """
 Allows to login as another user in website
@@ -14,7 +14,7 @@ For example, this option could be useful to check what's displayed
 for your customers.
 
 """,
-    "depends": ['website', 'http_routing'],
+    "depends": ["website"],
     "data": [
         "views/res_users_view.xml",
         "views/webclient_templates.xml",
@@ -24,5 +24,4 @@ for your customers.
         "static/src/xml/login_as.xml",
     ],
     "installable": True,
-    "active": False,
 }

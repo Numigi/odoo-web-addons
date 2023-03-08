@@ -21,7 +21,7 @@ odoo.define('login_as', function (require) {
             rpc.query({
                 model: 'ir.ui.view',
                 method: 'get_view_id',
-                args: ['smile_website_login_as.view_res_users_login_as_form'],
+                args: ['website_login_as.view_res_users_login_as_form'],
             }).then(function (view_id) {
                 self.do_action({
                     type: 'ir.actions.act_window',
