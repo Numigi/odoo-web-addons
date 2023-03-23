@@ -20,7 +20,7 @@ After
 -----
 After installing the module, autocomplete on basic input fields is disabled.
 
-.. image:: web_form_disable_autocomplete/static/description/after.png
+.. image:: static/description/after.png
 
 Contributors
 ------------
