@@ -6,7 +6,7 @@ Before
 ------
 Before installing the module, incoherent input suggestions hide the calendar widget.
 
-.. image:: web_form_disable_autocomplete/static/description/before.png
+.. image:: static/description/before.png
 
 The above picture shows the issue with date pickers.
 
