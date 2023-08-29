@@ -3,7 +3,7 @@ Web Editor Backend Context
 
 Context
 -------
-In vanilla Odoo 12.0, the product configurator is wrongly translated.
+In vanilla Odoo 14.0, the product configurator is wrongly translated.
 
 .. image:: static/description/product_configurator_before.png
 
