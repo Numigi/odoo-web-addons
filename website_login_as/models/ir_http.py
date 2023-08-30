@@ -44,5 +44,5 @@ class Http(models.AbstractModel):
     @classmethod
     def _handle_request_context(cls, user, context):
         if not request.context.get("login_as"):
-            context.update({'login_as': user.login_as_user_id.id})
+            context.update({'login_as': user.login_as_user_id.id or user.id})
             request.context = context
