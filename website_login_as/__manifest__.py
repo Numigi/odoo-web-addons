@@ -3,7 +3,7 @@
 
 {
     "name": "Login as another user in website",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "author": "Numigi",
     "website": "https://bit.ly/numigi-com",
     "license": "AGPL-3",
