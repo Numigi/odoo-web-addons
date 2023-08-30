@@ -27,13 +27,14 @@ class Http(models.AbstractModel):
     def _dispatch(cls):
         if cls._website_enabled():
             context = dict(request.context)
+
             if not request.uid and request.context.get("uid"):
                 user = request.env["res.users"].browse(request.context["uid"])
-                cls._handle_request_context(user, context)
             else:
                 user = request.env.user
-                cls._handle_request_context(user, context)
+
             if user:
+                cls._handle_request_context(user, context)
                 if request.context.get("login_as"):
                     request.uid = request.context.get("login_as")
                 else:
