@@ -15,7 +15,8 @@ class Http(models.AbstractModel):
     @classmethod
     def _website_enabled(cls):
         try:
-            request.website_routing = request.env["website"].get_current_website().id
+            request.website_routing = request.env["website"].get_current_website(
+            ).id
             rule, arguments = cls._match(request.httprequest.path)
             func = rule.endpoint
             return func.routing.get("website", False)
@@ -25,11 +26,22 @@ class Http(models.AbstractModel):
     @classmethod
     def _dispatch(cls):
         if cls._website_enabled():
+            context = dict(request.context)
             if not request.uid and request.context.get("uid"):
                 user = request.env["res.users"].browse(request.context["uid"])
+                cls._handle_request_context(user, context)
             else:
                 user = request.env.user
+                cls._handle_request_context(user, context)
             if user:
-                request.uid = user.login_as_user_id.id or user.id
-
+                if request.context.get("login_as"):
+                    request.uid = request.context.get("login_as")
+                else:
+                    request.uid = user.id
         return super(Http, cls)._dispatch()
+
+    @classmethod
+    def _handle_request_context(cls, user, context):
+        if not request.context.get("login_as"):
+            context.update({'login_as': user.login_as_user_id.id})
+            request.context = context
