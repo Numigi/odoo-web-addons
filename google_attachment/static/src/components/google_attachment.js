@@ -32,8 +32,8 @@ class GoogleAttachment extends Component {
             mimetype: doc.mimetype,
             type: "url",
             url: doc.url,
-            res_id: this.props.uploadModel,
-            res_model: this.props.uploadId,
+            res_id: this.props.uploadId,
+            res_model: this.props.uploadModel,
         };
 
         return ajax.rpc("/web/dataset/call_kw/ir.attachment/create", {
