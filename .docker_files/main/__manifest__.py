@@ -24,6 +24,7 @@
         'web_search_date_range',
         'web_search_date_range_account',
         'website_blog_internal',
+        'website_geoip',
         'website_google_analytics_fixed',
         'website_landing_template',
         'website_login_as',
