@@ -49,7 +49,7 @@ class ControlPanelExtension extends ControlPanel {
 
     toggleFilterWithOptions(filterId, optionId) {
         var filter = this.state.filters[filterId];
-        if(filter == undefined){
+        if(filter === undefined){
             filterId = filterId - 1
             filter = this.state.filters[filterId];
         }
@@ -65,7 +65,7 @@ class ControlPanelExtension extends ControlPanel {
         if (index >= 0) {
             this.state.query.splice(index, 1);
         } else {
-            if(filter.id != filterId){
+            if(filter.id !== filterId){
                 filter.id = filter.id - 1;
             }
             this.state.query.push({ groupId: filter.groupId, filterId, optionId });
