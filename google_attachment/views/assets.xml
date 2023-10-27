@@ -6,6 +6,7 @@
             <script type="text/javascript" src="https://apis.google.com/js/api.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/GoogleOAuthAuthenticator.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/js/GooglePickerManager.js"></script>
+            <script type="text/javascript" src="/google_attachment/static/src/js/AttachmentDownload.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/components/attachment_box.js"></script>
             <script type="text/javascript" src="/google_attachment/static/src/components/google_attachment.js"></script>
             <link rel="stylesheet" type="text/scss" href="/google_attachment/static/src/scss/attachment.scss"/>
