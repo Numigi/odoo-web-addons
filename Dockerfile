@@ -36,6 +36,7 @@ COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favo
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
 COPY website_login_as /mnt/extra-addons/website_login_as
+COPY website_slides_extended /mnt/extra-addons/website_slides_extended
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
