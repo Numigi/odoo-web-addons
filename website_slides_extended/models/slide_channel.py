@@ -7,4 +7,4 @@ from odoo import fields, models
 class Channel(models.Model):
     _inherit = 'slide.channel'
 
-    slide_ids = fields.One2many( copy=True)
+    slide_ids = fields.One2many(copy=True)
