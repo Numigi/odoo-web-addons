@@ -1,5 +1,5 @@
-Website Sale Wishlist Extend
-============================
+Website Sale Wishlist Extended
+==============================
 This module allows to make items in the wish list do not disappear from the list after being added to the cart.
 
 Usage

@@ -28,7 +28,6 @@ COPY web_hide_db_manager_link /mnt/extra-addons/web_hide_db_manager_link
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
-COPY website_sale_wishlist_extend /mnt/extra-addons/website_sale_wishlist_extend
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
@@ -37,6 +36,7 @@ COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favo
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_form_disable_autocomplete /mnt/extra-addons/web_form_disable_autocomplete
 COPY website_login_as /mnt/extra-addons/website_login_as
+COPY website_sale_wishlist_extend /mnt/extra-addons/website_sale_wishlist_extend
 COPY website_slides_extended /mnt/extra-addons/website_slides_extended
 
 COPY .docker_files/main /mnt/extra-addons/main
