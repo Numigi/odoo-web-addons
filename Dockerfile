@@ -31,7 +31,7 @@ COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
-COPY website_blog_rss_feed_disabled /mnt/website_blog_rss_feed_disabled
+COPY website_blog_rss_feed_disabled /mnt/extra-addons/website_blog_rss_feed_disabled
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_list_column_width /mnt/extra-addons/web_list_column_width
