@@ -24,6 +24,7 @@ class WebCustomModifier(models.Model):
         ('selection_hide', 'Hide Selection Item'),
         ('widget', 'Widget'),
         ('limit', 'Number of lines per page (List Views)'),
+        ('optional', 'Optional'),
     ], required=True)
     reference = fields.Char(required=True)
     key = fields.Char()
