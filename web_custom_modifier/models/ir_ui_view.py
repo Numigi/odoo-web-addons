@@ -59,6 +59,9 @@ def _add_custom_modifier_to_node(node, modifier):
     if key == "widget":
         node.attrib["widget"] = modifier["key"]
 
+    if key == "optional":
+        node.attrib["optional"] = modifier["key"]
+
     elif key == "force_save":
         node.attrib["force_save"] = "1"
 

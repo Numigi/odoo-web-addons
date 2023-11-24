@@ -11,7 +11,7 @@
                 <field name="reference" string="Field"/>
                 <field name="modifier"/>
                 <field name="key"
-                       attrs="{'readonly': [('modifier', 'not in', ('selection_hide', 'widget', 'limit'))],
+                       attrs="{'readonly': [('modifier', 'not in', ('selection_hide', 'widget', 'limit', 'optional'))],
                             'required': [('modifier', 'in', ('selection_hide', 'limit'))]}"/>
                 <field name="excluded_group_ids" widget="many2many_tags"/>
                 <field name="active"/>

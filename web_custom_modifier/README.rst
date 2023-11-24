@@ -77,6 +77,16 @@ It is possible to customize the widget used for a given field.
 
 .. image:: static/description/task_form_with_custom_widget.png
 
+Optional
+--------
+It is possible to customize the optional of a given field on tree view.
+
+*IMPORTANT: the field must be present by default on the tree view and displayed.*
+
+.. image:: static/description/optional_modifier.png
+
+.. image:: static/description/optional_modifier_applied.png
+
 Number of lines per page (List Views)
 -------------------------------------
 
