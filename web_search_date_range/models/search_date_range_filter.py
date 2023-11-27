@@ -5,7 +5,6 @@ from odoo import api, fields, models
 
 
 class SearchDateRangeFilter(models.Model):
-
     _name = "search.date.range.filter"
     _description = "Date Filter"
     _order = "model_id, field_id"
@@ -37,9 +36,12 @@ class SearchDateRangeFilter(models.Model):
         return sorted(filters, key=lambda f: f["description"])
 
     def _get_filter(self):
+        # field_string = self.env['ir.translation'].get_field_string(self.field_id.model)
+        # desc = field_string.get(self.field_id.name) or self.field_id.string
+        description = self._get_translation(self.field_id.field_description)
         return {
             "isRelativeDateFilter": True,
-            "description": self.field_id.field_description,
+            "description": description.value or self.field_id.field_description,
             "type": "filter",
             "model": self.field_id.model,
             "field": self.field_id.name,
@@ -47,11 +49,17 @@ class SearchDateRangeFilter(models.Model):
         }
 
     def _get_option(self, range_):
+        label = self._get_translation(range_.label)
         return {
             "id": f"date_range_filter_{self.id}_{range_.id}",
             "domain": self._get_domain(range_),
-            "description": range_.label,
+            "description": label.value or range_.label,
         }
+
+    def _get_translation(self, src):
+        return self.env["ir.translation"].search(
+            [("src", "=", src), ("lang", "=", self.env.user.lang)], limit=1
+        )
 
     def _get_domain(self, range_):
         return f'[("{self.field_id.name}", "range", {range_.id})]'
