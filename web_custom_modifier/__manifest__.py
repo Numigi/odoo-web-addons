@@ -3,7 +3,7 @@
 
 {
     "name": "Web Custom Modifier",
-    "version": "14.0.2.0.0",
+    "version": "14.0.2.0.1",
     "author": "Numigi",
     "maintainer": "Numigi",
     "website": "https://bit.ly/numigi-com",
