@@ -171,3 +171,8 @@ msgstr "Widget"
 #: selection:web.custom.modifier,type_:0
 msgid "Xpath"
 msgstr "Xpath"
+
+#. module: web_custom_modifier
+#: model:ir.model.fields.selection,name:web_custom_modifier.selection__web_custom_modifier__modifier__optional
+msgid "Optional"
+msgstr "Optionnel"
