@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+	<template id="web_favicon" inherit_id="web.layout">
+		<xpath expr="//head/link" position="before">
+            <t t-set="x_icon" t-value="'/web_favicon/favicon'"/>
+		</xpath>
+	</template>
+
+</odoo>
