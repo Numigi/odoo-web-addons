@@ -23,6 +23,7 @@ COPY google_attachment /mnt/extra-addons/google_attachment
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
 COPY web_editor_backend_context /mnt/extra-addons/web_editor_backend_context
+COPY web_favicon /mnt/extra-addons/web_favicon
 COPY web_handle_condition /mnt/extra-addons/web_handle_condition
 COPY web_hide_db_manager_link /mnt/extra-addons/web_hide_db_manager_link
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
