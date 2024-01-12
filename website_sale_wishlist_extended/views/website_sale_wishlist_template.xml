@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<odoo>
+    <template id="product_wishlist_checked" name="Wishlisht checked" inherit_id="website_sale_wishlist.product_wishlist">
+        <xpath expr="//section[hasclass('wishlist-section')]/div[hasclass('checkbox')]/label/input" position="attributes">
+            <attribute name="checked">checked</attribute>
+        </xpath>
+        <xpath expr="//section[hasclass('wishlist-section')]/div[hasclass('checkbox')]" position="attributes">
+            <attribute name="hidden">hidden</attribute>
+        </xpath>
+    </template>
+
+</odoo>

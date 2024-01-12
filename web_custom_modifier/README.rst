@@ -77,6 +77,27 @@ It is possible to customize the widget used for a given field.
 
 .. image:: static/description/task_form_with_custom_widget.png
 
+Optional
+--------
+Since the version 14.0.2.0.1, it is possible to customize the optional of a given field on tree view.
+The Optional  modifier takes 2 possible keys: "show" or "hide",
+- "show": To make the fiead displayed by default in the tree view by default.
+- "hide": To make the field hidden in the 3 dotes of a tree view by default.
+
+*IMPORTANT: the field must be present by default on the tree view and displayed.*
+
+Example:
+As system administrator, I go to `Settings / Technical / User Interface / Custom Modifiers`.
+I add the field `name` (label as `Number` in quotation list) of the model `sale.order`.
+I select the modifier `Optional` and then set the key `show`. So the field will be shown by default but now,
+it is possible now to hide it.
+
+.. image:: static/description/optional_modifier.png
+
+I go to quotation list view, I refresh the page, and now I see the change as wanted.
+
+.. image:: static/description/optional_modifier_applied.png
+
 Number of lines per page (List Views)
 -------------------------------------
 

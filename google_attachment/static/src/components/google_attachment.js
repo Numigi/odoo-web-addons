@@ -22,7 +22,7 @@ class GoogleAttachment extends Component {
 
             // Reload the form view when all attachments are created.
             $.when.apply($, deferredArray).then(() => {
-                this.trigger('o-attachments-changed');
+                this.trigger('reload', { keepChanges: true });
             });
         })
     }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+        <template id="opt_sidebar_blog_rss_feed_hidden" name="Follow Us" priority="1" inherit_id="website_blog.opt_sidebar_blog_index_follow_us" active="True" customize_show="True">
+            <xpath expr="//a[@t-if='blog']" position="attributes">
+                <attribute name="t-att-style">'display: none!important' if blog else ''</attribute>
+            </xpath>
+        </template>
+
+</odoo>
