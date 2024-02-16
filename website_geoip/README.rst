@@ -63,11 +63,16 @@ for example:
 
 or
 
-``<t t-if  request.session.get('geoip')['country_name'] = 'Canada'>``
+``<t t-set="country" t-value="request.session.get('geoip')"/>``
+``<t t-if="country['country_code'] == 'CA'">``
+
+
 
 ``code html/qweb/xml``
 
-``<t>``
+``</t>``
+
+Attention : if you set t-if tags inside the oe_structure div , it will break the snippets drag-and-drop zone of the website builder.
 
 
 Contributors
