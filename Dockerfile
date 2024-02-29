@@ -14,8 +14,6 @@ RUN mkdir -p "${THIRD_PARTY_ADDONS}" && chown -R odoo "${THIRD_PARTY_ADDONS}"
 COPY ./gitoo.yml /gitoo.yml
 RUN gitoo install-all --conf_file /gitoo.yml --destination "${THIRD_PARTY_ADDONS}"
 
-USER odoo
-
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 COPY google_attachment /mnt/extra-addons/google_attachment
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
@@ -35,6 +33,7 @@ COPY website_hr_recruitment_simplified /mnt/extra-addons/website_hr_recruitment_
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_menu_by_user_status /mnt/extra-addons/website_menu_by_user_status
 COPY website_slides_logo /mnt/extra-addons/website_slides_logo
+COPY grouped_o2m_tree_view /mnt/extra-addons/grouped_o2m_tree_view
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo

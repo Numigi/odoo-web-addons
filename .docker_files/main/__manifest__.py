@@ -30,6 +30,7 @@
         "website_landing_template",
         "website_menu_by_user_status",
         "website_slides_logo",
+        "grouped_o2m_tree_view",
     ],
     "installable": True,
 }
