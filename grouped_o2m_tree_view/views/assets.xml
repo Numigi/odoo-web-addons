@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <template id="assets_backend" name="grouped_one2many_tree assets" inherit_id="web.assets_backend">
+            <xpath expr="." position="inside">
+                <script type="text/javascript" src="/grouped_o2m_tree_view/static/src/js/relational_fields.js"/>
+            </xpath>
+        </template>
+    </data>
+</openerp>
