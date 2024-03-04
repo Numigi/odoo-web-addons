@@ -51,8 +51,8 @@ Geop session variable definition:
 
 ``request.session['geoip'] = geoip``
 
-Use
----
+Basic Use
+---------
 In any page or part of the website you can call the geoip session variable using :
 
 request.session.get('geoip')
@@ -73,6 +73,55 @@ or
 ``</t>``
 
 Attention : if you set t-if tags inside the oe_structure div , it will break the snippets drag-and-drop zone of the website builder.
+
+
+Sample of Conditional snippets
+------------------------------
+``<!--Start -->``
+``<t t-name="website.pagename">``
+  ``<t t-call="website.layout">``
+    ``<!-- ZONE 1 -->``
+    ``<!-- Div snippet start -->``
+    ``<div id="wrap" class="oe_structure oe_empty">``
+
+      ``<!-- On peut déposer des snippets ici -->``
+      ``<section data-snippet="s_snippet" data-name="Snippet">``
+        ``Snippet without condition``
+      ``</section>``
+
+    ``</div>``
+    ``<!-- Div snippet end -->``
+
+
+    ``<!-- conditional section start -->``
+    ``<t t-set="country" t-value="request.session.get('geoip')" />``
+
+    ``<div class="oe_structure oe_empty">``
+
+     ``<!--  Canada bloc -->``
+      ``<t t-if="country['country_code'] == 'CA'">``
+        ``<!-- CA content -->``
+      ``</t>``
+
+      ``<!-- France bloc -->``
+      ``<t t-elif="country['country_code'] == 'FR'">``
+        ``<!--France content -->``
+      ``</t>``
+
+    ``</div>``
+    ``<!-- conditional section end  -->``
+
+    ``<!-- ZONE 2 -->``
+   ``<!-- Start of a new structure for depositing snippets not conditional on GeoIP -->``
+   ``<div class="oe_structure oe_empty">``
+
+       ``<!-- Here you can submit the extracts -->``
+
+   ``</div>``
+    ``<!-- Closing the unconditional snippet structure -->``
+
+  ``</t>``
+``</t>``
 
 
 Contributors
