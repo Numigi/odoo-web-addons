@@ -14,7 +14,7 @@ class TestSearchDateRange(common.SavepointCase):
         cls.model = cls.env.ref("base.model_res_partner")
         cls.field = cls.env.ref("base.field_res_partner__create_date")
         cls.env.user.company_id.write(
-            {"fiscalyear_last_month": "3", "fiscalyear_last_day": "31",}
+            {"fiscalyear_last_month": "3", "fiscalyear_last_day": "31"}
         )
 
     def _eval_filter_domain(self, range_ref):

@@ -11,6 +11,8 @@
     "category": "Project",
     "summary": "Add accounting date range filters.",
     "depends": ["web_search_date_range", "account"],
-    "data": ["data/search_date_range.xml",],
+    "data": [
+        "data/search_date_range.xml"
+    ],
     "installable": True,
 }

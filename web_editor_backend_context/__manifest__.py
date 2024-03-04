@@ -11,7 +11,9 @@
     "category": "Web",
     "summary": "Fix the user context for web editor assets",
     "depends": ["web_editor"],
-    "data": ["views/assets.xml",],
+    "data": [
+        "views/assets.xml"
+    ],
     "installable": True,
     "auto_install": True,
 }
