@@ -29,7 +29,9 @@ class ViewWithCustomModifiers(models.Model):
             modifiers, node)
         set_custom_modifiers_on_fields(modifiers, name_manager.available_fields)
         self.clear_caches()  # Clear the cache in order to recompute _get_active_rules
-        return super().postprocess(node_with_custom_modifiers, current_node_path, editable, name_manager)
+        return super().postprocess(
+            node_with_custom_modifiers, current_node_path, editable, name_manager
+        )
 
 
 def _add_custom_modifiers_to_view_arch(modifiers, arch):

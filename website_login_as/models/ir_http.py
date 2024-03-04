@@ -20,7 +20,7 @@ class Http(models.AbstractModel):
             rule, arguments = cls._match(request.httprequest.path)
             func = rule.endpoint
             return func.routing.get("website", False)
-        except Exception as e:
+        except Exception:
             return True
 
     @classmethod

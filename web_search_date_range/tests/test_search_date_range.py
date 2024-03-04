@@ -18,7 +18,9 @@ class TestSearchDateRange(common.SavepointCase):
         cls.field = cls.env.ref('base.field_res_partner__create_date')
 
     def _eval_filter_domain(self, range_ref):
-        date_range = self.env.ref('web_search_date_range.{range_ref}'.format(range_ref=range_ref))
+        date_range = self.env.ref(
+            "web_search_date_range.{range_ref}".format(range_ref=range_ref)
+        )
         return date_range.generate_domain(self.field.name)
 
     def test_eval_domain_for_range_before_today(self):

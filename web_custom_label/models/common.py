@@ -40,11 +40,19 @@ def _set_single_custom_field_helper(label, fields):
 
 
 def _iter_field_labels_with_position(labels, position):
-    return (l for l in labels if l['type_'] == 'field' and l['position'] == position)
+    return (
+        label
+        for label in labels
+        if label["type_"] == "field" and label["position"] == position
+    )
 
 
 def _set_custom_selection_labels(labels, fields):
-    selection_labels = (l for l in labels if l['type_'] == 'field' and l['position'] == 'selection')
+    selection_labels = (
+        label
+        for label in labels
+        if label["type_"] == "field" and label["position"] == "selection"
+    )
     for label in selection_labels:
         _set_single_custom_selection_label(label, fields)
 

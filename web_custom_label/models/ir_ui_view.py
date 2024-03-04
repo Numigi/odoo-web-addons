@@ -2,7 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from lxml import etree
-from odoo import api, models
+from odoo import models
 from .common import set_custom_labels_on_fields
 
 
@@ -11,7 +11,9 @@ class ViewWithCustomLabels(models.Model):
     _inherit = 'ir.ui.view'
 
     def _postprocess_view(self, node, model, validate=True, editable=True):
-        arch, name_manager = super()._postprocess_view(node, model, validate=validate, editable=editable)
+        arch, name_manager = super()._postprocess_view(
+            node, model, validate=validate, editable=editable
+        )
         lang = self.env.context.get('lang') or self.env.user.lang
         labels = self.env['web.custom.label'].get(model, lang)
 
@@ -21,7 +23,11 @@ class ViewWithCustomLabels(models.Model):
 
 
 def _add_custom_labels_to_view_arch(labels, arch):
-    labels_to_apply = [l for l in labels if l['position'] in ('string', 'placeholder', 'help')]
+    labels_to_apply = [
+        label
+        for label in labels
+        if label["position"] in ("string", "placeholder", "help")
+    ]
 
     if not labels_to_apply:
         return arch

@@ -3,9 +3,8 @@
 
 
 from datetime import datetime
-from odoo import fields, models, api, _
+from odoo import fields, models
 from odoo.http import request
-import logging
 import json
 import urllib.request
 
@@ -17,10 +16,12 @@ class WebsiteVisitor(models.Model):
     geoip = fields.Char('GeoIP')
 
     def _handle_website_page_visit(self, website_page, visitor_sudo):
-        """ Called on dispatch. This will create a website.visitor if the http request object
-        is a tracked website page or a tracked view. Only on tracked elements to avoid having
-        too much operations done on every page or other http requests.
-        Note: The side effect is that the last_connection_datetime is updated ONLY on tracked elements."""
+        """Called on dispatch. This will create a website.visitor if the http request
+        object is a tracked website page or a tracked view. Only on tracked elements
+        to avoid having too much operations done on every page or other http requests.
+        Note: The side effect is that the last_connection_datetime is updated ONLY on
+        tracked elements.
+        """
         ip_address = request.httprequest.environ['REMOTE_ADDR']
         if ip_address:
             urlData = "http://ip-api.com/json/%s" % ip_address
@@ -29,12 +30,13 @@ class WebsiteVisitor(models.Model):
             encoding = webURL.info().get_content_charset('utf-8')
             res = json.loads(data.decode(encoding))
             geoip = {
-                      'city': res['city'] if 'city' in res.keys() else '',
-                      'country_code': res['countryCode'] if 'countryCode' in res.keys() else '',
-                      'country_name': res['country'] if 'country' in res.keys() else '',
-                      'region': res['regionName'] if 'regionName' in res.keys() else '',
-                      'time_zone': res['timezone'] if 'timezone' in res.keys() else '',
-
+                "city": res["city"] if "city" in res.keys() else "",
+                "country_code": (
+                    res["countryCode"] if "countryCode" in res.keys() else ""
+                ),
+                "country_name": res["country"] if "country" in res.keys() else "",
+                "region": res["regionName"] if "regionName" in res.keys() else "",
+                "time_zone": res["timezone"] if "timezone" in res.keys() else "",
             }
         else:
             geoip = {
@@ -58,4 +60,3 @@ class WebsiteVisitor(models.Model):
         visitor_sudo._add_tracking(domain, website_track_values)
         if visitor_sudo.lang_id.id != request.lang.id:
             visitor_sudo.write({'lang_id': request.lang.id})
-

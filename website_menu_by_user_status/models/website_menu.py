@@ -3,7 +3,7 @@
 # Copyright 2023 Numigi
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class WebsiteMenu(models.Model):
@@ -38,7 +38,6 @@ class WebsiteMenu(models.Model):
                 menu.is_visible = menu.user_not_logged
             else:
                 menu.is_visible = menu.user_logged
-
 
 
 class WebsiteMenuVisibleForSpecificGroups(models.Model):

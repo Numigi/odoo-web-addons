@@ -11,7 +11,9 @@
     "category": "Web",
     "summary": "Fix the Google Analytics dashboard",
     "depends": ["website"],
-    "data": ["views/assets.xml",],
+    "data": [
+        "views/assets.xml"
+    ],
     "installable": True,
     "auto_install": True,
 }

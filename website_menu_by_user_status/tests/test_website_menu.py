@@ -72,6 +72,6 @@ class TestWebsiteMenu(SavepointCase):
         self.page.is_visible = True
         self.page.invalidate_cache()
         self.menu.user_logged = True
-        self.menu.group_ids= self.group_1 | self.group_2
+        self.menu.group_ids = self.group_1 | self.group_2
         self.env = self.env(user=self.demo_user)
         self.assertFalse(self.menu.is_visible)
