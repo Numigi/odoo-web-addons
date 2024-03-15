@@ -20,6 +20,7 @@ USER odoo
 
 COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 COPY google_attachment /mnt/extra-addons/google_attachment
+COPY resize_observer_error_catcher /mnt/extra-addons/resize_observer_error_catcher
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
