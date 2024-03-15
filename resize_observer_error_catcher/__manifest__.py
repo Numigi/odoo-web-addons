@@ -8,7 +8,7 @@
     "author": "Numigi",
     "maintainer": "Numigi",
     "license": "AGPL-3",
-    "depends": ["base"],
+    "depends": ["web"],
     "data": [
         "views/assets.xml",
     ],
