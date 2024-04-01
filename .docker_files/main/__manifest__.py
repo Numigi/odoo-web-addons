@@ -31,7 +31,6 @@
         "website_google_analytics_fixed",
         "website_landing_template",
         "website_login_as",
-        "website_menu_by_user_status",
         "website_sale_wishlist_extended",
         "website_slides_extended",
     ],
