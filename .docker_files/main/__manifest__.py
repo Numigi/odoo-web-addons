@@ -12,6 +12,7 @@
     "summary": "Install all addons required for testing.",
     "depends": [
         "disable_quick_create",
+        "google_api_auth",
         "google_attachment",
         "resize_observer_error_catcher",
         "web_contextual_search_favorite",

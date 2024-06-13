@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_google_application,access_google_application,model_google_application,base.group_system,1,1,1,1
+access_google_redirect_uri,access_google_redirect_uri,model_google_redirect_uri,base.group_system,1,1,1,1
+access_google_application_scope,access_google_application_scope,model_google_application_scope,base.group_system,1,1,1,1

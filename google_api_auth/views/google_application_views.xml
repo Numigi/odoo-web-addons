@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+
+    <record id="google_application_view_tree" model="ir.ui.view">
+        <field name="name">google.application.view.tree</field>
+        <field name="model">google.application</field>
+        <field name="arch" type="xml">
+            <tree string="Google Applications">
+                <field name="name"/>
+                <field name="client_id"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="google_application_view_form" model="ir.ui.view">
+        <field name="name">google.application.view.form</field>
+        <field name="model">google.application</field>
+        <field name="arch" type="xml">
+            <form string="Google Application">
+                <header attrs="{'invisible' : [('active', '=', False)]}">
+                        <button string="Refresh Token" type="object" name="button_refresh_token"/>
+                </header>
+                <sheet>
+                        <group>
+                            <field name="name" />
+                            <field name="client_id" />
+                            <field name="client_secret" password="True" />
+                            <field name="active"/>
+                        </group>
+                            <group string="Redirect URIs">
+                                <field name="redirect_uri_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name" nolabel="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                            <group string="Scopes">
+                                <field name="scope_ids" nolabel="1">
+                                    <tree editable="bottom">
+                                        <field name="name" nolabel="1"/>
+                                    </tree>
+                                </field>
+                            </group>
+                        <group>
+                            <field name="auth_uri" />
+                            <field name="token_uri" />
+                            <field name="auth_provider_x509_cert_url" />
+                            <field name="code" readonly="1" />
+                            <field name="access_token" readonly="1" />
+                            <field name="refresh_token" readonly="1" />
+                            <field name="expires_in" readonly="1" />
+                            <field name="token_expiry" readonly="1" />
+                            <field name="status" readonly="1" />
+                        </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="google_application_action" model="ir.actions.act_window">
+        <field name="name">Google Applications</field>
+        <field name="res_model">google.application</field>
+        <field name="view_id" ref="google_application_view_tree" />
+    </record>
+
+    <menuitem id="google_application_main"
+            name="Google API"
+            parent="base.menu_custom"
+            sequence="4" />
+
+    <menuitem id="google_application_menu"
+        name="Google Applications"
+        parent="google_api_auth.google_application_main"
+        sequence="4"
+        action="google_application_action" />
+</odoo>
