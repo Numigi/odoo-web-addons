@@ -56,9 +56,7 @@ class GoogleApplicationController(http.Controller):
             "Host": "oauth2.googleapis.com",
             "Content-type": "application/x-www-form-urlencoded",
         }
-        req = requests.post(
-            google_application.token_uri, data=data, headers=headers
-        )  # timeout=TIMEOUT
+        req = requests.post(google_application.token_uri, data=data, headers=headers)
 
         if req.status_code != 200:
             _logger.error(
