@@ -3,9 +3,15 @@
 
 from odoo import fields, models
 
+
 class GoogleRedirectUri(models.Model):
     _name = "google.redirect.uri"
     _description = "Google Application Redirect URI"
 
     name = fields.Char(string="URL", required=True)
-    google_application_id = fields.Many2one("google.application", string="Google Application", readonly=True, ondelete="cascade")
+    google_application_id = fields.Many2one(
+        "google.application",
+        string="Google Application",
+        readonly=True,
+        ondelete="cascade",
+    )
