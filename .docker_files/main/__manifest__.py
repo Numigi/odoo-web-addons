@@ -13,6 +13,7 @@
     "depends": [
         "disable_quick_create",
         "google_attachment",
+        "multi_website_user_access",
         "resize_observer_error_catcher",
         "web_contextual_search_favorite",
         "web_custom_label",
