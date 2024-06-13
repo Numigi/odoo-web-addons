@@ -15,8 +15,6 @@ from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
-GOOGLE_TOKEN_ENDPOINT = "https://oauth2.googleapis.com/token"
-
 
 class GoogleApplicationController(http.Controller):
     @http.route("/google_account/authentification", type="http", auth="user")
@@ -59,7 +57,7 @@ class GoogleApplicationController(http.Controller):
             "Content-type": "application/x-www-form-urlencoded",
         }
         req = requests.post(
-            GOOGLE_TOKEN_ENDPOINT, data=data, headers=headers
+            google_application.token_uri, data=data, headers=headers
         )  # timeout=TIMEOUT
 
         if req.status_code != 200:

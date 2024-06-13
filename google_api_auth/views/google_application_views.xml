@@ -52,6 +52,7 @@
                             <field name="expires_in" readonly="1" />
                             <field name="token_expiry" readonly="1" />
                             <field name="status" readonly="1" />
+                            <field name="flow_state" readonly="1" />
                         </group>
                 </sheet>
             </form>

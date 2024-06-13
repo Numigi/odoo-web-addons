@@ -9,7 +9,6 @@ import google_auth_oauthlib.flow
 from werkzeug.urls import url_join
 from odoo.exceptions import UserError
 import requests
-from ..controllers.main import GOOGLE_TOKEN_ENDPOINT
 from datetime import timedelta
 
 _logger = logging.getLogger(__name__)
@@ -52,7 +51,9 @@ class GoogleDriveMixin(models.AbstractModel):
     )
     access_token = fields.Char(string="Token", groups="base.group_system", copy=False)
     token_expiry = fields.Datetime(string="Token Expiry", groups="base.group_system")
-    token_uri = fields.Char(string="Token URI", groups="base.group_system")
+    token_uri = fields.Char(
+        string="Token URI", required=True, groups="base.group_system"
+    )
     status = fields.Selection(
         [
             ("valid", "Valid"),
@@ -62,6 +63,7 @@ class GoogleDriveMixin(models.AbstractModel):
         default="invalid",
         groups="base.group_system",
     )
+    flow_state = fields.Char(string="Flow State", groups="base.group_system")
 
     def button_refresh_token(self):
         self.ensure_one()
@@ -97,7 +99,7 @@ class GoogleDriveMixin(models.AbstractModel):
                 login_hint="hint@example.com",
                 prompt="consent",
             )
-
+            self.flow_state = state
             return {
                 "type": "ir.actions.act_url",
                 "url": authorization_url,
@@ -145,5 +147,5 @@ class GoogleDriveMixin(models.AbstractModel):
             "access_type": "offline",
             "refresh_token": self.refresh_token,
         }
-        req = requests.post(GOOGLE_TOKEN_ENDPOINT, data=data, headers=headers)
+        req = requests.post(self.token_uri, data=data, headers=headers)
         return req
