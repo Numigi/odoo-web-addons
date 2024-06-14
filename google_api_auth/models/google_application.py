@@ -10,15 +10,17 @@ class GoogleApplication(models.Model):
     _inherit = ["google.drive.mixin"]
     _description = "Google Application Information"
 
-    @api.model
-    def create(self, vals):
+    def _check_active(self, vals):
         if vals.get("active", False) and self.search_count([("active", "=", True)]) > 0:
             raise ValidationError(_("Only one record can be active"))
+
+    @api.model
+    def create(self, vals):
+        self._check_active(vals)
         return super(GoogleApplication, self).create(vals)
 
     def write(self, vals):
-        if vals.get("active", False) and self.search_count([("active", "=", True)]) > 0:
-            raise ValidationError(_("Only one record can be active"))
+        self._check_active(vals)
         return super(GoogleApplication, self).write(vals)
 
     def get_access_token(self):

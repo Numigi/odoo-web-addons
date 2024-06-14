@@ -19,7 +19,6 @@ Check the following fields if they are correctly filled after the authentication
 * `Status`
 * `Flow State`
 
-
 .. image:: static/description/google_application_configuration.png
 
 Contributors
