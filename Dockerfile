@@ -1,5 +1,5 @@
-FROM quay.io/numigi/odoo-public:14.latest
-MAINTAINER numigi <contact@numigi.com>
+FROM quay.io/numigi/odoo-public:16.latest
+LABEL maintainer="contact@numigi.com"
 
 USER root
 ARG GIT_TOKEN

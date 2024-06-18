@@ -1,5 +1,0 @@
-
-- url: https://github.com/Numigi/odoo-base-addons
-  branch: "14.0"
-  includes:
-    - test_http_request
