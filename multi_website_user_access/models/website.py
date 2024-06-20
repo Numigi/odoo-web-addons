@@ -9,6 +9,8 @@ class Website(models.Model):
 
     default_website = fields.Boolean(
         "Default Website",
-        help="Check this box to determine this website as the default value for \
-            portal and public user access.",
+        help=(
+            "Check this box to determine this website as the default value  "
+            "for portal and public user access."
+        ),
     )

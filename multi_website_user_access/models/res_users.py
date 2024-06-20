@@ -7,29 +7,53 @@ from odoo import api, fields, models
 class Users(models.Model):
     _inherit = "res.users"
 
+    def _get_default_website(self):
+        return self.env["website"].search([("default_website", "=", True)])
+
     allowed_website_ids = fields.Many2many(
         "website",
-        string="Websites",
+        default=_get_default_website,
+        string="Allowed Websites",
         store=True,
         readonly=False,
         help="Restrict user access to specific websites.",
     )
 
-    def _get_default_website(self):
-        return self.env["website"].search([("default_website", "=", True)])
+    @api.model_create_multi
+    def create(self, vals_list):
+        user_groups, grp_portal, grp_public = self._get_user_groups()
+        for vals in vals_list:
+            self._assign_portal_public_user(vals, user_groups, grp_portal, grp_public)
+        users = super(Users, self).create(vals_list)
+        return users
 
-    # Do onchange
-    @api.onchange("partner_id", "partner_id.type")
-    def _onchange_partner_type(self):
-        if self.partner_id.type in ["portal", "public"]:
-            # For portal users and public users, we want to allow access
-            # to the default website by default.
-            # if self.has_group("base.group_portal") or self.has_group("base.group_public"):
-            self.allowed_website_ids = self._get_default_website()
+    def write(self, vals):
+        user_groups, grp_portal, grp_public = self._get_user_groups()
+        self._assign_portal_public_user(vals, user_groups, grp_portal, grp_public)
+        return super(Users, self).write(vals)
 
-        # if self.has_group("base.group_portal") or user.has_group(
-        #     "base.group_public"
-        # ):
-        #     user.allowed_website_ids = self.env["website"].search(
-        #         [("default_website", "=", True)]
-        #         )
+    def _assign_portal_public_user(self, vals, user_groups, grp_portal, grp_public):
+        if user_groups in vals:
+            if vals.get(user_groups) in [grp_portal, grp_public]:
+                default_website = self.env["website"].search(
+                    [("default_website", "=", True)]
+                )
+                website_commands = [(4, website.id) for website in default_website]
+                if vals.get("allowed_website_ids"):
+                    vals["allowed_website_ids"] = (
+                        website_commands + vals["allowed_website_ids"]
+                    )
+                else:
+                    vals["allowed_website_ids"] = website_commands
+        return vals
+
+    def _get_user_groups(self):
+        grp_internal = self.env.ref("base.group_user")
+        grp_portal = self.env.ref("base.group_portal")
+        grp_public = self.env.ref("base.group_public")
+        user_groups = "sel_groups_%s_%s_%s" % (
+            grp_internal.id,
+            grp_portal.id,
+            grp_public.id,
+        )
+        return user_groups, grp_portal.id, grp_public.id

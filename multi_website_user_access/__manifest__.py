@@ -15,7 +15,9 @@
     "summary": "Restrict user access to specific websites",
     "data": [
         "views/website_views.xml",
+        "views/website_templates.xml",
         "views/res_users_views.xml",
     ],
     "installable": True,
+    "post_init_hook": "set_default_website",
 }
