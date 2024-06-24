@@ -8,7 +8,7 @@
     "author": "Numigi",
     "maintainer": "Numigi",
     "license": "AGPL-3",
-    "depends": ["base_setup"],
+    "depends": ["web"],
     "data": [],
     "assets": {
         "web.assets_backend": [
