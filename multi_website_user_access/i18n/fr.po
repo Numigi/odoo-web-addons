@@ -1,0 +1,102 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* multi_website_user_access
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-06-27 01:42+0000\n"
+"PO-Revision-Date: 2024-06-27 01:42+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: multi_website_user_access
+#: model_terms:ir.ui.view,arch_db:multi_website_user_access.page_403
+msgid "403: Forbidden"
+msgstr "403 : Interdit"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_website__user_ids
+msgid "Allowed Users"
+msgstr "Utilisateurs autorisés"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_res_users__website_ids
+msgid "Allowed Websites"
+msgstr "Sites web autorisés"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,help:multi_website_user_access.field_website__default_website
+msgid ""
+"Check this box to determine this website as the default value  for portal "
+"and public user access."
+msgstr ""
+"Cocher cette case pour définir ce site web comme valeur par défaut sur les "
+"accès des utilisateurs portails et publics. Plusieurs sites web peuvent être"
+" définis par défaut."
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_website__default_website
+msgid "Default Website"
+msgstr "Site web par défaut"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_ir_ui_view__display_name
+#: model:ir.model.fields,field_description:multi_website_user_access.field_res_users__display_name
+#: model:ir.model.fields,field_description:multi_website_user_access.field_website__display_name
+msgid "Display Name"
+msgstr "Nom d'affichage"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_ir_ui_view__id
+#: model:ir.model.fields,field_description:multi_website_user_access.field_res_users__id
+#: model:ir.model.fields,field_description:multi_website_user_access.field_website__id
+msgid "ID"
+msgstr ""
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_ir_ui_view____last_update
+#: model:ir.model.fields,field_description:multi_website_user_access.field_res_users____last_update
+#: model:ir.model.fields,field_description:multi_website_user_access.field_website____last_update
+msgid "Last Modified on"
+msgstr "Dernière modification le"
+
+#. module: multi_website_user_access
+#: model_terms:ir.ui.view,arch_db:multi_website_user_access.view_users_form_multi_website_user_access
+msgid "Multi Websites"
+msgstr "Multi Sites web"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,field_description:multi_website_user_access.field_res_users__websites_count
+msgid "Number of Websites"
+msgstr "Nombres des sites Web"
+
+#. module: multi_website_user_access
+#: model:ir.model.fields,help:multi_website_user_access.field_res_users__website_ids
+msgid "Restrict user access to specific websites."
+msgstr "Restreindre l’accès des utilisateurs à des sites Web spécifiques."
+
+#. module: multi_website_user_access
+#: model_terms:ir.ui.view,arch_db:multi_website_user_access.page_403
+msgid "The page you were looking for could not be authorized."
+msgstr "La page que vous recherchiez n'a pas pu être autorisée."
+
+#. module: multi_website_user_access
+#: model:ir.model,name:multi_website_user_access.model_res_users
+msgid "Users"
+msgstr "Utilisateurs"
+
+#. module: multi_website_user_access
+#: model:ir.model,name:multi_website_user_access.model_ir_ui_view
+msgid "View"
+msgstr "Vue"
+
+#. module: multi_website_user_access
+#: model:ir.model,name:multi_website_user_access.model_website
+msgid "Website"
+msgstr "Site web"
