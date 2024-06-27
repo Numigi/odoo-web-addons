@@ -2,14 +2,9 @@ Multi Website User Access
 =========================
 This module allows to restrict user access to specific websites.
 
-This will not affect user portal page (url accessed on `/my`).
-
 Usage
 -----
-After installation, this module will make as default the main website of Odoo and add it to all users as allowed website.
-
-By default, this module allows for public users to access the website when not logged in 
-else restrict access to the website for each type of user.
+After installation, this module will make as default the main website and add it to all users as allowed website.
 
 As a `Website / Editor and Designer` user, I go to the `Website > Configuration > Websites`.
 I select one of the websites to switch to form view.
@@ -17,7 +12,10 @@ I see that a new `Default Website` check box is present.
 
 .. image:: static/description/website_default_option.png
 
-If I check the box and save, this will be added by default in allowed `Multi Websites` in user form when creating a new one of changing user type (after saving).
+On create a new user, the default website will be added to the allowed websites of this user.
+
+- All internal users have by default access to all existing websites.
+- All portal users have by default access to the main website.
 
 Use Case
 --------

@@ -14,3 +14,6 @@ class Website(models.Model):
             "for portal and public user access."
         ),
     )
+    user_ids = fields.Many2many(
+        "res.users", "website_users_rel", "wid", "user_id", string="Allowed Users"
+    )

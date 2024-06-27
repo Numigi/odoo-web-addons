@@ -2,14 +2,12 @@
 <odoo>
 
     <template id="page_403" name="Page Access Forbidden">
-        <t t-call="web.frontend_layout">
-            <div id="wrap">
-                <div class="container">
-                    <h1 class="mt-5">403: Forbidden</h1>
-                    <p>You are not allowed to access to this page you are looking for.</p>
-                </div>
+        <div id="wrap">
+            <div class="container">
+                <h1 class="mt-5">403: Forbidden</h1>
+                <p>The page you were looking for could not be authorized.</p>
             </div>
-        </t>
+        </div>
     </template>
 
 </odoo>

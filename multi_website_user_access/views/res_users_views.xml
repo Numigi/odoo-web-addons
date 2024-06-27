@@ -7,8 +7,9 @@
         <field name="inherit_id" ref="base.view_users_form"/>
         <field name="arch" type="xml">
             <xpath expr="//notebook/page[@name='access_rights']/group[1]" position="after">
-                <group string="Multi Websites">
-                    <field name="allowed_website_ids" widget="many2many_tags"/>
+                <group string="Multi Websites" attrs="{'invisible': [('websites_count', '&lt;=', 1)]}">
+                    <field name="website_ids" widget="many2many_tags" options="{'no_create': True}"/>
+                    <field name="websites_count" invisible="1"/>
                 </group>
             </xpath>
         </field>
