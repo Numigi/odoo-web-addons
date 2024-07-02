@@ -11,7 +11,7 @@
     "category": "Other",
     "summary": "Install all addons required for testing.",
     "depends": [
-        "web",
+        "disable_quick_create",
     ],
     "installable": True,
 }
