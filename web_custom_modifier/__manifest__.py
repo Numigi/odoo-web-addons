@@ -2,18 +2,18 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 {
-    "name": "Main Module",
+    "name": "Web Custom Modifier",
     "version": "16.0.1.0.0",
     "author": "Numigi",
     "maintainer": "Numigi",
-    "website": "https://www.numigi.com",
+    "website": "https://bit.ly/numigi-com",
     "license": "LGPL-3",
-    "category": "Other",
-    "summary": "Install all addons required for testing.",
-    "depends": [
-        "web",
-        "resize_observer_error_catcher",
-        "web_custom_modifier",
+    "category": "Project",
+    "summary": "Enable easily customizing view modifiers.",
+    "depends": ["base"],
+    "data": [
+        "views/web_custom_modifier.xml",
+        "security/ir.model.access.csv",
     ],
     "installable": True,
 }
