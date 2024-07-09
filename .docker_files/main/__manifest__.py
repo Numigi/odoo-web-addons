@@ -13,6 +13,7 @@
     "depends": [
         "web",
         "resize_observer_error_catcher",
+        "web_custom_label",
     ],
     "installable": True,
 }

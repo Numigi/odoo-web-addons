@@ -7,10 +7,12 @@ ARG GIT_TOKEN
 COPY .docker_files/test-requirements.txt .
 RUN pip3 install -r test-requirements.txt
 
-# ENV THIRD_PARTY_ADDONS /mnt/third-party-addons
-# RUN mkdir -p "${THIRD_PARTY_ADDONS}" && chown -R odoo "${THIRD_PARTY_ADDONS}"
-# COPY ./gitoo.yml /gitoo.yml
-# RUN gitoo install-all --conf_file /gitoo.yml --destination "${THIRD_PARTY_ADDONS}"
+ENV THIRD_PARTY_ADDONS /mnt/third-party-addons
+RUN mkdir -p "${THIRD_PARTY_ADDONS}" && chown -R odoo "${THIRD_PARTY_ADDONS}"
+COPY ./gitoo.yml /gitoo.yml
+RUN if [ -s /gitoo.yml ]; then \
+        gitoo install-all --conf_file /gitoo.yml --destination "${THIRD_PARTY_ADDONS}"; \
+    fi 
 
 
 COPY .docker_files/test-requirements.txt .
@@ -18,6 +20,7 @@ RUN pip3 install -r test-requirements.txt
 
 USER odoo
 
+COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY resize_observer_error_catcher /mnt/extra-addons/resize_observer_error_catcher
 
 COPY .docker_files/main /mnt/extra-addons/main
