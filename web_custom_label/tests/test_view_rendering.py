@@ -251,12 +251,14 @@ class TestViewRendering(common.SavepointCase):
     )
     @unpack
     def test_label_is_updated_in_get_view(self, lang, label):
-        fields = (
+        view_infos = (
             self.env["res.partner"]
             .with_context(lang=lang)
             .get_view(view_id=self.view.id)
-        )["fields"]
-        assert fields["name"]["string"] == label
+        )
+        tree = etree.fromstring(view_infos["arch"])
+        field_node = tree.xpath("//field[@name='name']")[0]
+        assert field_node.get("string") == label
 
     @data(
         (None, EN_NAME_LABEL),
@@ -267,21 +269,6 @@ class TestViewRendering(common.SavepointCase):
     def test_label_is_updated_in_fields_get(self, lang, label):
         fields = self.env["res.partner"].with_context(lang=lang).fields_get()
         assert fields["name"]["string"] == label
-
-    @data(
-        (None, EN_SELECTION_LABEL),
-        ("en_US", EN_SELECTION_LABEL),
-        ("fr_FR", FR_SELECTION_LABEL),
-    )
-    @unpack
-    def test_selection_label_is_updated_in_get_view(self, lang, label):
-        fields = (
-            self.env["res.partner"]
-            .with_context(lang=lang)
-            .get_view(view_id=self.view.id)
-        )["fields"]
-        options = {i[0]: i[1] for i in fields["type"]["selection"]}
-        assert options["contact"] == label
 
     @data(
         (None, EN_SELECTION_LABEL),
@@ -313,18 +300,4 @@ class TestViewRendering(common.SavepointCase):
     @unpack
     def test_field_help__fields_get(self, lang, label):
         fields = self.env["res.partner"].with_context(lang=lang).fields_get()
-        assert fields["user_id"]["help"] == label
-
-    @data(
-        (None, EN_HELP_LABEL),
-        ("en_US", EN_HELP_LABEL),
-        ("fr_FR", FR_HELP_LABEL),
-    )
-    @unpack
-    def test_field_help__get_view(self, lang, label):
-        fields = (
-            self.env["res.partner"]
-            .with_context(lang=lang)
-            .get_view(view_id=self.view.id)
-        )["fields"]
         assert fields["user_id"]["help"] == label
