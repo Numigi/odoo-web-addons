@@ -256,8 +256,8 @@ class TestViewRendering(common.SavepointCase):
             .with_context(lang=lang)
             .get_view(view_id=self.view.id)
         )
-        tree = etree.fromstring(view_infos["arch"])
-        field_node = tree.xpath("//field[@name='name']")[0]
+        view_arch = etree.fromstring(view_infos["arch"])
+        field_node = view_arch.xpath("//field[@name='name']")[0]
         assert field_node.get("string") == label
 
     @data(
