@@ -2,10 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
-from lxml import etree
 from odoo import models
-from odoo.addons.base.models.ir_ui_view import NameManager
-
 from .common import set_custom_modifiers_on_fields
 
 STANDARD_MODIFIERS = (
