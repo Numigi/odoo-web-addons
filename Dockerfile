@@ -18,6 +18,7 @@ RUN pip3 install -r test-requirements.txt
 USER odoo
 
 COPY resize_observer_error_catcher /mnt/extra-addons/resize_observer_error_catcher
+COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
 
 COPY .docker_files/main /mnt/extra-addons/main
