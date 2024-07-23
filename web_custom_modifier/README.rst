@@ -80,7 +80,7 @@ It is possible to customize the widget used for a given field.
 
 Optional
 --------
-Since the version 14.0.2.0.1, it is possible to customize the optional of a given field on tree view.
+Also, it is possible to customize the optional of a given field on tree view.
 The Optional  modifier takes 2 possible keys: "show" or "hide",
 - "show": To make the fiead displayed by default in the tree view by default.
 - "hide": To make the field hidden in the 3 dotes of a tree view by default.

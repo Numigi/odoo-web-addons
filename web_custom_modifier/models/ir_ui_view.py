@@ -1,8 +1,8 @@
-# Copyright 2024-today Numigi and all its contributors (https://bit.ly/numigiens)
+# Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
-
+from lxml import etree
 from odoo import models
 from odoo.addons.base.models.ir_ui_view import NameManager
 
@@ -20,13 +20,26 @@ class ViewWithCustomModifiers(models.Model):
     _inherit = "ir.ui.view"
 
     def postprocess_and_fields(self, node, model=None, **options):
-        self and self.ensure_one()  # self is at most one view
-        name_manager = NameManager(model)
         modifiers = self.env["web.custom.modifier"].get(model)
         node_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, node)
-        set_custom_modifiers_on_fields(modifiers, name_manager.available_fields)
         self.clear_caches()  # Clear the cache in order to recompute _get_active_rules
-        return super().postprocess_and_fields(node_with_custom_modifiers, model, **options)
+        return super().postprocess_and_fields(
+            node_with_custom_modifiers, model, **options
+        )
+
+    def _postprocess_view(
+        self, node, model_name, editable=True, parent_name_manager=None, **options
+    ):
+        name_manager = super()._postprocess_view(
+            node,
+            model_name,
+            editable=editable,
+            parent_name_manager=parent_name_manager,
+            **options
+        )
+        modifiers = self.env["web.custom.modifier"].get(model_name)
+        set_custom_modifiers_on_fields(modifiers, name_manager.available_fields)
+        return name_manager
 
 
 def _add_custom_modifiers_to_view_arch(modifiers, arch):
