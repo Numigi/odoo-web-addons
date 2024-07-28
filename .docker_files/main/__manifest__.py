@@ -14,6 +14,8 @@
         "web",
         "resize_observer_error_catcher",
         "web_custom_label",
+        "web_custom_modifier",
+
     ],
     "installable": True,
 }
