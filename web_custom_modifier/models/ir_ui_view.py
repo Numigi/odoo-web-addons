@@ -76,6 +76,19 @@ def _add_custom_modifier_to_node(node, modifier):
         node.attrib["limit"] = modifier["key"]
 
     elif key in STANDARD_MODIFIERS:
+        if (
+            key == 'column_invisible'
+            and any(parent.tag == 'tree' for parent in node.iterancestors())
+            and not any(parent.tag == 'header' for parent in node.iterancestors())
+        ):
+            # Only applied on tree view if using `column_invisible`. Replace the key
+            # to `invisible` and let the transfer_node_to_modifiers() handle the rest.
+            # Modifiers will be added to existing modifiers if originally having one.
+            # This part help to avoid the issue of `column_invisible` not working on
+            # tree view when a field is already having modifiers like readonly,
+            # attrs, ...
+            # and using `column_invisible` as a custom modifier.
+            key = 'invisible'
         node.set(key, "1")
         modifiers = _get_node_modifiers(node)
         modifiers[key] = True
