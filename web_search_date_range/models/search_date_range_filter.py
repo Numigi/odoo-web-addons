@@ -1,7 +1,7 @@
 # © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class SearchDateRangeFilter(models.Model):
@@ -19,6 +19,18 @@ class SearchDateRangeFilter(models.Model):
     )
     range_id = fields.Many2one('search.date.range', 'Range Type', required=True)
     domain = fields.Text(compute='_compute_domain', store=True)
+
+    @api.multi
+    def name_get(self):
+        result = []
+        for record in self:
+            name = _("'%s' applied on '%s'") % (
+                record.range_id.label,
+                record.field_id.field_description,
+            )
+
+            result.append((record.id, name))
+        return result
 
     @api.onchange('model_id')
     def _onchange_model_id_empty_field_id(self):
