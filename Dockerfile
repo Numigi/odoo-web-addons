@@ -2,7 +2,6 @@ FROM quay.io/numigi/odoo-public:16.latest
 LABEL maintainer="contact@numigi.com"
 
 USER root
-ARG GIT_TOKEN
 
 COPY .docker_files/test-requirements.txt .
 RUN pip3 install -r test-requirements.txt
@@ -19,7 +18,9 @@ RUN pip3 install -r test-requirements.txt
 
 USER odoo
 
-COPY disable_quick_create /mnt/extra-addons/disable_quick_create
+COPY resize_observer_error_catcher /mnt/extra-addons/resize_observer_error_catcher
+COPY web_custom_label /mnt/extra-addons/web_custom_label
+COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
