@@ -11,6 +11,7 @@
     "category": "Other",
     "summary": "Install all addons required for testing.",
     "depends": [
+        "disable_quick_create",
         "web",
         "resize_observer_error_catcher",
         "web_custom_label",

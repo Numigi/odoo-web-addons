@@ -1,40 +1,42 @@
-/*
-    © 2017-2018 Savoir-faire Linux <https://savoirfairelinux.com>
-    © 2018 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
-    License LGPL-3.0 or later (http://www.gnu.org/licenses/LGPL.html).
-*/
-odoo.define("disable_quick_create", function(require) {
-    "use strict";
+/** @odoo-module **/
 
-    var relationalFields = require("web.relational_fields");
-    var rpc = require("web.rpc");
+import { Many2XAutocomplete } from "@web/views/fields/relational_utils";
+import { patch } from "@web/core/utils/patch";
+import rpc from 'web.rpc';
 
-    var models = [];
+const originalLoadOptionsSource = Many2XAutocomplete.prototype.loadOptionsSource;
 
-    rpc.query({
-        model: "ir.model",
-        method: "search_read",
-        args:[
-            [["disable_create_edit", "=", true]],
-            ["model"],
-        ],
-    }).then(function(result) {
-        result.forEach(function(el){
-            models.push(el.model);
-        })
-    });
+patch(Many2XAutocomplete.prototype, 'disable_quick_create.Many2XAutocomplete', {
+    setup() {
+        this._super(...arguments);
+    },
 
-    relationalFields.FieldMany2One.include({
-        init() {
-            this._super.apply(this, arguments);
+    async isCreateDisabled() {
+        var domain = [
+            ['model', '=', this.props.resModel],
+            ['disable_create_edit', '=', true],
+        ];
+        try {
+            var result = await rpc.query({
+                model: 'ir.model',
+                method: 'search',
+                args: [domain],
+            });
+            return result.length > 0;
+        } catch (error) {
+            console.error('Error in isCreateDisabled:', error);
+            return false;
+        }
+    },
 
-            this.nodeOptions.no_quick_create = true;
-
-            if (models.includes(this.field.relation)){
-                this.nodeOptions.no_create = true;
-                this.nodeOptions.no_create_edit = true;
-                this.can_create = false;
-            }
-        },
-    });
+    async loadOptionsSource() {
+        var isCreateDisabled = await this.isCreateDisabled();
+        if (isCreateDisabled) {
+            this.props.quickCreate = false;
+            this.activeActions.createEdit = false;
+            this.activeActions.create = false;
+        }
+        const options = await originalLoadOptionsSource.apply(this, arguments);
+        return options;
+    }
 });

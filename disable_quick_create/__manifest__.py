@@ -18,7 +18,7 @@
     ],
     "assets": {
         "web.assets_backend": [
-            "disable_quick_create/static/src/js/disable_quick_create.js",
+            "/disable_quick_create/static/src/js/disable_quick_create.js",
         ],
     },
     "installable": True,
