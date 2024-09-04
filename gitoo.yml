@@ -3,3 +3,8 @@
   branch: "14.0"
   includes:
     - test_http_request
+
+- url: https://github.com/OCA/website
+  branch: "14.0"
+  includes:
+    - website_cookiefirst

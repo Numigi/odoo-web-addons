@@ -36,6 +36,7 @@ COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_accou
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
 COPY website_blog_rss_feed_disabled /mnt/extra-addons/website_blog_rss_feed_disabled
+COPY website_cookieconsent /mnt/extra-addons/website_cookieconsent
 COPY website_geoip /mnt/extra-addons/website_geoip
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
 COPY website_landing_template /mnt/extra-addons/website_landing_template
