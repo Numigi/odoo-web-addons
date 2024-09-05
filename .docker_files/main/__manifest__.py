@@ -28,6 +28,7 @@
         "web_search_date_range_account",
         "website_blog_internal",
         "website_blog_rss_feed_disabled",
+        "website_cookieconsent",
         "website_geoip",
         "website_google_analytics_fixed",
         "website_landing_template",

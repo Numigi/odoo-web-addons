@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+    <template id="assets_frontend">
+        <xpath expr="//script[last()]" position="after">
+            <script
+                type="module"
+                src="/website_cookieconsent/static/src/js/config.js"
+            />
+        </xpath>
+    </template>
+
+    <template id="head" inherit_id="website.layout">
+        <xpath expr="//head">
+            <link
+                rel="stylesheet"
+                href="/website_cookieconsent/static/src/css/style.css"
+            />
+        </xpath>
+    </template>
+
+</odoo>
