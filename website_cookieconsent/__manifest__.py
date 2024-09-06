@@ -7,8 +7,10 @@
     "category": "Website",
     "version": "14.0.1.0.0",
     "author": "Numigi",
+    "maintainer": "Numigi",
+    "website": "https://bit.ly/numigi-com",
     "license": "AGPL-3",
-    "depends": ["website_cookiefirst"],
+    "depends": ["website"],
     "data": [
         "views/assets.xml",
         "views/res_config_settings_views.xml",
