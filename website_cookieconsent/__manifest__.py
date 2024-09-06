@@ -5,10 +5,10 @@
     "name": "Website CookieConsent",
     "summary": "CookieConsent integration",
     "category": "Website",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.1.0",
     "author": "Numigi",
     "license": "AGPL-3",
-    "depends": ["website_cookiefirst"],
+    "depends": ["website"],
     "data": [
         "views/assets.xml",
         "views/res_config_settings_views.xml",

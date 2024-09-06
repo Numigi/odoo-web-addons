@@ -1,22 +1,21 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
-
-    <template id="assets_frontend">
-        <xpath expr="//script[last()]" position="after">
-            <script
-                type="module"
-                src="/website_cookieconsent/static/src/js/config.js"
-            />
-        </xpath>
-    </template>
-
-    <template id="head" inherit_id="website.layout">
+    <template id="layout" inherit_id="website.layout">
         <xpath expr="//head">
-            <link
-                rel="stylesheet"
-                href="/website_cookieconsent/static/src/css/style.css"
-            />
+            <t t-if="website.cookieconsent_enabled">
+                <link
+                    rel="stylesheet"
+                    href="/website_cookieconsent/static/src/css/style.css"
+                />
+            </t>
+        </xpath>
+        <xpath expr="//script[last()]" position="after">
+            <t t-if="website.cookieconsent_enabled">
+                <script
+                    type="module"
+                    src="/website_cookieconsent/static/src/js/config.js"
+                />
+            </t>
         </xpath>
     </template>
-
 </odoo>
