@@ -1,14 +1,42 @@
-=====================
-WEBSITE COOKIECONSENT
-=====================
-This module displays a cookie consent banner to your website.
+===================
+Website CookieConsent
+===================
 
-Example of previews in french and english language:
+This module integrates Odoo website with [Orestbida's CookieConsent plugin](https://github.com/orestbida/cookieconsent).
 
-.. image:: static/description/cookieconsent_en.png
+**Table of contents**
 
-.. image:: static/description/cookieconsent_fr.png
+.. contents::
+   :local:
 
-Contributors
-------------
-* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+Configuration
+=============
+
+To configure this module, you need to:
+
+# . Go to **Website > Configuration > Settings**
+# . Search 'CookieConsent' option.
+# . Toggle 'Use CookieConsent'.
+# . Click on "Save" button.
+
+.. image:: static/description/cookieconsent.png
+
+.. image:: static/description/cookieconsent_modal.png
+
+Notes
+=====
+
+The files inside '/static/src/js', '/static/src/css' and '/static/src/i18n' are the default configuration, stylesheets
+and locales used by CookieConsent.
+
+The [upstream maintainer](https://github.com/orestbida/cookieconsent) offers a [playground](https://playground.cookieconsent.orestbida.com/)
+to test the extent of the customization.
+
+Credits
+=======
+
+Authors
+
+~~~~~~~
+
+* Numigi
