@@ -5,8 +5,10 @@
     "name": "Website CookieConsent",
     "summary": "CookieConsent integration",
     "category": "Website",
-    "version": "14.0.1.1.0",
+    "version": "14.0.1.0.0",
     "author": "Numigi",
+    "maintainer": "Numigi",
+    "website": "https://bit.ly/numigi-com",
     "license": "AGPL-3",
     "depends": ["website"],
     "data": [
