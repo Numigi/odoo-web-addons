@@ -24,9 +24,9 @@ class ViewWithCustomModifiers(models.Model):
             node, model, **options
         )
         modifiers = self.env["web.custom.modifier"].get(model)
-        _add_custom_modifiers_to_view_arch(modifiers, node)
-        res = etree.tostring(node, encoding="unicode").replace('\t', '')
-        return res, models
+        arch = _add_custom_modifiers_to_view_arch(modifiers, node)
+        arch = etree.tostring(node, encoding="unicode").replace("\t", "")
+        return arch, models
 
     def _postprocess_view(
         self, node, model_name, editable=True, parent_name_manager=None, **options
@@ -43,16 +43,16 @@ class ViewWithCustomModifiers(models.Model):
         return name_manager
 
 
-def _add_custom_modifiers_to_view_arch(modifiers, arch):
+def _add_custom_modifiers_to_view_arch(modifiers, node):
     """Add custom modifiers to the given view architecture."""
     if not modifiers:
-        return arch
+        return node
     for modifier in modifiers:
-        _add_custom_modifier_to_view_tree(modifier, arch)
-    return arch
+        _add_custom_modifier_to_view_tree(modifier, node)
+    return node
 
 
-def _add_custom_modifier_to_view_tree(modifier, tree):
+def _add_custom_modifier_to_view_tree(modifier, node):
     """Add a custom modifier to the given view architecture."""
     xpath_expr = (
         "//field[@name='{field_name}'] | //modifier[@for='{field_name}']".format(
@@ -61,7 +61,7 @@ def _add_custom_modifier_to_view_tree(modifier, tree):
         if modifier["type_"] == "field"
         else modifier["reference"]
     )
-    for node in tree.xpath(xpath_expr):
+    for node in node.xpath(xpath_expr):
         _add_custom_modifier_to_node(node, modifier)
 
 
