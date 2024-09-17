@@ -1,6 +1,7 @@
 # Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+from lxml import etree
 import json
 from odoo import models
 from .common import set_custom_modifiers_on_fields
@@ -17,12 +18,15 @@ class ViewWithCustomModifiers(models.Model):
     _inherit = "ir.ui.view"
 
     def postprocess_and_fields(self, node, model=None, **options):
-        modifiers = self.env["web.custom.modifier"].get(model)
-        node_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, node)
-        self.clear_caches()  # Clear the cache in order to recompute _get_active_rules
-        return super().postprocess_and_fields(
-            node_with_custom_modifiers, model, **options
+        # Clear the cache in order to recompute _get_active_rules
+        self.clear_caches()
+        arch, models = super().postprocess_and_fields(
+            node, model, **options
         )
+        modifiers = self.env["web.custom.modifier"].get(model)
+        _add_custom_modifiers_to_view_arch(modifiers, node)
+        res = etree.tostring(node, encoding="unicode").replace('\t', '')
+        return res, models
 
     def _postprocess_view(
         self, node, model_name, editable=True, parent_name_manager=None, **options
