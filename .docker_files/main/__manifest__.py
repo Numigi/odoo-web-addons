@@ -15,7 +15,7 @@
         "resize_observer_error_catcher",
         "web_custom_label",
         "web_custom_modifier",
-
+        "web_search_date_range"
     ],
     "installable": True,
 }
