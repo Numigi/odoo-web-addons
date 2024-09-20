@@ -6,7 +6,7 @@ from odoo import api, models
 
 class Base(models.AbstractModel):
 
-    _inherit = 'base'
+    _inherit = "base"
 
     @api.model
     def _where_calc(self, domain, active_test=True):
@@ -31,11 +31,7 @@ def _iter_leaves(env, domain):
 
 
 def _is_date_range(leaf):
-    return (
-        isinstance(leaf, (list, tuple))
-        and len(leaf) == 3
-        and leaf[1] == "range"
-    )
+    return isinstance(leaf, (list, tuple)) and len(leaf) == 3 and leaf[1] == "range"
 
 
 def _to_date_range(env, leaf):

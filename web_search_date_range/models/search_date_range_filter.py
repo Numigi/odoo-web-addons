@@ -1,4 +1,4 @@
-# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © 2024 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from odoo import api, fields, models
@@ -36,28 +36,28 @@ class SearchDateRangeFilter(models.Model):
         return sorted(filters, key=lambda f: f["description"])
 
     def _get_filter(self):
-        description = self._get_translation(self.field_id.field_description)
+        description = self.field_id.field_description
         return {
             "isRelativeDateFilter": True,
-            "description": description.value or self.field_id.field_description,
-            "type": "filter",
+            "custom_options": [self._get_option(range_) for range_ in self.range_ids],
+            "description": description or self.field_id.field_description,
+            "type": "dateFilter",
             "model": self.field_id.model,
-            "field": self.field_id.name,
-            "options": [self._get_option(range_) for range_ in self.range_ids],
+            "fieldName": self.field_id.name,
+            "fieldType": self.field_id.ttype,
         }
 
     def _get_option(self, range_):
-        label = self._get_translation(range_.label)
+        descritpion = self._get_translation(range_, "label")
         return {
             "id": f"date_range_filter_{self.id}_{range_.id}",
             "domain": self._get_domain(range_),
-            "description": label.value or range_.label,
+            "description": descritpion or range_.label,
         }
-
-    def _get_translation(self, src):
-        return self.env["ir.translation"].search(
-            [("src", "=", src), ("lang", "=", self.env.user.lang)], limit=1
-        )
 
     def _get_domain(self, range_):
         return f'[("{self.field_id.name}", "range", {range_.id})]'
+
+    def _get_translation(self, record, field_name):
+        lang = self.env.context.get("lang", self.env.user.lang)
+        return record.with_context(lang=lang)[field_name]
