@@ -1,6 +1,7 @@
 # Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
+from lxml import etree
 import json
 from odoo import models
 from .common import set_custom_modifiers_on_fields
@@ -17,12 +18,15 @@ class ViewWithCustomModifiers(models.Model):
     _inherit = "ir.ui.view"
 
     def postprocess_and_fields(self, node, model=None, **options):
-        modifiers = self.env["web.custom.modifier"].get(model)
-        node_with_custom_modifiers = _add_custom_modifiers_to_view_arch(modifiers, node)
-        self.clear_caches()  # Clear the cache in order to recompute _get_active_rules
-        return super().postprocess_and_fields(
-            node_with_custom_modifiers, model, **options
+        # Clear the cache in order to recompute _get_active_rules
+        self.clear_caches()
+        arch, models = super().postprocess_and_fields(
+            node, model, **options
         )
+        modifiers = self.env["web.custom.modifier"].get(model)
+        arch = _add_custom_modifiers_to_view_arch(modifiers, node)
+        arch = etree.tostring(node, encoding="unicode").replace("\t", "")
+        return arch, models
 
     def _postprocess_view(
         self, node, model_name, editable=True, parent_name_manager=None, **options
@@ -39,16 +43,16 @@ class ViewWithCustomModifiers(models.Model):
         return name_manager
 
 
-def _add_custom_modifiers_to_view_arch(modifiers, arch):
+def _add_custom_modifiers_to_view_arch(modifiers, node):
     """Add custom modifiers to the given view architecture."""
     if not modifiers:
-        return arch
+        return node
     for modifier in modifiers:
-        _add_custom_modifier_to_view_tree(modifier, arch)
-    return arch
+        _add_custom_modifier_to_view_tree(modifier, node)
+    return node
 
 
-def _add_custom_modifier_to_view_tree(modifier, tree):
+def _add_custom_modifier_to_view_tree(modifier, node):
     """Add a custom modifier to the given view architecture."""
     xpath_expr = (
         "//field[@name='{field_name}'] | //modifier[@for='{field_name}']".format(
@@ -57,7 +61,7 @@ def _add_custom_modifier_to_view_tree(modifier, tree):
         if modifier["type_"] == "field"
         else modifier["reference"]
     )
-    for node in tree.xpath(xpath_expr):
+    for node in node.xpath(xpath_expr):
         _add_custom_modifier_to_node(node, modifier)
 
 
