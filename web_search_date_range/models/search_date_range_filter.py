@@ -36,7 +36,7 @@ class SearchDateRangeFilter(models.Model):
         return sorted(filters, key=lambda f: f["description"])
 
     def _get_filter(self):
-        description = self.field_id.field_description
+        description = self._get_translation(self.field_id, "field_description")
         return {
             "isRelativeDateFilter": True,
             "custom_options": [self._get_option(range_) for range_ in self.range_ids],
