@@ -6,7 +6,7 @@
         <field name="domain">[
             (field, '&lt;', today.strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="-1"/>
+        <field name="sequence" eval="-1" />
     </record>
 
     <record id="range_today" model="search.date.range">
@@ -16,7 +16,7 @@
             (field, '&gt;=', today.strftime('%Y-%m-%d')),
             (field, '&lt;', (today + relativedelta(days=1)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="1"/>
+        <field name="sequence" eval="1" />
     </record>
 
     <record id="range_next_fifteen_days" model="search.date.range">
@@ -26,7 +26,7 @@
             (field, '&gt;=', today.strftime('%Y-%m-%d')),
             (field, '&lt;', (today + relativedelta(days=15)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="2"/>
+        <field name="sequence" eval="2" />
     </record>
 
     <!-- Week ranges are from Monday to Sunday -->
@@ -37,7 +37,7 @@
             (field, '&gt;=', (today + relativedelta(days=-today.weekday() - 7)).strftime('%Y-%m-%d')),
             (field, '&lt;', (today + relativedelta(days=-today.weekday())).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="3"/>
+        <field name="sequence" eval="3" />
     </record>
 
     <record id="range_current_week" model="search.date.range">
@@ -47,7 +47,7 @@
             (field, '&gt;=', (today + relativedelta(days=-today.weekday())).strftime('%Y-%m-%d')),
             (field, '&lt;', (today + relativedelta(days=-today.weekday() + 7)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="4"/>
+        <field name="sequence" eval="4" />
     </record>
 
     <record id="range_next_week" model="search.date.range">
@@ -57,7 +57,7 @@
             (field, '&gt;=', (today + relativedelta(days=-today.weekday() + 7)).strftime('%Y-%m-%d')),
             (field, '&lt;', (today + relativedelta(days=-today.weekday() + 14)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="5"/>
+        <field name="sequence" eval="5" />
     </record>
 
     <record id="range_previous_month" model="search.date.range">
@@ -67,7 +67,7 @@
             (field, '&gt;=', (today - relativedelta(days=today.day - 1) + relativedelta(months=-1)).strftime('%Y-%m-%d')),
             (field, '&lt;', (today - relativedelta(days=today.day - 1)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="6"/>
+        <field name="sequence" eval="6" />
     </record>
 
     <record id="range_current_month" model="search.date.range">
@@ -77,7 +77,7 @@
             (field, '&gt;=', (today - relativedelta(days=today.day - 1)).strftime('%Y-%m-%d')),
             (field, '&lt;', (today - relativedelta(days=today.day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="7"/>
+        <field name="sequence" eval="7" />
     </record>
 
     <record id="range_next_month" model="search.date.range">
@@ -87,7 +87,7 @@
             (field, '&gt;=', (today - relativedelta(days=today.day - 1) + relativedelta(months=1)).strftime('%Y-%m-%d')),
             (field, '&lt;', (today - relativedelta(days=today.day - 1) + relativedelta(months=2)).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="8"/>
+        <field name="sequence" eval="8" />
     </record>
 
     <record id="range_previous_year" model="search.date.range">
@@ -97,7 +97,7 @@
             (field, '&gt;=', datetime(today.year - 1, 1, 1).strftime('%Y-%m-%d')),
             (field, '&lt;', datetime(today.year, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="9"/>
+        <field name="sequence" eval="9" />
     </record>
 
     <record id="range_current_year" model="search.date.range">
@@ -107,7 +107,7 @@
             (field, '&gt;=', datetime(today.year, 1, 1).strftime('%Y-%m-%d')),
             (field, '&lt;', datetime(today.year + 1, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="10"/>
+        <field name="sequence" eval="10" />
     </record>
 
     <record id="range_next_year" model="search.date.range">
@@ -117,7 +117,7 @@
             (field, '&gt;=', datetime(today.year + 1, 1, 1).strftime('%Y-%m-%d')),
             (field, '&lt;', datetime(today.year + 2, 1, 1).strftime('%Y-%m-%d')),
         ]</field>
-        <field name="sequence" eval="11"/>
+        <field name="sequence" eval="11" />
     </record>
 
 </odoo>

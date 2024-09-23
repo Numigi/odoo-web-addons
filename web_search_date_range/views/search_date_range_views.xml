@@ -8,11 +8,11 @@
             <form string="Date Range">
                 <sheet>
                     <group>
-                        <field name="label"/>
-                        <field name="domain"/>
-                        <field name="sequence"/>
-                        <field name="xml_id" options="{'no_create': 1}"/>
-                        <field name="noupdate" attrs="{'readonly': [('xml_id', '=', False)]}"/>
+                        <field name="label" />
+                        <field name="domain" />
+                        <field name="sequence" />
+                        <field name="xml_id" options="{'no_create': 1}" />
+                        <field name="noupdate" attrs="{'readonly': [('xml_id', '=', False)]}" />
                     </group>
                 </sheet>
             </form>
@@ -24,9 +24,9 @@
         <field name="model">search.date.range</field>
         <field name="arch" type="xml">
             <tree string="Date Ranges">
-                <field name="sequence" widget="handle"/>
-                <field name="label"/>
-                <field name="domain"/>
+                <field name="sequence" widget="handle" />
+                <field name="label" />
+                <field name="domain" />
             </tree>
         </field>
     </record>
@@ -35,9 +35,9 @@
         <field name="name">Date Ranges</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">search.date.range</field>
-        <field name="view_id" ref="date_range_list"/>
+        <field name="view_id" ref="date_range_list" />
     </record>
 
-    <menuitem action="date_range_action" id="date_range_menu" parent="base.next_id_2" sequence="7"/>
+    <menuitem action="date_range_action" id="date_range_menu" parent="base.next_id_2" sequence="7" />
 
 </odoo>

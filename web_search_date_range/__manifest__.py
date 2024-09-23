@@ -1,10 +1,9 @@
-# Copyright 2024-today Numigi and all its contributors (https://bit.ly/numigiens)
+# Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
-
 
 {
     "name": "Web Search Date Range",
-    "version": "16.0.1.0.1",
+    "version": "16.0.1.0.0",
     "author": "Numigi",
     "maintainer": "Numigi",
     "website": "https://bit.ly/numigi-com",
@@ -15,10 +14,10 @@
         "web",
     ],
     "data": [
+        "security/ir.model.access.csv",
         "data/search_date_range.xml",
         "views/search_date_range_views.xml",
         "views/search_date_range_filter_views.xml",
-        "security/ir.model.access.csv",
     ],
     "assets": {
         "web.assets_backend": [

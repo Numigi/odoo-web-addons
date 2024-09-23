@@ -1,3 +1,4 @@
+=====================
 Web Search Date Range
 =====================
 
@@ -24,7 +25,7 @@ It always filters records based on the current date.
 
 You may add one of these filters to your favorites or your dashboard and it will not need to be refreshed.
 
-.. image:: static/description/res_partner_list.png
+.. image:: static/description/quotations_list.png
 
 Configuration
 -------------
