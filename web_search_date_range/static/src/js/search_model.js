@@ -51,9 +51,8 @@ patch(SearchModel.prototype, "web_search_date_range.SearchModel", {
             filteredItems.forEach(item => {
                 if (item.isRelativeDateFilter) {
                     const exists = searchItemsArray.some(searchItem =>
-                        searchItem.description === item.description && searchItem.type === item.type
+                        searchItem.description === item.description && searchItem.type === item.type && searchItem.isRelativeDateFilter
                     );
-
                     if (!exists) {
                         this._createGroupOfSearchItems([item]);
                     }
