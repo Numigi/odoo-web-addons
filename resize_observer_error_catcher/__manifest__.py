@@ -3,12 +3,12 @@
 {
     "name": "Resize Observer Error Catcher",
     "summary": "Skip Resize Observer interface error when zooming.",
-    "version": "1.0.1",
+    "version": "1.1.0",
     "website": "https://bit.ly/numigi-com",
     "author": "Numigi",
     "maintainer": "Numigi",
     "license": "AGPL-3",
-    "depends": ["base"],
+    "depends": ["web"],
     "data": ['views/assets.xml',],
     "installable": True,
 }
