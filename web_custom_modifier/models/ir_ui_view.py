@@ -20,9 +20,7 @@ class ViewWithCustomModifiers(models.Model):
     def postprocess_and_fields(self, node, model=None, **options):
         # Clear the cache in order to recompute _get_active_rules
         self.clear_caches()
-        arch, models = super().postprocess_and_fields(
-            node, model, **options
-        )
+        arch, models = super().postprocess_and_fields(node, model, **options)
         modifiers = self.env["web.custom.modifier"].get(model)
         arch = _add_custom_modifiers_to_view_arch(modifiers, node)
         arch = etree.tostring(node, encoding="unicode").replace("\t", "")

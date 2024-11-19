@@ -8,7 +8,6 @@ from odoo.tests.common import TransactionCase
 
 @ddt
 class TestSearchDateRange(TransactionCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()

@@ -26,7 +26,6 @@ FR_HELP_LABEL = "Mon aide personnalisé"
 
 @ddt
 class TestViewRendering(common.SavepointCase):
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
