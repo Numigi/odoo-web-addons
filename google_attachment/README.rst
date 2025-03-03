@@ -1,4 +1,4 @@
-Google Attachement
+Google Attachment
 ==================
 This module allows to attach documents from Google Drive.
 
