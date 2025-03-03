@@ -1,5 +1,5 @@
 Google Attachment
-==================
+=================
 This module allows to attach documents from Google Drive.
 
 The attached documents are not stored in Odoo. Only the url and the document name are stored in Odoo.
