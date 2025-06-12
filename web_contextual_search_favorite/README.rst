@@ -1,3 +1,7 @@
+==================================
+!!!!!!!!!   OBSOLETE NOW !!!!!!!!!
+==================================
+
 Web Contextual Search Favorite
 ==============================
 In a list view, when you add a favorite by clicking on Favorites -> Add to my Dashboard,
