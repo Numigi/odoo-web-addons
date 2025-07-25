@@ -60,7 +60,7 @@ Contributors
 ------------
 
 * Alejandro Santana <alejandrosantana@anubia.es>
-* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+* The `Numigi <https://numigi.com/r/home>`_ team is the contributor to this project. We help Quebec companies implement Odoo and Konvergo ERP.
 * Serpent Consulting Services Pvt. Ltd. <jay.vora@serpentcs.com>
 
 Maintainer
