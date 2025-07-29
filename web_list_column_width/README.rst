@@ -13,9 +13,5 @@ The value must be a valid css width.
 
 Contributors
 ------------
-* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
-* Yasmine El Mrini (yasmine.elmrini@savoirfairelinux.com)
 
-More information
-----------------
-* Meet us at https://bit.ly/numigi-com
+The `Numigi <https://numigi.com/r/home>`_ team is the contributor to this project. We help Quebec companies implement Odoo and Konvergo ERP.
