@@ -4,6 +4,7 @@
 from odoo.tests.common import TransactionCase
 import json
 
+
 class TestProductJsonLd(TransactionCase):
 
     def setUp(self):
@@ -16,7 +17,6 @@ class TestProductJsonLd(TransactionCase):
             'weight': 1.5,
         })
 
-        # Crée une catégorie publique avec catégorie Google
         self.public_category = self.env['product.public.category'].create({
             'name': "Test Category",
             'google_product_category': "Apparel & Accessories > Shoes",
@@ -60,8 +60,8 @@ class TestProductJsonLd(TransactionCase):
         )
         # Convertir en dict Python pour vérifier les champs
         data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
-        # On isole le JSON entre <script> tags
-        json_str = data_str.split("<script type=\"application/ld+json\">")[1].split("</script>")[0]
+        json_str = data_str.split("<script type=\"application/ld+json\">")[1].split(
+            "</script>")[0]
         data = json.loads(json_str)
 
         self.assertEqual(data["@type"], "Product")
