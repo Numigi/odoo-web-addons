@@ -41,7 +41,7 @@ COPY website_geoip /mnt/extra-addons/website_geoip
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_login_as /mnt/extra-addons/website_login_as
-COPY website_sale_jsonld_schema /mnt/website_sale_jsonld_schema
+COPY website_sale_jsonld_schema /mnt/extra-addons/website_sale_jsonld_schema
 COPY website_sale_wishlist_extended /mnt/extra-addons/website_sale_wishlist_extended
 COPY website_slides_extended /mnt/extra-addons/website_slides_extended
 
