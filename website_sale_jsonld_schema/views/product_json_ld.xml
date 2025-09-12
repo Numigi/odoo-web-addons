@@ -47,14 +47,18 @@
                     <t t-if="product.upc or product.manufacturer_pref">,</t>
                 </t>
 
-                <t t-if="product.upc">
-                    "gtin": "<t t-out='product.jsonld_escape(product.upc)'/>"
-                    <t t-if="product.manufacturer_pref">,</t>
-                </t>
+               <t t-set="fields" t-value="[]"/>
+                    <t t-if="product.upc">
+                        <t t-set="fields" t-value="fields + ['\"gtin\": \"%s\"' % product.jsonld_escape(product.upc)]"/>
+                    </t>
 
-                <t t-if="not product.upc and product.manufacturer_pref">
-                    "mpn": "<t t-out='product.jsonld_escape(product.manufacturer_pref)'/>"
-                    <t t-if="product.weight > 0 or images_list">,</t>
+                    <t t-if="product.manufacturer_pref and not product.upc">
+                        <t t-set="fields" t-value="fields + ['\"mpn\": \"%s\"' % product.jsonld_escape(product.manufacturer_pref)]"/>
+                    </t>
+
+                    <t t-foreach="fields" t-as="field" t-index="i">
+                        <t t-if="i > 0">,</t>
+                        <t t-out="field"/>
                 </t>
 
                 "image": [
