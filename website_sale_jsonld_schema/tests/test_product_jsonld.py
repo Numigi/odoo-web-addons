@@ -2,7 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
-from unittest.mock import Mock
+from unittest.mock import patch
 import json
 
 
@@ -22,8 +22,6 @@ class TestProductJsonLd(TransactionCase):
 
         self.website = self.env['website'].create({'name': 'Test Website',
             'company_id': self.env.ref('base.main_company').id, })
-        self.website.get_current_website = Mock(return_value=self.website)
-        self.website.currency_id = self.env.ref('base.USD')
 
     def test_jsonld_escape(self):
         """ Vérifie que les caractères spéciaux sont correctement échappés """
@@ -54,16 +52,19 @@ class TestProductJsonLd(TransactionCase):
 
     def test_render_jsonld_template(self):
         """ Vérifie que le template JSON-LD contient les champs attendus """
-        rendered = self.env['ir.qweb']._render(
-            'website_sale_jsonld_schema.product_json_ld_schema',
-            values={'product': self.product, 'website': self.website}, )
-        data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
-        json_str = \
-        data_str.split("<script type=\"application/ld+json\">")[1].split("</script>")[0]
-        data = json.loads(json_str)
+        with patch('odoo.addons.website.models.website.Website.get_current_website',
+                return_value=self.website):
+            rendered = self.env['ir.qweb']._render(
+                'website_sale_jsonld_schema.product_json_ld_schema',
+                values={'product': self.product, 'website': self.website}, )
+            data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
+            json_str = data_str.split("<script type=\"application/ld+json\">")[1].split(
+                "</script>")[0]
+            data = json.loads(json_str)
 
-        self.assertEqual(data["@type"], "Product")
-        self.assertEqual(data["name"], self.product.name)
-        self.assertEqual(data["sku"], self.product.default_code)
-        self.assertIn("offers", data)
-        self.assertEqual(data["offers"]["availability"], "https://schema.org/InStock")
+            self.assertEqual(data["@type"], "Product")
+            self.assertEqual(data["name"], self.product.name)
+            self.assertEqual(data["sku"], self.product.default_code)
+            self.assertIn("offers", data)
+            self.assertEqual(data["offers"]["availability"],
+                "https://schema.org/InStock")
