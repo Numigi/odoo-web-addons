@@ -9,21 +9,14 @@ class TestProductJsonLd(TransactionCase):
 
     def setUp(self):
         super().setUp()
-        # Crée un produit de test
-        self.product = self.env['product.template'].create({
-            'name': "Test Product",
-            'list_price': 99.99,
-            'default_code': "SKU123",
-            'weight': 1.5,
-        })
+        self.public_category = self.env['product.public.category'].create(
+            {'name': "Test Category",
+                'google_product_category': "Apparel & Accessories > Shoes", })
 
-        self.public_category = self.env['product.public.category'].create({
-            'name': "Test Category",
-            'google_product_category': "Apparel & Accessories > Shoes",
-        })
-
-        #self.product.public_categ_ids = [(6, 0, [self.public_category.id])]
-        self.product.write({'public_categ_ids': [(6, 0, [self.public_category.id])]})
+        self.product = self.env['product.template'].create(
+            {'name': "Test Product", 'list_price': 99.99, 'default_code': "SKU123",
+                'weight': 1.5,
+                'public_categ_ids': [(6, 0, [self.public_category.id])], })
 
     def test_jsonld_escape(self):
         """ Vérifie que les caractères spéciaux sont correctement échappés """

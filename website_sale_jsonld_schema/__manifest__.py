@@ -17,7 +17,12 @@
         GTIN (from UPC), MPN, price, availability, and images (including alternatives)
         to improve SEO and data quality for Google Merchant Center.
     """,
-    "depends": ["website_sale", "product_barcode_upc", "product_brand"],
+    "depends": [
+        "website_sale",
+        "product_barcode_upc",
+        "product_brand",
+        "product_manufacturer"
+    ],
     "data": [
         "views/product_public_category_views.xml",
         "views/product_json_ld.xml",
