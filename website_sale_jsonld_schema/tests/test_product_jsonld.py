@@ -22,7 +22,8 @@ class TestProductJsonLd(TransactionCase):
             'google_product_category': "Apparel & Accessories > Shoes",
         })
 
-        self.product.public_categ_ids = [(6, 0, [self.public_category.id])]
+        #self.product.public_categ_ids = [(6, 0, [self.public_category.id])]
+        self.product.write({'public_categ_ids': [(6, 0, [self.public_category.id])]})
 
     def test_jsonld_escape(self):
         """ Vérifie que les caractères spéciaux sont correctement échappés """

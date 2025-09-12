@@ -3,7 +3,7 @@
 
     <template id="product_json_ld_schema" name="Product JSON-LD Schema">
         <t t-if="product">
-            <t t-set="current_lang" t-value="request.env.context.get('lang', 'en_US')"/>
+            <t t-set="current_lang" t-value="lang or 'en_US'"/>
             <t t-set="localized_product" t-value="product.with_context(lang=current_lang)"/>
             <t t-set="images_list" t-value="product.get_jsonld_images()"/>
             <t t-set="price_info" t-value="product.get_jsonld_price_info()"/>
