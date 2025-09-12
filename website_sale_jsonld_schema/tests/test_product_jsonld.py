@@ -2,26 +2,27 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo.tests.common import TransactionCase
-from unittest.mock import patch
 import json
-
 
 
 class TestProductJsonLd(TransactionCase):
 
     def setUp(self):
         super().setUp()
-        self.public_category = self.env['product.public.category'].create(
-            {'name': "Test Category",
-                'google_product_category': "Apparel & Accessories > Shoes", })
+        # Crée un produit de test
+        self.product = self.env['product.template'].create({
+            'name': "Test Product",
+            'list_price': 99.99,
+            'default_code': "SKU123",
+            'weight': 1.5,
+        })
 
-        self.product = self.env['product.template'].create(
-            {'name': "Test Product", 'list_price': 99.99, 'default_code': "SKU123",
-                'weight': 1.5,
-                'public_categ_ids': [(6, 0, [self.public_category.id])], })
+        self.public_category = self.env['product.public.category'].create({
+            'name': "Test Category",
+            'google_product_category': "Apparel & Accessories > Shoes",
+        })
 
-        self.website = self.env['website'].create({'name': 'Test Website',
-            'company_id': self.env.ref('base.main_company').id, })
+        self.product.public_categ_ids = [(6, 0, [self.public_category.id])]
 
     def test_jsonld_escape(self):
         """ Vérifie que les caractères spéciaux sont correctement échappés """
@@ -52,19 +53,19 @@ class TestProductJsonLd(TransactionCase):
 
     def test_render_jsonld_template(self):
         """ Vérifie que le template JSON-LD contient les champs attendus """
-        with patch('odoo.addons.website.models.website.Website.get_current_website',
-                return_value=self.website):
-            rendered = self.env['ir.qweb']._render(
-                'website_sale_jsonld_schema.product_json_ld_schema',
-                values={'product': self.product, 'website': self.website}, )
-            data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
-            json_str = data_str.split("<script type=\"application/ld+json\">")[1].split(
-                "</script>")[0]
-            data = json.loads(json_str)
+        website = self.env['website'].get_current_website()
+        rendered = self.env['ir.qweb']._render(
+            'website_sale_jsonld_schema.product_json_ld_schema',
+            values={'product': self.product, 'website': website},
+        )
+        # Convertir en dict Python pour vérifier les champs
+        data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
+        json_str = data_str.split("<script type=\"application/ld+json\">")[1].split(
+            "</script>")[0]
+        data = json.loads(json_str)
 
-            self.assertEqual(data["@type"], "Product")
-            self.assertEqual(data["name"], self.product.name)
-            self.assertEqual(data["sku"], self.product.default_code)
-            self.assertIn("offers", data)
-            self.assertEqual(data["offers"]["availability"],
-                "https://schema.org/InStock")
+        self.assertEqual(data["@type"], "Product")
+        self.assertEqual(data["name"], self.product.name)
+        self.assertEqual(data["sku"], self.product.default_code)
+        self.assertIn("offers", data)
+        self.assertEqual(data["offers"]["availability"], "https://schema.org/InStock")
