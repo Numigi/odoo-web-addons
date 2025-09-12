@@ -15,21 +15,27 @@
             {
                 "@context": "https://schema.org/",
                 "@type": "Product"
+
                 <t t-if="localized_product.name">,
                     "name": "<t t-out='product.jsonld_escape(localized_product.name)'/>"
                 </t>
+
                 <t t-if="localized_product.description_sale">,
                     "description": "<t t-out='product.jsonld_escape(localized_product.description_sale)'/>"
                 </t>
+
                 <t t-if="product_type">,
                     "category": "<t t-out='product.jsonld_escape(product_type)'/>"
                 </t>
+
                 <t t-if="google_product_category">,
                     "google_product_category": "<t t-out='product.jsonld_escape(google_product_category)'/>"
                 </t>
+
                 <t t-if="product.default_code">,
                     "sku": "<t t-out='product.jsonld_escape(product.default_code)'/>"
                 </t>
+
                 <t t-if="product.product_brand_id and product.product_brand_id.name">,
                     "brand": {
                         "@type": "Brand",
@@ -38,14 +44,13 @@
                 </t>
 
                 <!-- gtin et mpn -->
-                <t t-if="product.upc or product.manufacturer_pref">,
-                    <t t-if="product.upc">
-                        "gtin": "<t t-out='product.jsonld_escape(product.upc)'/>"
-                        <t t-if="product.manufacturer_pref">,</t>
-                    </t>
-                    <t t-if="not product.upc and product.manufacturer_pref">
-                        "mpn": "<t t-out='product.jsonld_escape(product.manufacturer_pref)'/>"
-                    </t>
+                <t t-if="product.upc">
+                    ,
+                    "gtin": "<t t-out='product.jsonld_escape(product.upc)'/>"
+                </t>
+                <t t-if="not product.upc and product.manufacturer_pref">
+                    ,
+                    "mpn": "<t t-out='product.jsonld_escape(product.manufacturer_pref)'/>"
                 </t>
 
                 <!-- images -->
