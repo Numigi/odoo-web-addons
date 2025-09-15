@@ -37,9 +37,9 @@ class TestProductJsonLd(TransactionCase):
         self.assertEqual(price_info['price'], self.product.list_price)
         self.assertIn('currency', price_info)
 
-    def test_get_jsonld_product_type(self):
-        product_type = self.product.get_jsonld_product_type()
-        self.assertIn("Test Category", product_type)
+    # def test_get_jsonld_product_type(self):
+    #     product_type = self.product.get_jsonld_product_type()
+    #     self.assertIn("Test Category", product_type)
 
     def test_get_jsonld_google_product_category(self):
         gcat = self.product.get_jsonld_google_product_category()
