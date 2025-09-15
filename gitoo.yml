@@ -4,6 +4,21 @@
   includes:
     - test_http_request
 
+- url: https://github.com/Numigi/odoo-product-addons
+  branch: "14.0"
+  includes:
+    - product_barcode_upc
+
+- url: https://github.com/OCA/product-attribute
+  branch: "14.0"
+  includes:
+    - product_manufacturer
+
+- url: https://github.com/OCA/brand
+  branch: "14.0"
+  includes:
+    - product_brand
+
 - url: https://github.com/OCA/website
   branch: "14.0"
   includes:
