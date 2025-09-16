@@ -1,6 +1,7 @@
 # Copyright 2025 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
+import json
 from odoo.tests.common import TransactionCase
 
 
@@ -23,42 +24,64 @@ class TestProductJsonLd(TransactionCase):
 
         self.product.public_categ_ids = [(6, 0, [self.public_category.id])]
 
-    def test_jsonld_escape(self):
-        text = 'Chaussure "spéciale"'
-        escaped = self.product.jsonld_escape(text)
-        self.assertIn('\\"', escaped)
+    def test_get_jsonld_schema_basic_structure(self):
+        """Test that the JSON-LD schema has the correct basic structure."""
+        json_str = self.product._get_jsonld_schema()
+        data = json.loads(json_str)
+        
+        self.assertEqual(data["@context"], "https://schema.org/")
+        self.assertEqual(data["@type"], "Product")
+        self.assertEqual(data["name"], "Test Product")
+        self.assertEqual(data["sku"], "SKU123")
 
-    def test_get_jsonld_images_with_placeholder(self):
-        images = self.product.get_jsonld_images()
-        self.assertTrue(any("placeholder" in url for url in images))
+    def test_get_jsonld_schema_with_category(self):
+        """Test that categories are properly included in the schema."""
+        json_str = self.product._get_jsonld_schema()
+        data = json.loads(json_str)
+        
+        self.assertIn("category", data)
+        self.assertEqual(data["category"], "Test Category")
+        self.assertIn("google_product_category", data)
+        self.assertEqual(data["google_product_category"], "Apparel & Accessories > Shoes")
 
-    def test_get_jsonld_price_info(self):
-        price_info = self.product.get_jsonld_price_info()
-        self.assertEqual(price_info['price'], self.product.list_price)
-        self.assertIn('currency', price_info)
+    def test_get_jsonld_schema_offers_structure(self):
+        """Test that offers section is properly structured."""
+        json_str = self.product._get_jsonld_schema()
+        data = json.loads(json_str)
+        
+        self.assertIn("offers", data)
+        offers = data["offers"]
+        self.assertEqual(offers["@type"], "Offer")
+        self.assertEqual(offers["itemCondition"], "https://schema.org/NewCondition")
+        self.assertEqual(offers["availability"], "https://schema.org/InStock")
+        self.assertIn("price", offers)
+        self.assertIn("priceCurrency", offers)
 
-    # def test_get_jsonld_product_type(self):
-    #     product_type = self.product.get_jsonld_product_type()
-    #     self.assertIn("Test Category", product_type)
+    def test_get_jsonld_schema_with_weight(self):
+        """Test that shipping weight is included when product has weight."""
+        json_str = self.product._get_jsonld_schema()
+        data = json.loads(json_str)
+        
+        self.assertIn("shippingWeight", data)
+        weight = data["shippingWeight"]
+        self.assertEqual(weight["@type"], "QuantitativeValue")
+        self.assertEqual(weight["value"], 1.5)
+        self.assertEqual(weight["unitCode"], "KGM")
 
-    def test_get_jsonld_google_product_category(self):
-        gcat = self.product.get_jsonld_google_product_category()
-        self.assertEqual(gcat, "Apparel & Accessories > Shoes")
+    def test_get_jsonld_schema_images_fallback(self):
+        """Test that placeholder image is used when no product images exist."""
+        json_str = self.product._get_jsonld_schema()
+        data = json.loads(json_str)
+        
+        self.assertIn("image", data)
+        self.assertTrue(isinstance(data["image"], list))
+        self.assertTrue(any("placeholder" in url for url in data["image"]))
 
-    # def test_render_jsonld_template(self):
-    #     website = self.env['website'].get_current_website()
-    #     rendered = self.env['ir.qweb']._render(
-    #         'website_sale_jsonld_schema.product_json_ld_schema',
-    #         values={'product': self.product, 'website': website},
-    #     )
-    #     # Convertir en dict Python pour vérifier les champs
-    #     data_str = rendered.decode() if isinstance(rendered, bytes) else rendered
-    #     json_str = data_str.split("<script type=\"application/ld+json\">")[1].split(
-    #         "</script>")[0]
-    #     data = json.loads(json_str)
-    #
-    #     self.assertEqual(data["@type"], "Product")
-    #     self.assertEqual(data["name"], self.product.name)
-    #     self.assertEqual(data["sku"], self.product.default_code)
-    #     self.assertIn("offers", data)
-    #     self.assertEqual(data["offers"]["availability"], "https://schema.org/InStock")
+    def test_get_jsonld_schema_special_characters(self):
+        """Test that special characters are properly escaped in JSON output."""
+        self.product.name = 'Chaussure "spéciale" & élégante'
+        json_str = self.product._get_jsonld_schema()
+        
+        # Should not raise JSON decode error
+        data = json.loads(json_str)
+        self.assertEqual(data["name"], 'Chaussure "spéciale" & élégante')
