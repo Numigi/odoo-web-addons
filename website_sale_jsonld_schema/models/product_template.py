@@ -34,7 +34,7 @@ class ProductTemplate(models.Model):
             
         if self.public_categ_ids:
             first_category = self.public_categ_ids[0]
-            schema["category"] = first_category.display_name.replace(' / ', ' > ')
+            schema["category"] = first_category.name
             if first_category.google_product_category:
                 schema["google_product_category"] = first_category.google_product_category
 
