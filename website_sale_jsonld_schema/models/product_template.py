@@ -4,74 +4,93 @@
 import json
 from odoo import models, api
 
-
 class ProductTemplate(models.Model):
     _inherit = "product.template"
 
-    @api.model
-    def jsonld_escape(self, text):
-        """Escape text for safe inclusion in JSON-LD."""
-        if not text:
-            return ""
-        # Remove outer quotes after json.dumps
-        return json.dumps(str(text))[1:-1]
-
-    def get_jsonld_images(self):
-        """Get list of product images for JSON-LD schema."""
-        images = []
-
-        # Main product image
-        if self.image_1920:
-            main_image = (
-                self.env["website"]
-                .get_current_website()
-                .image_url(self, "image_1920")
-            )
-            images.append(main_image)
-
-        # Additional images
-        for image in self.product_template_image_ids:
-            if image.image_1920:
-                img_url = (
-                    self.env["website"]
-                    .get_current_website()
-                    .image_url(image, "image_1920")
-                )
-                images.append(img_url)
-
-        # Fallback if no images
-        if not images:
-            images.append("/web/static/src/img/placeholder.png")
-
-        return images
-
-    def get_jsonld_price_info(self):
-        """Get price information for current context (pricelist, currency)."""
-        website = self.env["website"].get_current_website()
+    def _get_jsonld_schema(self):
+        """
+        Build the complete JSON-LD schema as a Python dictionary
+        and return it as a JSON string.
+        This centralizes all logic and lets json.dumps handle syntax.
+        """
+        self.ensure_one()
+        
+        website = self.env['website'].get_current_website()
+        current_lang = self.env.context.get('lang', 'en_US')
+        localized_product = self.with_context(lang=current_lang)
         pricelist = website.get_current_pricelist()
+        price = self.with_context(pricelist=pricelist.id).price
 
-        # Get price with current pricelist
-        product_context = dict(self.env.context, pricelist=pricelist.id)
-        product_with_context = self.with_context(product_context)
-
-        return {
-            "price": product_with_context.list_price,
-            "currency": pricelist.currency_id.name,
-            "pricelist": pricelist.id,
+        # --- Build the schema dictionary ---
+        schema = {
+            "@context": "https://schema.org/",
+            "@type": "Product",
+            "name": localized_product.name,
         }
 
-    def get_jsonld_product_type(self):
-        """Get product type from first public category in breadcrumb format."""
-        if not self.public_categ_ids:
-            return ""
+        # --- Add fields conditionally ---
+        if localized_product.description_sale:
+            schema["description"] = localized_product.description_sale
+            
+        if self.public_categ_ids:
+            first_category = self.public_categ_ids[0]
+            schema["category"] = first_category.display_name.replace(' / ', ' > ')
+            if first_category.google_product_category:
+                schema["google_product_category"] = first_category.google_product_category
 
-        first_category = self.public_categ_ids[0]
-        return first_category.display_name.replace(" / ", " > ")
+        if self.default_code:
+            schema["sku"] = self.default_code
 
-    def get_jsonld_google_product_category(self):
-        """Get the Google Product Category from first public category."""
-        if not self.public_categ_ids:
-            return ""
+        if self.product_brand_id and self.product_brand_id.name:
+            schema["brand"] = {
+                "@type": "Brand",
+                "name": self.product_brand_id.with_context(lang=current_lang).name
+            }
 
-        first_category = self.public_categ_ids[0]
-        return first_category.google_product_category or ""
+        # Identifier hierarchy
+        if self.upc:
+            schema["gtin"] = self.upc
+        elif self.manufacturer_pref:
+            schema["mpn"] = self.manufacturer_pref
+
+        # Image list
+        images = []
+        if self.image_1920:
+            images.append(website.image_url(self, 'image_1920'))
+        for img in self.product_template_image_ids:
+            if img.image_1920:
+                images.append(website.image_url(img, 'image_1920'))
+                
+        if not images:
+            images.append(f"{website.get_base_url()}/web/static/src/img/placeholder.png")
+        
+        schema["image"] = images
+
+        if self.weight > 0:
+            schema["shippingWeight"] = {
+                "@type": "QuantitativeValue",
+                "value": self.weight,
+                "unitCode": "KGM"
+            }
+
+        # Offers
+        offer_data = {
+            "@type": "Offer",
+            "url": f"{website.get_base_url()}{localized_product.website_url}",
+            "priceCurrency": pricelist.currency_id.name,
+            "price": price,
+            "itemCondition": "https://schema.org/NewCondition",
+            "availability": "https://schema.org/InStock"  # As per your business rule
+        }
+        
+        if website.company_id.country_id:
+            offer_data["areaServed"] = {
+                "@type": "Country",
+                "name": website.company_id.country_id.name
+            }
+            
+        schema["offers"] = offer_data
+
+        # Use json.dumps to handle all escaping and comma syntax correctly.
+        # ensure_ascii=False is important for names with accents.
+        return json.dumps(schema, ensure_ascii=False)
