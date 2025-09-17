@@ -15,6 +15,9 @@
         'views/assets.xml',
         'views/webclient_templates.xml',
     ],
+    'qweb': [
+        'static/src/xml/company_switcher_templates.xml',
+    ],
     'installable': True,
     'auto_install': False,
 }

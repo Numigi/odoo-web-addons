@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <!-- Systray Menu Template -->
+    <t t-name="SystrayCompanySwitcher">
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle o_visual_company_switcher" title="Sélecteur de Compagnie Visuel">
+                <i class="fa fa-sitemap visual-company-switcher-icon"/>
+            </a>
+        </li>
+    </t>
+
+    <!-- Modal Template for Company Switcher -->
+    <t t-name="visual_company_switcher_modal">
+        <div class="modal fade" id="visualCompanySwitcherModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sélecteur de Compagnie</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="company-switcher-toolbar mb-3">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" id="multiSelectMode"/>
+                                        <label class="form-check-label" for="multiSelectMode">
+                                            Mode sélection multiple
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <button type="button" class="btn btn-primary" id="applySelection" style="display: none;">
+                                        Appliquer la sélection
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="orgchart-container" class="text-center">
+                            <div class="d-flex justify-content-center align-items-center" style="min-height: 200px;">
+                                <div class="spinner-border text-primary" role="status">
+                                    <span class="sr-only">Chargement...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -9,4 +9,5 @@
             <script type="text/javascript" src="/web_visual_company_switcher/static/src/js/company_switcher_widget.js"></script>
         </xpath>
     </template>
+
 </odoo>
