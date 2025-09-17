@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_backend" name="web_visual_company_switcher assets" inherit_id="web.assets_backend">
+        <xpath expr="." position="inside">
+            <link rel="stylesheet" type="text/css" href="/web_visual_company_switcher/static/src/lib/orgchart.min.css"/>
+            <link rel="stylesheet" type="text/css" href="/web_visual_company_switcher/static/src/css/company_switcher.css"/>
+            
+            <script type="text/javascript" src="/web_visual_company_switcher/static/src/lib/orgchart.min.js"></script>
+            <script type="text/javascript" src="/web_visual_company_switcher/static/src/js/company_switcher_widget.js"></script>
+        </xpath>
+    </template>
+</odoo>

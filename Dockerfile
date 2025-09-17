@@ -34,6 +34,7 @@ COPY web_list_column_width /mnt/extra-addons/web_list_column_width
 COPY web_search_date_range /mnt/extra-addons/web_search_date_range
 COPY web_search_date_range_account /mnt/extra-addons/web_search_date_range_account
 COPY web_trash_condition /mnt/extra-addons/web_trash_condition
+COPY web_visual_company_switcher /mnt/extra-addons/web_visual_company_switcher
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
 COPY website_blog_rss_feed_disabled /mnt/extra-addons/website_blog_rss_feed_disabled
 COPY website_cookieconsent /mnt/extra-addons/website_cookieconsent

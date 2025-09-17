@@ -1,0 +1,115 @@
+/* © Numigi (tm) and all its contributors (https://numigi.com/r/home) */
+/* License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+
+.visual-company-switcher-icon {
+    cursor: pointer;
+    color: #6c757d;
+    margin-left: 10px;
+    padding: 8px;
+    border-radius: 4px;
+    transition: all 0.2s;
+}
+
+.visual-company-switcher-icon:hover {
+    color: #007bff;
+    background-color: rgba(0, 123, 255, 0.1);
+}
+
+.company-node {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 150px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.company-node:hover {
+    border-color: #007bff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.company-node.current-company {
+    border-color: #28a745;
+    background-color: #f8f9fa;
+}
+
+.company-node.selected {
+    border-color: #007bff;
+    background-color: #e3f2fd;
+}
+
+.company-checkbox {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    z-index: 10;
+}
+
+.company-logo {
+    margin-bottom: 10px;
+}
+
+.company-logo img {
+    max-width: 40px;
+    max-height: 40px;
+    border-radius: 50%;
+}
+
+.company-name {
+    font-weight: 600;
+    color: #495057;
+    font-size: 14px;
+    text-align: center;
+    word-break: break-word;
+}
+
+.company-status {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.company-status .badge {
+    font-size: 11px;
+}
+
+#orgchart-container {
+    min-height: 400px;
+    overflow: auto;
+    padding: 20px;
+}
+
+/* Customize OrgChart styles */
+.orgchart {
+    background: transparent !important;
+}
+
+.orgchart .node {
+    background: transparent !important;
+    border: none !important;
+}
+
+.orgchart .lines .topLine,
+.orgchart .lines .rightLine,
+.orgchart .lines .leftLine,
+.orgchart .lines .downLine {
+    border-color: #dee2e6 !important;
+}
+
+/* Modal customization */
+#visualCompanySwitcherModal .modal-dialog {
+    max-width: 90vw;
+}
+
+#visualCompanySwitcherModal .modal-body {
+    min-height: 500px;
+}
+
+.company-switcher-toolbar {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 15px;
+}
