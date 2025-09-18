@@ -8,6 +8,7 @@ var AbstractAction = require('web.AbstractAction');
 var core = require('web.core');
 var Dialog = require('web.Dialog');
 var rpc = require('web.rpc');
+var session = require('web.session');
 var SystrayMenu = require('web.SystrayMenu');
 var Widget = require('web.Widget');
 
@@ -25,9 +26,11 @@ var VisualCompanySwitcher = Widget.extend({
         this._super.apply(this, arguments);
         this.companies_data = null;
         this.current_allowed_companies = [];
+        this.current_company_id = null;
         this._cacheTime = 0;
-        this.selected_companies = [];
+        this.selectedAllowedIds = []; // Liste des IDs des compagnies cochées
         this.multi_select_mode = false;
+        this.designatedActiveId = null; // ID de la compagnie désignée comme active
     },
 
     _openModal: function () {
@@ -44,12 +47,22 @@ var VisualCompanySwitcher = Widget.extend({
     _loadCompaniesData: function () {
         var self = this;
         
-        // Check cache (5 minutes TTL)
-        var now = Date.now();
-        if (this.companies_data && this._cacheTime && (now - this._cacheTime) < 300000) {
-            return Promise.resolve(this.companies_data);
-        }
+        // *** VRAIE LOGIQUE ODOO : Lire depuis session.user_context ***
         
+        // 1. Récupérer le contexte actuel de l'utilisateur depuis la session
+        var user_context = session.user_context;
+        
+        // 2. Identifier la compagnie active (première dans allowed_company_ids)
+        var active_company_id = user_context.allowed_company_ids ? user_context.allowed_company_ids[0] : null;
+        
+        // 3. Identifier TOUTES les compagnies sélectionnées
+        var allowed_company_ids = user_context.allowed_company_ids || [];
+        
+        console.log("=== VRAIE LOGIQUE ODOO ===");
+        console.log("Compagnie active:", active_company_id);
+        console.log("Compagnies autorisées:", allowed_company_ids);
+        
+        // Appeler le serveur pour avoir les détails (noms, logos, hiérarchie)
         return rpc.query({
             route: '/web/visual_company_switcher/companies',
         }).then(function (result) {
@@ -61,10 +74,21 @@ var VisualCompanySwitcher = Widget.extend({
                 });
                 return Promise.reject(result.error);
             }
-            // Cache the data
+            
+            // Construire les données avec la VRAIE logique
             self.companies_data = result.companies || [];
-            self.current_allowed_companies = result.current_allowed_companies || [];
-            self._cacheTime = now;
+            self.current_allowed_companies = allowed_company_ids;
+            self.current_company_id = active_company_id;
+            
+            // Marquer correctement les compagnies selon la session
+            self.companies_data.forEach(function(company) {
+                company.current = (company.id === active_company_id);
+                company.allowed = (allowed_company_ids.indexOf(company.id) !== -1);
+            });
+            
+            console.log("Built companies data avec vraie logique:", self.companies_data);
+            console.log("Current company ID:", self.current_company_id);
+            console.log("Current allowed companies:", self.current_allowed_companies);
             
             return self.companies_data;
         }).catch(function (error) {
@@ -122,7 +146,6 @@ var VisualCompanySwitcher = Widget.extend({
         
         // Transform data for orgchart
         var orgData = this._transformDataForOrgChart();
-        console.log('Transformed orgData:', JSON.stringify(orgData, null, 2));
         
         if (orgData.length === 0) {
             $container.html('<div class="alert alert-info">Aucune compagnie disponible</div>');
@@ -143,62 +166,68 @@ var VisualCompanySwitcher = Widget.extend({
             'zoom': true,
             'toggleSiblingsResp': false, // Disable default sibling highlighting
             'createNode': function($node, data) {
-                // Mark currently allowed companies with visual indicator
+                // Mark currently allowed companies
                 if (self.current_allowed_companies.indexOf(data.id) !== -1) {
                     $node.addClass('currently-allowed');
                 }
                 
-                // Add click handler when node is created
+                // Mark current active company
+                if (data.current) {
+                    $node.addClass('current-company');
+                }
+                
+                // Add click handler
                 $node.on('click.companyswitch', function(e) {
                     e.preventDefault();
                     e.stopPropagation();
                     
-                    console.log('Node clicked!', data.id, 'Multi-select mode:', self.multi_select_mode);
-                    console.log('Node classes before:', $node.attr('class'));
-                    
                     if (self.multi_select_mode) {
-                        // Multi-select mode - toggle selection with visual feedback
-                        var isSelected = $node.find('.company-node').hasClass('multi-selected');
-                        console.log('Is currently selected:', isSelected);
+                        var clickedId = data.id;
                         
-                        if (isSelected) {
-                            // Deselect
-                            $node.find('.company-node').removeClass('multi-selected');
-                            $node.find('.selection-badge').hide();
-                            self.selected_companies = self.selected_companies.filter(id => id !== data.id);
-                            console.log('Deselected company:', data.id);
-                        } else {
-                            // Select
-                            $node.find('.company-node').addClass('multi-selected');
-                            $node.find('.selection-badge').show();
-                            if (self.selected_companies.indexOf(data.id) === -1) {
-                                self.selected_companies.push(data.id);
+                        if (e.ctrlKey || e.metaKey) {
+                            // ACTION: Désigner la compagnie active avec Ctrl+Clic
+                            self.designatedActiveId = clickedId;
+                            console.log("=== CTRL+CLIC DÉTECTÉ ===");
+                            console.log("Compagnie désignée comme active:", clickedId);
+                            console.log("designatedActiveId après:", self.designatedActiveId);
+                            
+                            // Assurer que la compagnie désignée est aussi cochée
+                            if (self.selectedAllowedIds.indexOf(clickedId) === -1) {
+                                self.selectedAllowedIds.push(clickedId);
+                                console.log("Compagnie ajoutée aux cochées:", clickedId);
                             }
-                            console.log('Selected company:', data.id);
+                            console.log("selectedAllowedIds après:", self.selectedAllowedIds);
+                        } else {
+                            // ACTION: Cocher / Décocher une compagnie
+                            console.log("=== CLIC NORMAL DÉTECTÉ ===");
+                            console.log("Compagnie cliquée:", clickedId);
+                            var index = self.selectedAllowedIds.indexOf(clickedId);
+                            if (index > -1) {
+                                self.selectedAllowedIds.splice(index, 1); // Décocher
+                                console.log("Compagnie décochée:", clickedId);
+                                // Si on décoche la compagnie désignée comme active, la réinitialiser
+                                if (self.designatedActiveId === clickedId) {
+                                    self.designatedActiveId = null;
+                                    console.log("designatedActiveId réinitialisée");
+                                }
+                            } else {
+                                self.selectedAllowedIds.push(clickedId); // Cocher
+                                console.log("Compagnie cochée:", clickedId);
+                            }
+                            console.log("selectedAllowedIds après:", self.selectedAllowedIds);
+                            console.log("designatedActiveId après:", self.designatedActiveId);
                         }
                         
-                        console.log('Node classes after:', $node.attr('class'));
-                        console.log('Node HTML:', $node[0].outerHTML);
-                        console.log('Company node HTML:', $node.find('.company-node')[0] ? $node.find('.company-node')[0].outerHTML : 'NOT FOUND');
-                        console.log('Selected companies:', self.selected_companies);
                         self._updateSelectionUI($modal);
                     } else {
-                        // Single select mode - clear other selections and highlight current
-                        console.log('Single select mode - clearing other selections');
-                        $modal.find('.company-node').removeClass('single-selected');
-                        // Find the company node and highlight it
-                        var $companyNode = $modal.find('.company-node[data-company-id="' + data.id + '"]');
-                        $companyNode.addClass('single-selected');
-                        console.log('Company node classes after single select:', $companyNode.attr('class'));
-                        self._switchToSingleCompany(data.id);
+                        // Mode simple : l'action est directe
+                        session.setCompanies(data.id, [data.id]);
                     }
                 });
                 
                 return $node;
             }
         });
-        
-        // No need for additional event binding - handled in createNode callback
     },
 
     _transformDataForOrgChart: function () {
@@ -233,8 +262,6 @@ var VisualCompanySwitcher = Widget.extend({
     },
 
     _renderCompanyNode: function (data) {
-        console.log('_renderCompanyNode called with data:', data);
-        
         // Using structure inspired by OCA hr_org_chart_overview
         var nodeHtml = '<div class="company-node" data-company-id="' + data.id + '">';
         
@@ -250,7 +277,7 @@ var VisualCompanySwitcher = Widget.extend({
             nodeHtml += '</div>';
         }
         
-        // Logo section (like OCA's image span)
+        // Logo section
         nodeHtml += '<span class="company-image">';
         if (data.logo) {
             nodeHtml += '<img src="data:image/png;base64,' + data.logo + '" alt="Logo ' + _.escape(data.name) + '"/>';
@@ -259,16 +286,13 @@ var VisualCompanySwitcher = Widget.extend({
         }
         nodeHtml += '</span>';
         
-        // Company info (like OCA's title/content structure)
+        // Company info
         nodeHtml += '<div class="company-title">' + _.escape(data.name) + '</div>';
         if (data.title && data.title !== data.name) {
             nodeHtml += '<div class="company-content">' + _.escape(data.title) + '</div>';
         }
         
-        // Status indicator removed - using visual icons only
-        
         nodeHtml += '</div>';
-        console.log('Generated nodeHtml:', nodeHtml);
         return nodeHtml;
     },
 
@@ -288,12 +312,10 @@ var VisualCompanySwitcher = Widget.extend({
             $applyButton.show();
             $clearButton.show();
             
-            // Clear any single selections
-            $modal.find('.company-node').removeClass('single-selected');
-            
             // Pre-select currently allowed companies
-            this.selected_companies = [...this.current_allowed_companies];
-            this._highlightCurrentSelection($modal);
+            this.selectedAllowedIds = [...this.current_allowed_companies];
+            // Garder la compagnie actuellement active comme désignée
+            this.designatedActiveId = this.current_company_id;
             this._updateSelectionUI($modal);
             
         } else {
@@ -308,7 +330,7 @@ var VisualCompanySwitcher = Widget.extend({
     },
 
     _updateSelectionUI: function ($modal) {
-        var count = this.selected_companies.length;
+        var count = this.selectedAllowedIds.length;
         $modal.find('#selectionCount').text(count);
         $modal.find('#applyCount').text(count);
         
@@ -319,31 +341,63 @@ var VisualCompanySwitcher = Widget.extend({
         } else {
             $applyButton.removeClass('btn-success').addClass('btn-outline-success');
         }
+        
+        // Update visual selection in chart
+        this._refreshChartSelection($modal);
+        
+        // Afficher quelle compagnie sera la principale
+        this._updateActiveDesignation($modal);
     },
     
-    _highlightCurrentSelection: function ($modal) {
+    _refreshChartSelection: function ($modal) {
         var self = this;
-        // Clear existing selections first
-        $modal.find('.company-node').removeClass('multi-selected');
+        
+        // Clear all previous selections
+        $modal.find('.company-node').removeClass('multi-selected single-selected');
         $modal.find('.selection-badge').hide();
         
-        // Highlight selected companies
-        this.selected_companies.forEach(function(company_id) {
-            var $companyNode = $modal.find('.company-node[data-company-id="' + company_id + '"]');
-            if ($companyNode.length) {
-                $companyNode.addClass('multi-selected');
-                $companyNode.find('.selection-badge').show();
-                console.log('Highlighted company node:', company_id, $companyNode[0]);
+        if (this.multi_select_mode) {
+            // Show multi-selections
+            this.selectedAllowedIds.forEach(function(company_id) {
+                var $companyNode = $modal.find('.company-node[data-company-id="' + company_id + '"]');
+                if ($companyNode.length) {
+                    $companyNode.addClass('multi-selected');
+                    $companyNode.find('.selection-badge').show();
+                }
+            });
+        }
+    },
+    
+    _updateActiveDesignation: function ($modal) {
+        var self = this;
+        
+        // Déterminer quelle compagnie sera la principale selon la logique de repli
+        var futureActiveId = null;
+        if (this.selectedAllowedIds.length > 0) {
+            if (this.designatedActiveId && this.selectedAllowedIds.indexOf(this.designatedActiveId) !== -1) {
+                // Priorité 1: Compagnie explicitement désignée
+                futureActiveId = this.designatedActiveId;
+            } else if (this.selectedAllowedIds.indexOf(this.current_company_id) !== -1) {
+                // Priorité 2: Compagnie actuellement active si cochée
+                futureActiveId = this.current_company_id;
             } else {
-                console.log('Company node not found for ID:', company_id);
+                // Priorité 3: Première compagnie cochée
+                futureActiveId = this.selectedAllowedIds[0];
             }
-        });
+        }
+        
+        // Retirer toutes les désignations précédentes
+        $modal.find('.company-node').removeClass('future-active');
+        
+        // Ajouter la classe pour la compagnie qui sera active
+        if (futureActiveId) {
+            $modal.find('.company-node[data-company-id="' + futureActiveId + '"]').addClass('future-active');
+        }
     },
     
     _clearAllSelections: function ($modal) {
-        this.selected_companies = [];
-        $modal.find('.company-node').removeClass('multi-selected');
-        $modal.find('.selection-badge').hide();
+        this.selectedAllowedIds = [];
+        this.designatedActiveId = null;
         this._updateSelectionUI($modal);
     },
 
@@ -361,43 +415,16 @@ var VisualCompanySwitcher = Widget.extend({
             'Confirmer',
             'btn-primary',
             function() {
-                self._performSingleSwitch(company_id);
+                // Clic simple : cette compagnie devient active et unique
+                self._updateCompanyContext(company_id, [company_id]);
             }
         );
-    },
-    
-    _performSingleSwitch: function(company_id) {
-        var self = this;
-        
-        rpc.query({
-            route: '/web/visual_company_switcher/switch_company',
-            params: {
-                company_id: company_id,
-            },
-        }).then(function (result) {
-            if (result.error) {
-                self.displayNotification({
-                    type: 'danger',
-                    title: _t('Erreur'),
-                    message: result.error,
-                });
-            } else if (result.success && result.reload) {
-                self._softReload();
-            }
-        }).catch(function (error) {
-            console.error('Company switch error:', error);
-            self.displayNotification({
-                type: 'danger',
-                title: _t('Erreur'),
-                message: _t('Une erreur est survenue lors du changement de compagnie.'),
-            });
-        });
     },
 
     _applyMultipleSelection: function ($modal) {
         var self = this;
         
-        if (this.selected_companies.length === 0) {
+        if (this.selectedAllowedIds.length === 0) {
             this.displayNotification({
                 type: 'warning',
                 title: _t('Attention'),
@@ -407,16 +434,16 @@ var VisualCompanySwitcher = Widget.extend({
         }
         
         // Show confirmation with company names
-        var selectedNames = this.selected_companies.map(id => {
+        var selectedNames = this.selectedAllowedIds.map(id => {
             var company = this.companies_data.find(c => c.id === id);
             return company ? company.name : `ID: ${id}`;
         });
         
         var message;
-        if (this.selected_companies.length === 1) {
+        if (this.selectedAllowedIds.length === 1) {
             message = `Utiliser "${selectedNames[0]}" comme compagnie active ?`;
         } else {
-            message = `Utiliser ${this.selected_companies.length} compagnies sélectionnées ?\n\n• ${selectedNames.join('\n• ')}\n\nLa première sera la compagnie principale.`;
+            message = `Utiliser ${this.selectedAllowedIds.length} compagnies sélectionnées ?\n\n• ${selectedNames.join('\n• ')}\n\nLa première sera la compagnie principale.`;
         }
         
         this._showConfirmationDialog(
@@ -433,30 +460,32 @@ var VisualCompanySwitcher = Widget.extend({
     _performMultipleSwitch: function() {
         var self = this;
         
-        rpc.query({
-            route: '/web/visual_company_switcher/switch_companies',
-            params: {
-                company_ids: this.selected_companies,
-            },
-        }).then(function (result) {
-            if (result.error) {
-                self.displayNotification({
-                    type: 'danger',
-                    title: _t('Erreur'),
-                    message: result.error,
-                });
-            } else if (result.success && result.reload) {
-                self._softReload();
-            }
-        }).catch(function (error) {
-            console.error('Multiple companies switch error:', error);
-            self.displayNotification({
-                type: 'danger',
-                title: _t('Erreur'),
-                message: _t('Une erreur est survenue lors du changement de compagnies.'),
+        // Récupérer les états finaux
+        let finalActive = this.designatedActiveId;
+        
+        if (this.selectedAllowedIds.length === 0) {
+            this.displayNotification({
+                type: 'warning',
+                title: _t('Attention'),
+                message: _t('Veuillez sélectionner au moins une compagnie.'),
             });
-        });
+            return;
+        }
+        
+        // Logique de repli : si aucune active n'est désignée OU si elle a été décochée
+        if (!finalActive || this.selectedAllowedIds.indexOf(finalActive) === -1) {
+            // PRIORITÉ CORRIGÉE : Prendre la PREMIÈRE compagnie sélectionnée
+            // (l'ordre de sélection détermine la priorité, pas la compagnie actuellement active)
+            finalActive = this.selectedAllowedIds[0];
+        }
+        
+        // CORRECTION CLÉE : Construire finalAllowed avec la compagnie active en PREMIER
+        const finalAllowed = [finalActive, ...this.selectedAllowedIds.filter(id => id !== finalActive)];
+        
+        // L'appel final qui ne peut pas échouer
+        session.setCompanies(finalActive, finalAllowed);
     },
+    
 
     _showConfirmationDialog: function(title, message, confirmText, confirmClass, onConfirm) {
         var $dialog = $(`
@@ -499,75 +528,14 @@ var VisualCompanySwitcher = Widget.extend({
             $dialog.remove();
         });
     },
-
-    _softReload: function () {
-        // Instead of full page reload, trigger necessary updates
-        var self = this;
-        
-        // Close the modal
-        $('#visualCompanySwitcherModal').modal('hide');
-        
-        // Show success notification
-        this.displayNotification({
-            type: 'success',
-            title: _t('Succès'),
-            message: _t('Compagnie changée avec succès.'),
-        });
-        
-        // Trigger web client reload (fallback to page reload for now)
-        window.location.reload();
-        
-        // Clear cached data to force refresh next time
-        this.companies_data = null;
-        this._cacheTime = 0;
-    },
 });
 
 // Systray menu item
 var SystrayCompanySwitcher = Widget.extend({
     template: 'SystrayCompanySwitcher',
     
-    init: function (parent) {
-        this._super(parent);
-        this.currentCompany = null;
-    },
-    
-    start: function () {
-        var self = this;
-        return this._super().then(function () {
-            return self._loadCurrentCompany();
-        });
-    },
-    
     events: {
         'click .o_visual_company_switcher': '_openSwitcher',
-    },
-
-    _loadCurrentCompany: function () {
-        var self = this;
-        return rpc.query({
-            route: '/web/visual_company_switcher/companies',
-        }).then(function (result) {
-            if (result.companies) {
-                self.currentCompany = result.companies.find(function (company) {
-                    return company.current;
-                });
-                self.allowedCompanies = result.current_allowed_companies || [];
-                self._updateDisplay();
-            }
-        }).catch(function (error) {
-            console.error('Failed to load current company:', error);
-        });
-    },
-    
-    _updateDisplay: function () {
-        if (this.currentCompany) {
-            var displayText = this.currentCompany.name;
-            if (this.allowedCompanies && this.allowedCompanies.length > 1) {
-                displayText += ' (+' + (this.allowedCompanies.length - 1) + ')';
-            }
-            this.$('.current-company-indicator').text(displayText);
-        }
     },
 
     _openSwitcher: function () {

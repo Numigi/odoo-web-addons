@@ -11,40 +11,53 @@ class CompanySwitcher(http.Controller):
 
     @http.route('/web/visual_company_switcher/companies', type='json', auth='user', csrf=True)
     def get_companies_data(self):
-        """Return companies data formatted for OrgChart.js"""
+        """Return companies data with correct current/allowed status"""
         try:
             user = request.env.user
-            allowed_companies = user.company_ids
+            available_companies = user.company_ids
             
-            if not allowed_companies:
+            if not available_companies:
                 return {'error': 'No companies accessible'}
             
+            # Get current session info
+            current_company_id = user.company_id.id
+            session_allowed_ids = request.session.get('allowed_company_ids', [current_company_id])
+            
+            
             companies_data = []
-            for company in allowed_companies:
-                # Get company logo as base64 (like OCA hr_org_chart_overview)
+            for company in available_companies:
+                # Get company logo as base64
                 logo_base64 = None
                 if company.logo:
-                    # Convert binary logo to base64 string
                     logo_base64 = company.logo.decode('utf-8') if isinstance(company.logo, bytes) else company.logo
                 
+                # Force int conversion for comparison
+                company_id_int = int(company.id)
+                current_company_id_int = int(current_company_id)
+                session_allowed_ints = [int(x) for x in session_allowed_ids]
+                
+                is_current = company_id_int == current_company_id_int
+                is_allowed = company_id_int in session_allowed_ints
+                
                 company_data = {
-                    'id': company.id,
+                    'id': company_id_int,  # Ensure int type
                     'name': company.name,
                     'title': company.display_name,
                     'parent_id': company.parent_id.id if company.parent_id else None,
                     'logo': logo_base64,
-                    'current': company.id == user.company_id.id,
-                    'allowed': True
+                    'current': is_current,
+                    'allowed': is_allowed
                 }
                 companies_data.append(company_data)
             
-            # Add current session allowed companies info
-            current_allowed = request.session.get('allowed_company_ids', [user.company_id.id])
-            
-            return {
+            result = {
                 'companies': companies_data,
-                'current_allowed_companies': current_allowed
+                'current_allowed_companies': [int(x) for x in session_allowed_ids],  # Ensure int list
+                'current_company_id': int(current_company_id)  # Ensure int
             }
+            
+            return result
+            
         except Exception as e:
             return {'error': f'Failed to load companies: {str(e)}'}
 
