@@ -3,16 +3,31 @@
 
 .visual-company-switcher-icon {
     cursor: pointer;
-    color: #6c757d;
-    margin-left: 10px;
-    padding: 8px;
+    color: white;
+    margin-left: 5px;
+    padding: 6px 10px;
     border-radius: 4px;
     transition: all 0.2s;
 }
 
 .visual-company-switcher-icon:hover {
     color: #007bff;
-    background-color: rgba(0, 123, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.o_visual_company_switcher {
+    display: flex;
+    align-items: center;
+    padding: 4px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    color: white;
+}
+
+.o_visual_company_switcher:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    text-decoration: none;
+    color: white;
 }
 
 .company-node {
@@ -38,26 +53,112 @@
     background-color: #f8f9fa;
 }
 
-.company-node.selected {
-    border-color: #007bff;
-    background-color: #e3f2fd;
+.company-node.selected,
+.orgchart .node.selected .company-node {
+    border-color: #007bff !important;
+    background-color: #e3f2fd !important;
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3) !important;
+    transform: scale(1.05);
 }
 
-.company-checkbox {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    z-index: 10;
+/* Selected state for orgchart nodes - enhanced highlighting */
+.orgchart .node.single-selected,
+.node.single-selected {
+    z-index: 100 !important;
 }
+
+.orgchart .node.single-selected .company-node,
+.node.single-selected .company-node {
+    border: 3px solid #007bff !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.2) !important;
+    transform: scale(1.05) translateZ(0) !important;
+    animation: pulseBlue 2s infinite !important;
+}
+
+.orgchart .node.multi-selected,
+.node.multi-selected {
+    z-index: 99 !important;
+}
+
+.orgchart .node.multi-selected .company-node,
+.node.multi-selected .company-node {
+    border: 3px solid #28a745 !important;
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%) !important;
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4), 0 0 0 2px rgba(40, 167, 69, 0.2) !important;
+    transform: scale(1.03) translateZ(0) !important;
+}
+
+/* Pulse animation for active selection */
+@keyframes pulseBlue {
+    0%, 100% {
+        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.2);
+    }
+    50% {
+        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.6), 0 0 0 3px rgba(0, 123, 255, 0.3);
+    }
+}
+
+/* Hover effects for better interactivity */
+.orgchart .node:hover .company-node {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+    transition: all 0.2s ease;
+}
+
+/* Selection badge */
+.selection-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 100;
+    color: #28a745;
+    font-size: 18px;
+    background: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: bounceIn 0.3s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 
 .company-logo {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
 }
 
 .company-logo img {
-    max-width: 40px;
-    max-height: 40px;
-    border-radius: 50%;
+    max-width: 45px;
+    max-height: 45px;
+    border-radius: 8px;
+    object-fit: contain;
+    border: 2px solid rgba(0,0,0,0.05);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+}
+
+.company-logo img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
 .company-name {
@@ -112,4 +213,130 @@
 .company-switcher-toolbar {
     border-bottom: 1px solid #dee2e6;
     padding-bottom: 15px;
+}
+
+/* Fix pour les boutons dans la toolbar */
+.company-switcher-toolbar .btn {
+    color: #495057;
+}
+
+.company-switcher-toolbar .btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.company-switcher-toolbar .btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.company-switcher-toolbar .btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* Toggle switch pour mode simple/multiple */
+.mode-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mode-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.mode-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.mode-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.mode-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 22px;
+    transition: .3s;
+}
+
+.mode-indicator {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.mode-switch input:checked + .mode-slider {
+    background-color: #007bff;
+}
+
+.mode-switch input:checked + .mode-slider .mode-indicator {
+    transform: translateX(18px);
+}
+
+.mode-switch input:checked ~ .mode-label:last-child {
+    color: #007bff;
+    font-weight: 600;
+}
+
+.company-switcher-toolbar .selection-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #495057;
+    white-space: nowrap;
+}
+
+.company-switcher-toolbar .selection-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.company-switcher-toolbar .badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    font-weight: 600;
+}
+
+/* Systray company indicator */
+.current-company-indicator {
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.9);
+    margin-left: 5px;
+    padding: 2px 6px;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 3px;
+    max-width: 80px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
 }

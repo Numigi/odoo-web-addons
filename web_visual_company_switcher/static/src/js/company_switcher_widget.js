@@ -23,7 +23,8 @@ var VisualCompanySwitcher = Widget.extend({
 
     init: function () {
         this._super.apply(this, arguments);
-        this.companies_data = [];
+        this.companies_data = null;
+        this._cacheTime = 0;
         this.selected_companies = [];
         this.multi_select_mode = false;
     },
@@ -31,18 +32,46 @@ var VisualCompanySwitcher = Widget.extend({
     _openModal: function () {
         var self = this;
         
-        // Load companies data
+        // Load companies data and show modal directly
         this._loadCompaniesData().then(function () {
             self._showModal();
+        }).catch(function () {
+            // Error handling is already in _loadCompaniesData
         });
     },
 
     _loadCompaniesData: function () {
         var self = this;
+        
+        // Check cache (5 minutes TTL)
+        var now = Date.now();
+        if (this.companies_data && this._cacheTime && (now - this._cacheTime) < 300000) {
+            return Promise.resolve(this.companies_data);
+        }
+        
         return rpc.query({
             route: '/web/visual_company_switcher/companies',
-        }).then(function (data) {
-            self.companies_data = data;
+        }).then(function (result) {
+            if (result.error) {
+                self.displayNotification({
+                    type: 'danger',
+                    title: _t('Erreur'),
+                    message: result.error,
+                });
+                return Promise.reject(result.error);
+            }
+            // Cache the data
+            self.companies_data = result.companies || [];
+            self._cacheTime = now;
+            
+            return self.companies_data;
+        }).catch(function (error) {
+            self.displayNotification({
+                type: 'danger',
+                title: _t('Erreur'),
+                message: _t('Impossible de charger les données des compagnies.'),
+            });
+            return Promise.reject(error);
         });
     },
 
@@ -67,8 +96,8 @@ var VisualCompanySwitcher = Widget.extend({
             $modal.remove();
         });
         
-        // Bind events
-        $modal.find('#multiSelectMode').on('change', function () {
+        // Bind events - toggle switch
+        $modal.find('#multiSelectToggle').on('change', function () {
             self.multi_select_mode = $(this).prop('checked');
             self._toggleMultiSelectMode($modal);
         });
@@ -76,11 +105,18 @@ var VisualCompanySwitcher = Widget.extend({
         $modal.find('#applySelection').on('click', function () {
             self._applyMultipleSelection($modal);
         });
+        
+        $modal.find('#clearSelection').on('click', function () {
+            self._clearAllSelections($modal);
+        });
     },
 
     _initializeOrgChart: function ($modal) {
         var self = this;
         var $container = $modal.find('#orgchart-container');
+        
+        // Show loading spinner
+        $container.html('<div class="d-flex justify-content-center align-items-center h-100"><div class="spinner-border text-primary" role="status"><span class="sr-only">Chargement...</span></div></div>');
         
         // Transform data for orgchart
         var orgData = this._transformDataForOrgChart();
@@ -90,7 +126,8 @@ var VisualCompanySwitcher = Widget.extend({
             return;
         }
         
-        // Initialize orgchart
+        // Clear container and initialize orgchart
+        $container.empty();
         var $orgChart = $('<div id="orgchart"></div>').appendTo($container);
         
         $orgChart.orgchart({
@@ -98,13 +135,53 @@ var VisualCompanySwitcher = Widget.extend({
             'nodeContent': function (data) {
                 return self._renderCompanyNode(data);
             },
-            'direction': 'b2t', // Bottom to top
+            'direction': 't2b', // Top to bottom
             'pan': true,
             'zoom': true,
+            'toggleSiblingsResp': false, // Disable default sibling highlighting
+            'createNode': function($node, data) {
+                // Add click handler when node is created
+                $node.on('click.companyswitch', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    
+                    if (self.multi_select_mode) {
+                        // Multi-select mode - toggle selection with visual feedback
+                        var isSelected = $node.hasClass('multi-selected');
+                        console.log('Multi-select click. Node selected?', isSelected, 'Node classes:', $node.attr('class'));
+                        
+                        if (isSelected) {
+                            // Deselect
+                            $node.removeClass('multi-selected');
+                            $node.find('.selection-badge').hide();
+                            self.selected_companies = self.selected_companies.filter(id => id !== data.id);
+                            console.log('Deselected company:', data.id);
+                        } else {
+                            // Select
+                            $node.addClass('multi-selected');
+                            $node.find('.selection-badge').show();
+                            if (self.selected_companies.indexOf(data.id) === -1) {
+                                self.selected_companies.push(data.id);
+                            }
+                            console.log('Selected company:', data.id, 'Node classes after:', $node.attr('class'));
+                        }
+                        
+                        self._updateSelectionUI($modal);
+                    } else {
+                        // Single select mode - switch immediately
+                        console.log('Single select mode - clearing previous selections');
+                        $modal.find('.node').removeClass('single-selected');
+                        $node.addClass('single-selected');
+                        console.log('Single select - Node classes after:', $node.attr('class'));
+                        self._switchToSingleCompany(data.id);
+                    }
+                });
+                
+                return $node;
+            }
         });
         
-        // Bind click events on company nodes
-        this._bindNodeEvents($modal);
+        // No need for additional event binding - handled in createNode callback
     },
 
     _transformDataForOrgChart: function () {
@@ -141,9 +218,9 @@ var VisualCompanySwitcher = Widget.extend({
     _renderCompanyNode: function (data) {
         var nodeHtml = '<div class="company-node" data-company-id="' + data.id + '">';
         
-        // Checkbox (hidden by default)
-        nodeHtml += '<div class="company-checkbox" style="display: none;">';
-        nodeHtml += '<input type="checkbox" class="company-select" data-company-id="' + data.id + '"/>';
+        // Selection badge (hidden by default, positioned at top-right)
+        nodeHtml += '<div class="selection-badge" style="display: none;">';
+        nodeHtml += '<i class="fa fa-check-circle"></i>';
         nodeHtml += '</div>';
         
         // Logo
@@ -167,66 +244,79 @@ var VisualCompanySwitcher = Widget.extend({
         return nodeHtml;
     },
 
-    _bindNodeEvents: function ($modal) {
-        var self = this;
-        
-        // Single click for single selection
-        $modal.find('.company-node').on('click', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            
-            var company_id = parseInt($(this).data('company-id'));
-            
-            if (self.multi_select_mode) {
-                // Toggle selection in multi-select mode
-                var $checkbox = $(this).find('.company-select');
-                $checkbox.prop('checked', !$checkbox.prop('checked'));
-                self._updateSelectedCompanies($modal);
-            } else {
-                // Single selection mode - switch immediately
-                self._switchToSingleCompany(company_id);
-            }
-        });
-        
-        // Checkbox change event
-        $modal.find('.company-select').on('change', function () {
-            self._updateSelectedCompanies($modal);
-        });
-    },
 
     _toggleMultiSelectMode: function ($modal) {
-        var $checkboxes = $modal.find('.company-checkbox');
+        var $toggle = $modal.find('#multiSelectToggle');
+        var $selectionInfo = $modal.find('#selectionInfo');
         var $applyButton = $modal.find('#applySelection');
+        var $clearButton = $modal.find('#clearSelection');
+        
+        // Update toggle state to match mode
+        $toggle.prop('checked', this.multi_select_mode);
         
         if (this.multi_select_mode) {
-            $checkboxes.show();
+            // Switch to multi-select mode
+            $selectionInfo.show();
             $applyButton.show();
-        } else {
-            $checkboxes.hide();
-            $applyButton.hide();
-            // Clear selections
-            $modal.find('.company-select').prop('checked', false);
+            $clearButton.show();
+            
+            // Clear any single selections
+            $modal.find('.node').removeClass('single-selected');
             this.selected_companies = [];
+            this._updateSelectionUI($modal);
+            
+        } else {
+            // Switch to single mode
+            $selectionInfo.hide();
+            $applyButton.hide();
+            $clearButton.hide();
+            
+            // Clear all multi-selections
+            this._clearAllSelections($modal);
         }
     },
 
-    _updateSelectedCompanies: function ($modal) {
-        var self = this;
+    _updateSelectionUI: function ($modal) {
+        var count = this.selected_companies.length;
+        $modal.find('#selectionCount').text(count);
+        $modal.find('#applyCount').text(count);
+        
+        // Enable/disable apply button
+        var $applyButton = $modal.find('#applySelection');
+        if (count > 0) {
+            $applyButton.removeClass('btn-outline-success').addClass('btn-success');
+        } else {
+            $applyButton.removeClass('btn-success').addClass('btn-outline-success');
+        }
+    },
+    
+    _clearAllSelections: function ($modal) {
         this.selected_companies = [];
-        
-        $modal.find('.company-select:checked').each(function () {
-            var company_id = parseInt($(this).data('company-id'));
-            self.selected_companies.push(company_id);
-        });
-        
-        // Update visual selection
-        $modal.find('.company-node').removeClass('selected');
-        this.selected_companies.forEach(function (company_id) {
-            $modal.find('.company-node[data-company-id="' + company_id + '"]').addClass('selected');
-        });
+        $modal.find('.node').removeClass('multi-selected');
+        $modal.find('.selection-badge').hide();
+        this._updateSelectionUI($modal);
     },
 
     _switchToSingleCompany: function (company_id) {
+        var self = this;
+        
+        // Find company name for confirmation
+        var company = this.companies_data.find(c => c.id === company_id);
+        var companyName = company ? company.name : 'Compagnie inconnue';
+        
+        // Show confirmation dialog
+        this._showConfirmationDialog(
+            'Changer de compagnie',
+            `Voulez-vous basculer vers "${companyName}" ?`,
+            'Confirmer',
+            'btn-primary',
+            function() {
+                self._performSingleSwitch(company_id);
+            }
+        );
+    },
+    
+    _performSingleSwitch: function(company_id) {
         var self = this;
         
         rpc.query({
@@ -241,10 +331,11 @@ var VisualCompanySwitcher = Widget.extend({
                     title: _t('Erreur'),
                     message: result.error,
                 });
-            } else if (result.reload) {
-                window.location.reload();
+            } else if (result.success && result.reload) {
+                self._softReload();
             }
         }).catch(function (error) {
+            console.error('Company switch error:', error);
             self.displayNotification({
                 type: 'danger',
                 title: _t('Erreur'),
@@ -265,6 +356,33 @@ var VisualCompanySwitcher = Widget.extend({
             return;
         }
         
+        // Show confirmation with company names
+        var selectedNames = this.selected_companies.map(id => {
+            var company = this.companies_data.find(c => c.id === id);
+            return company ? company.name : `ID: ${id}`;
+        });
+        
+        var message;
+        if (this.selected_companies.length === 1) {
+            message = `Utiliser "${selectedNames[0]}" comme compagnie active ?`;
+        } else {
+            message = `Utiliser ${this.selected_companies.length} compagnies sélectionnées ?\n\n• ${selectedNames.join('\n• ')}\n\nLa première sera la compagnie principale.`;
+        }
+        
+        this._showConfirmationDialog(
+            'Appliquer sélection',
+            message,
+            'Appliquer',
+            'btn-success',
+            function() {
+                self._performMultipleSwitch();
+            }
+        );
+    },
+    
+    _performMultipleSwitch: function() {
+        var self = this;
+        
         rpc.query({
             route: '/web/visual_company_switcher/switch_companies',
             params: {
@@ -277,10 +395,11 @@ var VisualCompanySwitcher = Widget.extend({
                     title: _t('Erreur'),
                     message: result.error,
                 });
-            } else if (result.reload) {
-                window.location.reload();
+            } else if (result.success && result.reload) {
+                self._softReload();
             }
         }).catch(function (error) {
+            console.error('Multiple companies switch error:', error);
             self.displayNotification({
                 type: 'danger',
                 title: _t('Erreur'),
@@ -288,14 +407,112 @@ var VisualCompanySwitcher = Widget.extend({
             });
         });
     },
+
+    _showConfirmationDialog: function(title, message, confirmText, confirmClass, onConfirm) {
+        var $dialog = $(`
+            <div class="modal fade" id="companyConfirmModal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-sm" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">${_.escape(title)}</h5>
+                            <button type="button" class="close" data-dismiss="modal">
+                                <span>&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p style="white-space: pre-line;">${_.escape(message)}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">
+                                <i class="fa fa-times mr-1"></i>Annuler
+                            </button>
+                            <button type="button" class="btn ${confirmClass}" id="confirmAction">
+                                <i class="fa fa-check mr-1"></i>${_.escape(confirmText)}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `);
+        
+        $dialog.appendTo($('body'));
+        $dialog.modal('show');
+        
+        // Handle confirm action
+        $dialog.find('#confirmAction').on('click', function() {
+            $dialog.modal('hide');
+            onConfirm();
+        });
+        
+        // Clean up when closed
+        $dialog.on('hidden.bs.modal', function () {
+            $dialog.remove();
+        });
+    },
+
+    _softReload: function () {
+        // Instead of full page reload, trigger necessary updates
+        var self = this;
+        
+        // Close the modal
+        $('#visualCompanySwitcherModal').modal('hide');
+        
+        // Show success notification
+        this.displayNotification({
+            type: 'success',
+            title: _t('Succès'),
+            message: _t('Compagnie changée avec succès.'),
+        });
+        
+        // Trigger web client reload (fallback to page reload for now)
+        window.location.reload();
+        
+        // Clear cached data to force refresh next time
+        this.companies_data = null;
+        this._cacheTime = 0;
+    },
 });
 
 // Systray menu item
 var SystrayCompanySwitcher = Widget.extend({
     template: 'SystrayCompanySwitcher',
     
+    init: function (parent) {
+        this._super(parent);
+        this.currentCompany = null;
+    },
+    
+    start: function () {
+        var self = this;
+        return this._super().then(function () {
+            return self._loadCurrentCompany();
+        });
+    },
+    
     events: {
         'click .o_visual_company_switcher': '_openSwitcher',
+    },
+
+    _loadCurrentCompany: function () {
+        var self = this;
+        return rpc.query({
+            route: '/web/visual_company_switcher/companies',
+        }).then(function (result) {
+            if (result.companies) {
+                self.currentCompany = result.companies.find(function (company) {
+                    return company.current;
+                });
+                self._updateDisplay();
+            }
+        }).catch(function (error) {
+            console.error('Failed to load current company:', error);
+        });
+    },
+    
+    _updateDisplay: function () {
+        if (this.currentCompany) {
+            this.$('.current-company-indicator').text(this.currentCompany.name);
+        }
     },
 
     _openSwitcher: function () {
