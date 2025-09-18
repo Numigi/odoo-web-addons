@@ -163,12 +163,22 @@ var VisualCompanySwitcher = Widget.extend({
                         if (isSelected) {
                             // Deselect
                             $node.removeClass('multi-selected');
+                            $node.find('.company-node').css({
+                                'border': '2px solid #e9ecef',
+                                'background': 'white',
+                                'transform': 'scale(1)'
+                            });
                             $node.find('.selection-badge').hide();
                             self.selected_companies = self.selected_companies.filter(id => id !== data.id);
                             console.log('Deselected company:', data.id);
                         } else {
                             // Select
                             $node.addClass('multi-selected');
+                            $node.find('.company-node').css({
+                                'border': '5px solid green !important',
+                                'background': 'lightgreen !important',
+                                'transform': 'scale(1.1) !important'
+                            });
                             $node.find('.selection-badge').show();
                             if (self.selected_companies.indexOf(data.id) === -1) {
                                 self.selected_companies.push(data.id);
@@ -177,13 +187,25 @@ var VisualCompanySwitcher = Widget.extend({
                         }
                         
                         console.log('Node classes after:', $node.attr('class'));
+                        console.log('Node HTML:', $node[0].outerHTML);
+                        console.log('Company node HTML:', $node.find('.company-node')[0] ? $node.find('.company-node')[0].outerHTML : 'NOT FOUND');
                         console.log('Selected companies:', self.selected_companies);
                         self._updateSelectionUI($modal);
                     } else {
                         // Single select mode - clear other selections and highlight current
                         console.log('Single select mode - clearing other selections');
                         $modal.find('.node').removeClass('single-selected');
+                        $modal.find('.company-node').css({
+                            'border': '2px solid #e9ecef',
+                            'background': 'white',
+                            'transform': 'scale(1)'
+                        });
                         $node.addClass('single-selected');
+                        $node.find('.company-node').css({
+                            'border': '5px solid red !important',
+                            'background': 'yellow !important',
+                            'transform': 'scale(1.1) !important'
+                        });
                         console.log('Node classes after single select:', $node.attr('class'));
                         self._switchToSingleCompany(data.id);
                     }
