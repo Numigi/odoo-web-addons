@@ -152,15 +152,20 @@ var VisualCompanySwitcher = Widget.extend({
                     e.preventDefault();
                     e.stopPropagation();
                     
+                    console.log('Node clicked!', data.id, 'Multi-select mode:', self.multi_select_mode);
+                    console.log('Node classes before:', $node.attr('class'));
+                    
                     if (self.multi_select_mode) {
                         // Multi-select mode - toggle selection with visual feedback
                         var isSelected = $node.hasClass('multi-selected');
+                        console.log('Is currently selected:', isSelected);
                         
                         if (isSelected) {
                             // Deselect
                             $node.removeClass('multi-selected');
                             $node.find('.selection-badge').hide();
                             self.selected_companies = self.selected_companies.filter(id => id !== data.id);
+                            console.log('Deselected company:', data.id);
                         } else {
                             // Select
                             $node.addClass('multi-selected');
@@ -168,13 +173,18 @@ var VisualCompanySwitcher = Widget.extend({
                             if (self.selected_companies.indexOf(data.id) === -1) {
                                 self.selected_companies.push(data.id);
                             }
+                            console.log('Selected company:', data.id);
                         }
                         
+                        console.log('Node classes after:', $node.attr('class'));
+                        console.log('Selected companies:', self.selected_companies);
                         self._updateSelectionUI($modal);
                     } else {
                         // Single select mode - clear other selections and highlight current
+                        console.log('Single select mode - clearing other selections');
                         $modal.find('.node').removeClass('single-selected');
                         $node.addClass('single-selected');
+                        console.log('Node classes after single select:', $node.attr('class'));
                         self._switchToSingleCompany(data.id);
                     }
                 });
