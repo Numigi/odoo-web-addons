@@ -61,19 +61,16 @@
     transform: scale(1.05);
 }
 
-/* Selected states - inspired by OCA approach */
-.orgchart .node.single-selected {
-    animation: pulse-selection 1.5s infinite;
-}
-
-.orgchart .node.single-selected .company-node {
+/* Selected states - targeting company-node directly */
+.company-node.single-selected {
     border: 3px solid #007bff !important;
     background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important;
     box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3) !important;
     transform: scale(1.05) !important;
+    animation: pulse-selection 1.5s infinite;
 }
 
-.orgchart .node.multi-selected .company-node {
+.company-node.multi-selected {
     border: 3px solid #28a745 !important;
     background: linear-gradient(135deg, #e8f5e8, #c8e6c8) !important;
     box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;

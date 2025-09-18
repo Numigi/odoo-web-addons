@@ -158,18 +158,18 @@ var VisualCompanySwitcher = Widget.extend({
                     
                     if (self.multi_select_mode) {
                         // Multi-select mode - toggle selection with visual feedback
-                        var isSelected = $node.hasClass('multi-selected');
+                        var isSelected = $node.find('.company-node').hasClass('multi-selected');
                         console.log('Is currently selected:', isSelected);
                         
                         if (isSelected) {
                             // Deselect
-                            $node.removeClass('multi-selected');
+                            $node.find('.company-node').removeClass('multi-selected');
                             $node.find('.selection-badge').hide();
                             self.selected_companies = self.selected_companies.filter(id => id !== data.id);
                             console.log('Deselected company:', data.id);
                         } else {
                             // Select
-                            $node.addClass('multi-selected');
+                            $node.find('.company-node').addClass('multi-selected');
                             $node.find('.selection-badge').show();
                             if (self.selected_companies.indexOf(data.id) === -1) {
                                 self.selected_companies.push(data.id);
@@ -185,9 +185,11 @@ var VisualCompanySwitcher = Widget.extend({
                     } else {
                         // Single select mode - clear other selections and highlight current
                         console.log('Single select mode - clearing other selections');
-                        $modal.find('.node').removeClass('single-selected');
-                        $node.addClass('single-selected');
-                        console.log('Node classes after single select:', $node.attr('class'));
+                        $modal.find('.company-node').removeClass('single-selected');
+                        // Find the company node and highlight it
+                        var $companyNode = $modal.find('.company-node[data-company-id="' + data.id + '"]');
+                        $companyNode.addClass('single-selected');
+                        console.log('Company node classes after single select:', $companyNode.attr('class'));
                         self._switchToSingleCompany(data.id);
                     }
                 });
@@ -241,7 +243,7 @@ var VisualCompanySwitcher = Widget.extend({
         nodeHtml += '<i class="fa fa-check-circle"></i>';
         nodeHtml += '</div>';
         
-        // Current company badge
+        // Current company badge (star icon)
         if (data.current) {
             nodeHtml += '<div class="current-badge">';
             nodeHtml += '<i class="fa fa-star"></i>';
@@ -263,12 +265,7 @@ var VisualCompanySwitcher = Widget.extend({
             nodeHtml += '<div class="company-content">' + _.escape(data.title) + '</div>';
         }
         
-        // Status indicator
-        if (data.current) {
-            nodeHtml += '<div class="company-status">';
-            nodeHtml += '<span class="badge badge-success">Actuelle</span>';
-            nodeHtml += '</div>';
-        }
+        // Status indicator removed - using visual icons only
         
         nodeHtml += '</div>';
         console.log('Generated nodeHtml:', nodeHtml);
@@ -292,7 +289,7 @@ var VisualCompanySwitcher = Widget.extend({
             $clearButton.show();
             
             // Clear any single selections
-            $modal.find('.node').removeClass('single-selected');
+            $modal.find('.company-node').removeClass('single-selected');
             
             // Pre-select currently allowed companies
             this.selected_companies = [...this.current_allowed_companies];
@@ -327,24 +324,25 @@ var VisualCompanySwitcher = Widget.extend({
     _highlightCurrentSelection: function ($modal) {
         var self = this;
         // Clear existing selections first
-        $modal.find('.node').removeClass('multi-selected');
+        $modal.find('.company-node').removeClass('multi-selected');
         $modal.find('.selection-badge').hide();
         
         // Highlight selected companies
         this.selected_companies.forEach(function(company_id) {
-            var $node = $modal.find('.node').filter(function() {
-                return $(this).find('.company-node[data-company-id="' + company_id + '"]').length > 0;
-            });
-            if ($node.length) {
-                $node.addClass('multi-selected');
-                $node.find('.selection-badge').show();
+            var $companyNode = $modal.find('.company-node[data-company-id="' + company_id + '"]');
+            if ($companyNode.length) {
+                $companyNode.addClass('multi-selected');
+                $companyNode.find('.selection-badge').show();
+                console.log('Highlighted company node:', company_id, $companyNode[0]);
+            } else {
+                console.log('Company node not found for ID:', company_id);
             }
         });
     },
     
     _clearAllSelections: function ($modal) {
         this.selected_companies = [];
-        $modal.find('.node').removeClass('multi-selected');
+        $modal.find('.company-node').removeClass('multi-selected');
         $modal.find('.selection-badge').hide();
         this._updateSelectionUI($modal);
     },
