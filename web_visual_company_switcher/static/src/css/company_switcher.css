@@ -62,13 +62,14 @@
 }
 
 /* Selected state for orgchart nodes - enhanced highlighting */
-.orgchart .node.single-selected,
-.node.single-selected {
+#orgchart .node.single-selected,
+.orgchart .node.single-selected {
     z-index: 100 !important;
+    position: relative;
 }
 
-.orgchart .node.single-selected .company-node,
-.node.single-selected .company-node {
+#orgchart .node.single-selected .company-node,
+.orgchart .node.single-selected .company-node {
     border: 3px solid #007bff !important;
     background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
     box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.2) !important;
@@ -76,13 +77,30 @@
     animation: pulseBlue 2s infinite !important;
 }
 
-.orgchart .node.multi-selected,
-.node.multi-selected {
+#orgchart .node.multi-selected,
+.orgchart .node.multi-selected {
     z-index: 99 !important;
+    position: relative;
 }
 
-.orgchart .node.multi-selected .company-node,
-.node.multi-selected .company-node {
+#orgchart .node.multi-selected .company-node,
+.orgchart .node.multi-selected .company-node {
+    border: 3px solid #28a745 !important;
+    background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%) !important;
+    box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4), 0 0 0 2px rgba(40, 167, 69, 0.2) !important;
+    transform: scale(1.03) translateZ(0) !important;
+}
+
+/* Force higher specificity for orgchart nodes */
+#orgchart-container .orgchart .node.single-selected .company-node {
+    border: 3px solid #007bff !important;
+    background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%) !important;
+    box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.2) !important;
+    transform: scale(1.05) translateZ(0) !important;
+    animation: pulseBlue 2s infinite !important;
+}
+
+#orgchart-container .orgchart .node.multi-selected .company-node {
     border: 3px solid #28a745 !important;
     background: linear-gradient(135deg, #e8f5e8 0%, #c8e6c8 100%) !important;
     box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4), 0 0 0 2px rgba(40, 167, 69, 0.2) !important;
@@ -99,11 +117,66 @@
     }
 }
 
+/* Current company badge */
+.current-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    z-index: 101;
+    color: #ffc107;
+    font-size: 16px;
+    background: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Currently allowed companies indicator */
+.orgchart .node.currently-allowed .company-node {
+    border: 2px solid #17a2b8 !important;
+    background-color: #e1f7fa !important;
+    position: relative;
+}
+
+.orgchart .node.currently-allowed .company-node::before {
+    content: "✓";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #17a2b8;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 102;
+}
+
 /* Hover effects for better interactivity */
+#orgchart .node:hover .company-node,
 .orgchart .node:hover .company-node {
     transform: scale(1.02);
     box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
     transition: all 0.2s ease;
+}
+
+/* Prevent hover from overriding selected states */
+#orgchart .node.single-selected:hover .company-node,
+.orgchart .node.single-selected:hover .company-node {
+    transform: scale(1.05) translateZ(0) !important;
+}
+
+#orgchart .node.multi-selected:hover .company-node,
+.orgchart .node.multi-selected:hover .company-node {
+    transform: scale(1.03) translateZ(0) !important;
 }
 
 /* Selection badge */
@@ -144,9 +217,12 @@
     justify-content: center;
     align-items: center;
     height: 50px;
+    width: 50px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.company-logo img {
+.company-logo-img {
     max-width: 45px;
     max-height: 45px;
     border-radius: 8px;
@@ -156,7 +232,27 @@
     transition: all 0.2s ease;
 }
 
-.company-logo img:hover {
+.company-logo-img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+.company-logo-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 18px;
+    transition: all 0.2s ease;
+}
+
+.company-logo-placeholder:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
     transform: scale(1.05);
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }

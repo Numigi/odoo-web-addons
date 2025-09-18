@@ -36,7 +36,13 @@ class CompanySwitcher(http.Controller):
                 }
                 companies_data.append(company_data)
             
-            return {'companies': companies_data}
+            # Add current session allowed companies info
+            current_allowed = request.session.get('allowed_company_ids', [user.company_id.id])
+            
+            return {
+                'companies': companies_data,
+                'current_allowed_companies': current_allowed
+            }
         except Exception as e:
             return {'error': f'Failed to load companies: {str(e)}'}
 
@@ -66,7 +72,7 @@ class CompanySwitcher(http.Controller):
 
     @http.route('/web/visual_company_switcher/switch_companies', type='json', auth='user', csrf=True)
     def switch_multiple_companies(self, company_ids):
-        """Switch to multiple companies"""
+        """Switch to multiple companies - mimics native Odoo multi-company behavior"""
         try:
             if not company_ids or not isinstance(company_ids, list):
                 return {'error': 'Invalid company IDs list'}
@@ -84,17 +90,32 @@ class CompanySwitcher(http.Controller):
                 if company not in user.company_ids:
                     return {'error': f'Access denied to company {company.name}'}
             
-            # Update user session like native Odoo behavior
+            # This is the key: set allowed_company_ids in session to enable multi-company context
+            # This mimics exactly what Odoo's native company switcher does
             request.session['allowed_company_ids'] = company_ids
             
-            # Set first company as main company only if it's different from current
-            if company_ids and company_ids[0] != user.company_id.id:
-                # Change main company only if needed
-                first_company = request.env['res.company'].browse(company_ids[0])
-                user.with_company(first_company).write({'company_id': company_ids[0]})
+            # Set first company as main company (like native behavior)
+            if company_ids:
+                main_company_id = company_ids[0]
+                if main_company_id != user.company_id.id:
+                    # Update user's main company
+                    main_company = request.env['res.company'].browse(main_company_id)
+                    user.with_company(main_company).write({'company_id': main_company_id})
             
-            # The key is in allowed_company_ids in session for multi-company context
+            # Return companies info for frontend update
+            companies_info = []
+            for company in companies:
+                companies_info.append({
+                    'id': company.id,
+                    'name': company.name,
+                    'is_main': company.id == company_ids[0]
+                })
             
-            return {'success': True, 'reload': True}
+            return {
+                'success': True, 
+                'reload': True,
+                'companies': companies_info,
+                'main_company_id': company_ids[0] if company_ids else None
+            }
         except Exception as e:
             return {'error': f'Failed to switch companies: {str(e)}'}

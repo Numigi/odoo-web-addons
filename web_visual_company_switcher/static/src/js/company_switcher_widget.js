@@ -24,6 +24,7 @@ var VisualCompanySwitcher = Widget.extend({
     init: function () {
         this._super.apply(this, arguments);
         this.companies_data = null;
+        this.current_allowed_companies = [];
         this._cacheTime = 0;
         this.selected_companies = [];
         this.multi_select_mode = false;
@@ -62,6 +63,7 @@ var VisualCompanySwitcher = Widget.extend({
             }
             // Cache the data
             self.companies_data = result.companies || [];
+            self.current_allowed_companies = result.current_allowed_companies || [];
             self._cacheTime = now;
             
             return self.companies_data;
@@ -140,6 +142,11 @@ var VisualCompanySwitcher = Widget.extend({
             'zoom': true,
             'toggleSiblingsResp': false, // Disable default sibling highlighting
             'createNode': function($node, data) {
+                // Mark currently allowed companies with visual indicator
+                if (self.current_allowed_companies.indexOf(data.id) !== -1) {
+                    $node.addClass('currently-allowed');
+                }
+                
                 // Add click handler when node is created
                 $node.on('click.companyswitch', function(e) {
                     e.preventDefault();
@@ -148,14 +155,12 @@ var VisualCompanySwitcher = Widget.extend({
                     if (self.multi_select_mode) {
                         // Multi-select mode - toggle selection with visual feedback
                         var isSelected = $node.hasClass('multi-selected');
-                        console.log('Multi-select click. Node selected?', isSelected, 'Node classes:', $node.attr('class'));
                         
                         if (isSelected) {
                             // Deselect
                             $node.removeClass('multi-selected');
                             $node.find('.selection-badge').hide();
                             self.selected_companies = self.selected_companies.filter(id => id !== data.id);
-                            console.log('Deselected company:', data.id);
                         } else {
                             // Select
                             $node.addClass('multi-selected');
@@ -163,16 +168,13 @@ var VisualCompanySwitcher = Widget.extend({
                             if (self.selected_companies.indexOf(data.id) === -1) {
                                 self.selected_companies.push(data.id);
                             }
-                            console.log('Selected company:', data.id, 'Node classes after:', $node.attr('class'));
                         }
                         
                         self._updateSelectionUI($modal);
                     } else {
-                        // Single select mode - switch immediately
-                        console.log('Single select mode - clearing previous selections');
+                        // Single select mode - clear other selections and highlight current
                         $modal.find('.node').removeClass('single-selected');
                         $node.addClass('single-selected');
-                        console.log('Single select - Node classes after:', $node.attr('class'));
                         self._switchToSingleCompany(data.id);
                     }
                 });
@@ -223,12 +225,26 @@ var VisualCompanySwitcher = Widget.extend({
         nodeHtml += '<i class="fa fa-check-circle"></i>';
         nodeHtml += '</div>';
         
-        // Logo
-        if (data.logo) {
-            nodeHtml += '<div class="company-logo">';
-            nodeHtml += '<img src="' + data.logo + '" alt="Logo" class="img-fluid"/>';
+        // Current company indicator
+        if (data.current) {
+            nodeHtml += '<div class="current-badge">';
+            nodeHtml += '<i class="fa fa-star"></i>';
             nodeHtml += '</div>';
         }
+        
+        // Logo with fallback
+        nodeHtml += '<div class="company-logo">';
+        if (data.logo) {
+            nodeHtml += '<img src="' + data.logo + '" alt="Logo de ' + _.escape(data.name) + '" class="company-logo-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\'"/>';
+            nodeHtml += '<div class="company-logo-placeholder" style="display: none;">';
+            nodeHtml += '<i class="fa fa-building"></i>';
+            nodeHtml += '</div>';
+        } else {
+            nodeHtml += '<div class="company-logo-placeholder">';
+            nodeHtml += '<i class="fa fa-building"></i>';
+            nodeHtml += '</div>';
+        }
+        nodeHtml += '</div>';
         
         // Name
         nodeHtml += '<div class="company-name">' + _.escape(data.name) + '</div>';
@@ -262,7 +278,10 @@ var VisualCompanySwitcher = Widget.extend({
             
             // Clear any single selections
             $modal.find('.node').removeClass('single-selected');
-            this.selected_companies = [];
+            
+            // Pre-select currently allowed companies
+            this.selected_companies = [...this.current_allowed_companies];
+            this._highlightCurrentSelection($modal);
             this._updateSelectionUI($modal);
             
         } else {
@@ -288,6 +307,24 @@ var VisualCompanySwitcher = Widget.extend({
         } else {
             $applyButton.removeClass('btn-success').addClass('btn-outline-success');
         }
+    },
+    
+    _highlightCurrentSelection: function ($modal) {
+        var self = this;
+        // Clear existing selections first
+        $modal.find('.node').removeClass('multi-selected');
+        $modal.find('.selection-badge').hide();
+        
+        // Highlight selected companies
+        this.selected_companies.forEach(function(company_id) {
+            var $node = $modal.find('.node').filter(function() {
+                return $(this).find('.company-node[data-company-id="' + company_id + '"]').length > 0;
+            });
+            if ($node.length) {
+                $node.addClass('multi-selected');
+                $node.find('.selection-badge').show();
+            }
+        });
     },
     
     _clearAllSelections: function ($modal) {
@@ -502,6 +539,7 @@ var SystrayCompanySwitcher = Widget.extend({
                 self.currentCompany = result.companies.find(function (company) {
                     return company.current;
                 });
+                self.allowedCompanies = result.current_allowed_companies || [];
                 self._updateDisplay();
             }
         }).catch(function (error) {
@@ -511,7 +549,11 @@ var SystrayCompanySwitcher = Widget.extend({
     
     _updateDisplay: function () {
         if (this.currentCompany) {
-            this.$('.current-company-indicator').text(this.currentCompany.name);
+            var displayText = this.currentCompany.name;
+            if (this.allowedCompanies && this.allowedCompanies.length > 1) {
+                displayText += ' (+' + (this.allowedCompanies.length - 1) + ')';
+            }
+            this.$('.current-company-indicator').text(displayText);
         }
     },
 
