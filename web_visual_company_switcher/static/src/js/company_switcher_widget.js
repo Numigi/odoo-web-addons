@@ -122,6 +122,7 @@ var VisualCompanySwitcher = Widget.extend({
         
         // Transform data for orgchart
         var orgData = this._transformDataForOrgChart();
+        console.log('Transformed orgData:', JSON.stringify(orgData, null, 2));
         
         if (orgData.length === 0) {
             $container.html('<div class="alert alert-info">Aucune compagnie disponible</div>');
@@ -134,7 +135,7 @@ var VisualCompanySwitcher = Widget.extend({
         
         $orgChart.orgchart({
             'data': orgData[0], // Root company
-            'nodeContent': function (data) {
+            'nodeTemplate': function (data) {
                 return self._renderCompanyNode(data);
             },
             'direction': 't2b', // Top to bottom
@@ -230,6 +231,8 @@ var VisualCompanySwitcher = Widget.extend({
     },
 
     _renderCompanyNode: function (data) {
+        console.log('_renderCompanyNode called with data:', data);
+        
         // Using structure inspired by OCA hr_org_chart_overview
         var nodeHtml = '<div class="company-node" data-company-id="' + data.id + '">';
         
@@ -268,6 +271,7 @@ var VisualCompanySwitcher = Widget.extend({
         }
         
         nodeHtml += '</div>';
+        console.log('Generated nodeHtml:', nodeHtml);
         return nodeHtml;
     },
 
