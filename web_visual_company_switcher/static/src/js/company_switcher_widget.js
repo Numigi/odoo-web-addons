@@ -163,22 +163,12 @@ var VisualCompanySwitcher = Widget.extend({
                         if (isSelected) {
                             // Deselect
                             $node.removeClass('multi-selected');
-                            $node.find('.company-node').css({
-                                'border': '2px solid #e9ecef',
-                                'background': 'white',
-                                'transform': 'scale(1)'
-                            });
                             $node.find('.selection-badge').hide();
                             self.selected_companies = self.selected_companies.filter(id => id !== data.id);
                             console.log('Deselected company:', data.id);
                         } else {
                             // Select
                             $node.addClass('multi-selected');
-                            $node.find('.company-node').css({
-                                'border': '5px solid green !important',
-                                'background': 'lightgreen !important',
-                                'transform': 'scale(1.1) !important'
-                            });
                             $node.find('.selection-badge').show();
                             if (self.selected_companies.indexOf(data.id) === -1) {
                                 self.selected_companies.push(data.id);
@@ -195,17 +185,7 @@ var VisualCompanySwitcher = Widget.extend({
                         // Single select mode - clear other selections and highlight current
                         console.log('Single select mode - clearing other selections');
                         $modal.find('.node').removeClass('single-selected');
-                        $modal.find('.company-node').css({
-                            'border': '2px solid #e9ecef',
-                            'background': 'white',
-                            'transform': 'scale(1)'
-                        });
                         $node.addClass('single-selected');
-                        $node.find('.company-node').css({
-                            'border': '5px solid red !important',
-                            'background': 'yellow !important',
-                            'transform': 'scale(1.1) !important'
-                        });
                         console.log('Node classes after single select:', $node.attr('class'));
                         self._switchToSingleCompany(data.id);
                     }
@@ -250,41 +230,40 @@ var VisualCompanySwitcher = Widget.extend({
     },
 
     _renderCompanyNode: function (data) {
+        // Using structure inspired by OCA hr_org_chart_overview
         var nodeHtml = '<div class="company-node" data-company-id="' + data.id + '">';
         
-        // Selection badge (hidden by default, positioned at top-right)
+        // Selection badge (hidden by default)
         nodeHtml += '<div class="selection-badge" style="display: none;">';
         nodeHtml += '<i class="fa fa-check-circle"></i>';
         nodeHtml += '</div>';
         
-        // Current company indicator
+        // Current company badge
         if (data.current) {
             nodeHtml += '<div class="current-badge">';
             nodeHtml += '<i class="fa fa-star"></i>';
             nodeHtml += '</div>';
         }
         
-        // Logo with fallback
-        nodeHtml += '<div class="company-logo">';
+        // Logo section (like OCA's image span)
+        nodeHtml += '<span class="company-image">';
         if (data.logo) {
-            nodeHtml += '<img src="' + data.logo + '" alt="Logo de ' + _.escape(data.name) + '" class="company-logo-img" onerror="this.style.display=\'none\'; this.nextElementSibling.style.display=\'flex\'"/>';
-            nodeHtml += '<div class="company-logo-placeholder" style="display: none;">';
-            nodeHtml += '<i class="fa fa-building"></i>';
-            nodeHtml += '</div>';
+            nodeHtml += '<img src="data:image/png;base64,' + data.logo + '" alt="Logo ' + _.escape(data.name) + '"/>';
         } else {
-            nodeHtml += '<div class="company-logo-placeholder">';
-            nodeHtml += '<i class="fa fa-building"></i>';
-            nodeHtml += '</div>';
+            nodeHtml += '<div class="company-logo-placeholder"><i class="fa fa-building"></i></div>';
         }
-        nodeHtml += '</div>';
+        nodeHtml += '</span>';
         
-        // Name
-        nodeHtml += '<div class="company-name">' + _.escape(data.name) + '</div>';
+        // Company info (like OCA's title/content structure)
+        nodeHtml += '<div class="company-title">' + _.escape(data.name) + '</div>';
+        if (data.title && data.title !== data.name) {
+            nodeHtml += '<div class="company-content">' + _.escape(data.title) + '</div>';
+        }
         
-        // Current company badge
+        // Status indicator
         if (data.current) {
             nodeHtml += '<div class="company-status">';
-            nodeHtml += '<span class="badge badge-success">Active</span>';
+            nodeHtml += '<span class="badge badge-success">Actuelle</span>';
             nodeHtml += '</div>';
         }
         

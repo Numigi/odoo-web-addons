@@ -2,6 +2,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import json
+import base64
 from odoo import http
 from odoo.http import request
 
@@ -20,17 +21,18 @@ class CompanySwitcher(http.Controller):
             
             companies_data = []
             for company in allowed_companies:
-                # Get company logo URL with proper format
-                logo_url = None
+                # Get company logo as base64 (like OCA hr_org_chart_overview)
+                logo_base64 = None
                 if company.logo:
-                    logo_url = f'/web/image/res.company/{company.id}/logo'
+                    # Convert binary logo to base64 string
+                    logo_base64 = company.logo.decode('utf-8') if isinstance(company.logo, bytes) else company.logo
                 
                 company_data = {
                     'id': company.id,
                     'name': company.name,
                     'title': company.display_name,
                     'parent_id': company.parent_id.id if company.parent_id else None,
-                    'logo': logo_url,
+                    'logo': logo_base64,
                     'current': company.id == user.company_id.id,
                     'allowed': True
                 }

@@ -61,50 +61,31 @@
     transform: scale(1.05);
 }
 
-/* Selected state for orgchart nodes - TEST STYLES */
-.node.single-selected,
-.orgchart .node.single-selected,
-#orgchart .node.single-selected,
-#orgchart-container .node.single-selected {
-    z-index: 100 !important;
-    position: relative !important;
+/* Selected states - inspired by OCA approach */
+.orgchart .node.single-selected {
+    animation: pulse-selection 1.5s infinite;
 }
 
-.node.single-selected .company-node,
-.orgchart .node.single-selected .company-node,
-#orgchart .node.single-selected .company-node,
-#orgchart-container .node.single-selected .company-node {
-    border: 5px solid red !important;
-    background: yellow !important;
-    transform: scale(1.1) !important;
+.orgchart .node.single-selected .company-node {
+    border: 3px solid #007bff !important;
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important;
+    box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3) !important;
+    transform: scale(1.05) !important;
 }
 
-.node.multi-selected,
-.orgchart .node.multi-selected,
-#orgchart .node.multi-selected,
-#orgchart-container .node.multi-selected {
-    z-index: 99 !important;
-    position: relative !important;
+.orgchart .node.multi-selected .company-node {
+    border: 3px solid #28a745 !important;
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c8) !important;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+    transform: scale(1.03) !important;
 }
 
-.node.multi-selected .company-node,
-.orgchart .node.multi-selected .company-node,
-#orgchart .node.multi-selected .company-node,
-#orgchart-container .node.multi-selected .company-node {
-    border: 5px solid green !important;
-    background: lightgreen !important;
-    transform: scale(1.1) !important;
+@keyframes pulse-selection {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
 }
 
-/* Pulse animation for active selection */
-@keyframes pulseBlue {
-    0%, 100% {
-        box-shadow: 0 8px 25px rgba(0, 123, 255, 0.4), 0 0 0 2px rgba(0, 123, 255, 0.2);
-    }
-    50% {
-        box-shadow: 0 10px 30px rgba(0, 123, 255, 0.6), 0 0 0 3px rgba(0, 123, 255, 0.3);
-    }
-}
+/* Remove old pulse animation - using new one above */
 
 /* Current company badge */
 .current-badge {
@@ -200,30 +181,28 @@
 }
 
 
-.company-logo {
-    margin-bottom: 8px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 50px;
+/* Company image styling - inspired by OCA hr_org_chart_overview */
+.company-image {
+    display: block;
+    margin: 0 auto 10px;
     width: 50px;
-    margin-left: auto;
-    margin-right: auto;
+    height: 50px;
+    text-align: center;
 }
 
-.company-logo-img {
-    max-width: 45px;
-    max-height: 45px;
+.company-image img {
+    width: 45px;
+    height: 45px;
     border-radius: 8px;
-    object-fit: contain;
-    border: 2px solid rgba(0,0,0,0.05);
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    transition: all 0.2s ease;
+    object-fit: cover;
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
 }
 
-.company-logo-img:hover {
+.company-image img:hover {
     transform: scale(1.05);
-    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
 }
 
 .company-logo-placeholder {
@@ -237,7 +216,8 @@
     justify-content: center;
     color: #6c757d;
     font-size: 18px;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
+    margin: 0 auto;
 }
 
 .company-logo-placeholder:hover {
@@ -246,12 +226,23 @@
     box-shadow: 0 3px 8px rgba(0,0,0,0.15);
 }
 
-.company-name {
+/* Company text styling - inspired by OCA structure */
+.company-title {
     font-weight: 600;
     color: #495057;
     font-size: 14px;
     text-align: center;
     word-break: break-word;
+    margin-bottom: 4px;
+}
+
+.company-content {
+    font-weight: 400;
+    color: #6c757d;
+    font-size: 12px;
+    text-align: center;
+    word-break: break-word;
+    margin-bottom: 6px;
 }
 
 .company-status {
