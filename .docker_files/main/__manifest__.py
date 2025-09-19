@@ -26,6 +26,7 @@
         "web_trash_condition",
         "web_search_date_range",
         "web_search_date_range_account",
+        "web_visual_company_switcher",
         "website_blog_internal",
         "website_blog_rss_feed_disabled",
         "website_cookieconsent",
