@@ -1,0 +1,437 @@
+/* © Numigi (tm) and all its contributors (https://numigi.com/r/home) */
+/* License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
+
+/* Variables pour couleurs adaptatives du thème */
+:root {
+    --company-switcher-primary: var(--primary, #875a7b);
+    --company-switcher-primary-light: rgba(135, 90, 123, 0.1);
+    --company-switcher-primary-medium: rgba(135, 90, 123, 0.2);
+    --company-switcher-primary-shadow: rgba(135, 90, 123, 0.3);
+}
+
+/* Style pour correspondre aux autres éléments systray d'Odoo */
+.o_visual_company_switcher {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 10px;
+    height: 100%;
+    color: #dee2e6;
+    text-decoration: none;
+    cursor: pointer;
+    transition: none;
+}
+
+.o_visual_company_switcher:hover {
+    color: #dee2e6;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.o_visual_company_switcher:focus {
+    outline: none;
+    text-decoration: none;
+    color: #dee2e6;
+}
+
+.o_visual_company_switcher i {
+    font-size: 18px;
+}
+
+.company-node {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    padding: 15px;
+    min-width: 150px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: relative;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.company-node:hover {
+    border-color: var(--company-switcher-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.company-node.current-company {
+    border-color: #28a745;
+    background-color: #f8f9fa;
+}
+
+.company-node.selected,
+.orgchart .node.selected .company-node {
+    border-color: var(--company-switcher-primary) !important;
+    background-color: var(--company-switcher-primary-light) !important;
+    box-shadow: 0 4px 12px var(--company-switcher-primary-shadow) !important;
+    transform: scale(1.05);
+}
+
+/* Selected states - targeting company-node directly */
+.company-node.single-selected {
+    border: 3px solid var(--company-switcher-primary) !important;
+    background: linear-gradient(135deg, var(--company-switcher-primary-light), var(--company-switcher-primary-medium)) !important;
+    box-shadow: 0 4px 20px var(--company-switcher-primary-shadow) !important;
+    transform: scale(1.05) !important;
+    animation: pulse-selection 1.5s infinite;
+}
+
+.company-node.multi-selected {
+    border: 3px solid #28a745 !important;
+    background: linear-gradient(135deg, #e8f5e8, #c8e6c8) !important;
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3) !important;
+    transform: scale(1.03) !important;
+}
+
+@keyframes pulse-selection {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+/* Remove old pulse animation - using new one above */
+
+/* Current company badge */
+.current-badge {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    z-index: 101;
+    color: #ffc107;
+    font-size: 16px;
+    background: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+/* Currently allowed companies indicator */
+.orgchart .node.currently-allowed .company-node {
+    border: 2px solid #17a2b8 !important;
+    background-color: #e1f7fa !important;
+    position: relative;
+}
+
+.orgchart .node.currently-allowed .company-node::before {
+    content: "✓";
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: #17a2b8;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 102;
+}
+
+/* Hover effects for better interactivity */
+#orgchart .node:hover .company-node,
+.orgchart .node:hover .company-node {
+    transform: scale(1.02);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15) !important;
+    transition: all 0.2s ease;
+}
+
+/* Prevent hover from overriding selected states */
+#orgchart .node.single-selected:hover .company-node,
+.orgchart .node.single-selected:hover .company-node {
+    transform: scale(1.05) translateZ(0) !important;
+}
+
+#orgchart .node.multi-selected:hover .company-node,
+.orgchart .node.multi-selected:hover .company-node {
+    transform: scale(1.03) translateZ(0) !important;
+}
+
+/* Future active company indication */
+.orgchart .node.future-active .company-node {
+    border: 3px solid #ffc107 !important;
+    box-shadow: 0 0 15px rgba(255, 193, 7, 0.6) !important;
+}
+
+.orgchart .node.future-active .current-badge {
+    background: linear-gradient(45deg, #ffc107, #ff8c00);
+    animation: pulse-future 2s infinite;
+}
+
+@keyframes pulse-future {
+    0% { opacity: 0.8; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+    100% { opacity: 0.8; transform: scale(1); }
+}
+
+/* Selection badge */
+.selection-badge {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    z-index: 100;
+    color: #28a745;
+    font-size: 18px;
+    background: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    animation: bounceIn 0.3s ease;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+
+/* Company image styling - inspired by OCA hr_org_chart_overview */
+.company-image {
+    display: block;
+    margin: 0 auto 10px;
+    width: 50px;
+    height: 50px;
+    text-align: center;
+}
+
+.company-image img {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    object-fit: cover;
+    border: 2px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.company-image img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.company-logo-placeholder {
+    width: 45px;
+    height: 45px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: 2px solid #dee2e6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #6c757d;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+}
+
+.company-logo-placeholder:hover {
+    background: linear-gradient(135deg, #e9ecef 0%, #dee2e6 100%);
+    transform: scale(1.05);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+}
+
+/* Company text styling - inspired by OCA structure */
+.company-title {
+    font-weight: 600;
+    color: #495057;
+    font-size: 14px;
+    text-align: center;
+    word-break: break-word;
+    margin-bottom: 4px;
+}
+
+.company-content {
+    font-weight: 400;
+    color: #6c757d;
+    font-size: 12px;
+    text-align: center;
+    word-break: break-word;
+    margin-bottom: 6px;
+}
+
+.company-status {
+    margin-top: 8px;
+    text-align: center;
+}
+
+.company-status .badge {
+    font-size: 11px;
+}
+
+#orgchart-container {
+    min-height: 400px;
+    overflow: auto;
+    padding: 20px;
+}
+
+/* Customize OrgChart styles */
+.orgchart {
+    background: transparent !important;
+}
+
+.orgchart .node {
+    background: transparent !important;
+    border: none !important;
+}
+
+.orgchart .lines .topLine,
+.orgchart .lines .rightLine,
+.orgchart .lines .leftLine,
+.orgchart .lines .downLine {
+    border-color: #dee2e6 !important;
+}
+
+/* Modal customization */
+#visualCompanySwitcherModal .modal-dialog {
+    max-width: 90vw;
+}
+
+#visualCompanySwitcherModal .modal-body {
+    min-height: 500px;
+}
+
+.company-switcher-toolbar {
+    border-bottom: 1px solid #dee2e6;
+    padding-bottom: 15px;
+}
+
+/* Fix pour les boutons dans la toolbar */
+.company-switcher-toolbar .btn {
+    color: #495057;
+}
+
+.company-switcher-toolbar .btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+.company-switcher-toolbar .btn-outline-secondary:hover {
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.company-switcher-toolbar .btn-success {
+    color: #fff;
+    background-color: #28a745;
+    border-color: #28a745;
+}
+
+/* Toggle switch pour mode simple/multiple */
+.mode-toggle-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.mode-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+    transition: color 0.2s ease;
+    white-space: nowrap;
+}
+
+.mode-switch {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 22px;
+    margin: 0;
+    cursor: pointer;
+}
+
+.mode-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.mode-slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    border-radius: 22px;
+    transition: .3s;
+}
+
+.mode-indicator {
+    position: absolute;
+    content: "";
+    height: 16px;
+    width: 16px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.mode-switch input:checked + .mode-slider {
+    background-color: var(--company-switcher-primary);
+}
+
+.mode-switch input:checked + .mode-slider .mode-indicator {
+    transform: translateX(18px);
+}
+
+.mode-switch input:checked ~ .mode-label:last-child {
+    color: var(--company-switcher-primary);
+    font-weight: 600;
+}
+
+/* Styling pour les boutons du toolbar - hérite du thème Odoo */
+.company-switcher-toolbar .btn {
+    font-family: inherit; /* Hérite de la police du thème */
+    font-size: inherit; /* Hérite de la taille de police */
+    font-weight: inherit; /* Hérite du poids de police */
+}
+
+.company-switcher-toolbar .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.company-switcher-toolbar .selection-info {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 14px;
+    color: #495057;
+    white-space: nowrap;
+}
+
+.company-switcher-toolbar .selection-text {
+    font-size: 14px;
+    font-weight: 500;
+    color: #495057;
+}
+
+.company-switcher-toolbar .badge {
+    font-size: 12px;
+    padding: 4px 8px;
+    font-weight: 600;
+}
+
