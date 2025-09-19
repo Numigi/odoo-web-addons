@@ -1,6 +1,14 @@
 /* © Numigi (tm) and all its contributors (https://numigi.com/r/home) */
 /* License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl). */
 
+/* Variables pour couleurs adaptatives du thème */
+:root {
+    --company-switcher-primary: var(--primary, #875a7b);
+    --company-switcher-primary-light: rgba(135, 90, 123, 0.1);
+    --company-switcher-primary-medium: rgba(135, 90, 123, 0.2);
+    --company-switcher-primary-shadow: rgba(135, 90, 123, 0.3);
+}
+
 /* Style pour correspondre aux autres éléments systray d'Odoo */
 .o_visual_company_switcher {
     display: flex;
@@ -43,7 +51,7 @@
 }
 
 .company-node:hover {
-    border-color: #007bff;
+    border-color: var(--company-switcher-primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -55,17 +63,17 @@
 
 .company-node.selected,
 .orgchart .node.selected .company-node {
-    border-color: #007bff !important;
-    background-color: #e3f2fd !important;
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3) !important;
+    border-color: var(--company-switcher-primary) !important;
+    background-color: var(--company-switcher-primary-light) !important;
+    box-shadow: 0 4px 12px var(--company-switcher-primary-shadow) !important;
     transform: scale(1.05);
 }
 
 /* Selected states - targeting company-node directly */
 .company-node.single-selected {
-    border: 3px solid #007bff !important;
-    background: linear-gradient(135deg, #e3f2fd, #bbdefb) !important;
-    box-shadow: 0 4px 20px rgba(0, 123, 255, 0.3) !important;
+    border: 3px solid var(--company-switcher-primary) !important;
+    background: linear-gradient(135deg, var(--company-switcher-primary-light), var(--company-switcher-primary-medium)) !important;
+    box-shadow: 0 4px 20px var(--company-switcher-primary-shadow) !important;
     transform: scale(1.05) !important;
     animation: pulse-selection 1.5s infinite;
 }
@@ -382,7 +390,7 @@
 }
 
 .mode-switch input:checked + .mode-slider {
-    background-color: #007bff;
+    background-color: var(--company-switcher-primary);
 }
 
 .mode-switch input:checked + .mode-slider .mode-indicator {
@@ -390,8 +398,20 @@
 }
 
 .mode-switch input:checked ~ .mode-label:last-child {
-    color: #007bff;
+    color: var(--company-switcher-primary);
     font-weight: 600;
+}
+
+/* Styling pour les boutons du toolbar - hérite du thème Odoo */
+.company-switcher-toolbar .btn {
+    font-family: inherit; /* Hérite de la police du thème */
+    font-size: inherit; /* Hérite de la taille de police */
+    font-weight: inherit; /* Hérite du poids de police */
+}
+
+.company-switcher-toolbar .btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .company-switcher-toolbar .selection-info {

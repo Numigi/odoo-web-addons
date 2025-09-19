@@ -334,12 +334,12 @@ var VisualCompanySwitcher = Widget.extend({
         $modal.find('#selectionCount').text(count);
         $modal.find('#applyCount').text(count);
         
-        // Enable/disable apply button
+        // Enable/disable apply button using Odoo classes
         var $applyButton = $modal.find('#applySelection');
         if (count > 0) {
-            $applyButton.removeClass('btn-outline-success').addClass('btn-success');
+            $applyButton.removeClass('btn-outline-success').addClass('btn-success').prop('disabled', false);
         } else {
-            $applyButton.removeClass('btn-success').addClass('btn-outline-success');
+            $applyButton.removeClass('btn-success').addClass('btn-outline-success').prop('disabled', true);
         }
         
         // Update visual selection in chart
