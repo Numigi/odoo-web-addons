@@ -7,10 +7,13 @@
     "category": "Document Management",
     "author": "Numigi",
     "maintainer": "Numigi",
-    "website": "https://bit.ly/numigi-com",
+    "website": "https://numigi.com/r/home",
     "license": "LGPL-3",
     "depends": ["base_setup", "mail"],
-    "data": ["views/assets.xml", "views/res_config_settings.xml",],
+    "data": [
+        "views/assets.xml",
+        "views/res_config_settings.xml"
+    ],
     "qweb": [
         "static/src/components/google_attachment.xml",
         "static/src/components/attachment_box.xml",

@@ -1,4 +1,4 @@
-# © 2023 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © Numigi (tm) and all its contributors (https://numigi.com/r/home)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 import logging
@@ -20,7 +20,7 @@ class Http(models.AbstractModel):
             rule, arguments = cls._match(request.httprequest.path)
             func = rule.endpoint
             return func.routing.get("website", False)
-        except Exception as e:
+        except Exception:
             return True
 
     @classmethod

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <!-- Systray Menu Template -->
+    <t t-name="SystrayCompanySwitcher">
+        <li>
+            <a href="#" class="o_visual_company_switcher" title="Sélecteur de Compagnie Visuel">
+                <i class="fa fa-sitemap"/>
+            </a>
+        </li>
+    </t>
+
+    <!-- Modal Template for Company Switcher -->
+    <t t-name="visual_company_switcher_modal">
+        <div class="modal fade" id="visualCompanySwitcherModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Sélecteur de Compagnie</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="company-switcher-toolbar mb-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="toolbar-left d-flex align-items-center">
+                                    <div class="mode-toggle-container">
+                                        <span class="mode-label">Mode Simple</span>
+                                        <label class="mode-switch">
+                                            <input type="checkbox" id="multiSelectToggle"/>
+                                            <span class="mode-slider">
+                                                <span class="mode-indicator"></span>
+                                            </span>
+                                        </label>
+                                        <span class="mode-label">Mode Multiple</span>
+                                    </div>
+                                    <div class="ml-3 selection-info" id="selectionInfo" style="display: none;">
+                                        <span class="badge badge-success" id="selectionCount">0</span> 
+                                        <span class="selection-text">sélectionnée(s)</span>
+                                    </div>
+                                </div>
+                                <div class="toolbar-right">
+                                    <button type="button" class="btn btn-outline-secondary mr-2" id="clearSelection" style="display: none;">
+                                        <i class="fa fa-times"/> Effacer
+                                    </button>
+                                    <button type="button" class="btn btn-success" id="applySelection" style="display: none;">
+                                        <i class="fa fa-check"/> Appliquer maintenant (<span id="applyCount">0</span>)
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="orgchart-container" class="text-center" style="min-height: 400px;">
+                            <!-- Content will be loaded here dynamically -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

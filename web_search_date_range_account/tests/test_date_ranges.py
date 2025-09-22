@@ -1,4 +1,4 @@
-# © 2023 - today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © Numigi (tm) and all its contributors (https://numigi.com/r/home)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
 from ddt import data, ddt, unpack
@@ -14,7 +14,7 @@ class TestSearchDateRange(common.SavepointCase):
         cls.model = cls.env.ref("base.model_res_partner")
         cls.field = cls.env.ref("base.field_res_partner__create_date")
         cls.env.user.company_id.write(
-            {"fiscalyear_last_month": "3", "fiscalyear_last_day": "31",}
+            {"fiscalyear_last_month": "3", "fiscalyear_last_day": "31"}
         )
 
     def _eval_filter_domain(self, range_ref):

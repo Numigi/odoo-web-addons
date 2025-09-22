@@ -1,4 +1,4 @@
-# © 2023 Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+# © Numigi (tm) and all its contributors (https://numigi.com/r/home)
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from io import BytesIO
@@ -13,7 +13,7 @@ class WebFavicon(http.Controller):
         request = http.request
         if "uid" in request.env.context:
             user = request.env["res.users"].browse(request.env.context["uid"])
-            company = user.sudo(user.id).company_id
+            company = user.with_user(user.id).company_id
         else:
             company = request.env["res.company"].search([], limit=1)
         favicon = company.favicon

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="product_json_ld_schema" name="Product JSON-LD Schema">
+        <t t-if="product">
+            <script type="application/ld+json">
+                <t t-raw="product._get_jsonld_schema()"/>
+            </script>
+        </t>
+    </template>
+
+    <template id="inject_json_ld_into_product_page" inherit_id="website_sale.product">
+        <xpath expr="//div[@id='wrap']" position="inside">
+            <t t-call="website_sale_jsonld_schema.product_json_ld_schema"/>
+        </xpath>
+    </template>
+
+</odoo>

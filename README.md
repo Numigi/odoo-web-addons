@@ -1,3 +1,5 @@
+[![Runboat](https://img.shields.io/badge/runboat-Try%20me-875A7B.png)](https://runboat.numigi.tech/builds?repo=numigi/odoo-web-addons&target_branch=14.0)
+
 # Odoo Web Addons
 
 This repository contains transversal Odoo modules related to the web user interface.

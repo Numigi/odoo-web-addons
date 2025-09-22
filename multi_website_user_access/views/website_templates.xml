@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="page_403" name="Page Access Forbidden">
+        <div id="wrap">
+            <div class="container">
+                <h1 class="mt-5">403: Forbidden</h1>
+                <p>The page you were looking for could not be authorized.</p>
+            </div>
+        </div>
+    </template>
+
+</odoo>

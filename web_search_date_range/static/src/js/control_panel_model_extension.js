@@ -28,7 +28,9 @@ class ControlPanelExtension extends ControlPanel {
 
     _addDateRangeFilters() {
         const pregroup = [...this.dateRangeFilters]
-        this._createGroupOfFilters(pregroup);
+        if (pregroup.length) {
+            this._createGroupOfFilters(pregroup);
+        }
     }
 
     _enrichFilterCopy(filter, filterQueryElements) {

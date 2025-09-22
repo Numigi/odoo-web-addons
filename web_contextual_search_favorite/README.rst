@@ -1,3 +1,7 @@
+==================================
+!!!!!!!!!   OBSOLETE NOW !!!!!!!!!
+==================================
+
 Web Contextual Search Favorite
 ==============================
 In a list view, when you add a favorite by clicking on Favorites -> Add to my Dashboard,
@@ -33,4 +37,5 @@ webpack-cli
 
 Contributors
 ------------
-* Numigi (tm) and all its contributors (https://bit.ly/numigiens)
+
+The `Numigi <https://numigi.com/r/home>`_ team is the contributor to this project. We help Quebec companies implement Odoo and Konvergo ERP.

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_website_form_default_option" model="ir.ui.view">
+        <field name="name">website.form.default.option</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='default_lang_id']" position="after">
+                <field name="default_website"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

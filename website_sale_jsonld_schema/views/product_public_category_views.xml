@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- © Numigi (tm) and all its contributors (https://numigi.com/r/home) -->
+<!-- License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl). -->
+
+<odoo>
+
+    <record id="view_product_public_category_form_inherit" model="ir.ui.view">
+        <field name="name">product.public.category.form.inherit</field>
+        <field name="model">product.public.category</field>
+        <field name="inherit_id" ref="website_sale.product_public_category_form_view"/>
+        <field name="arch" type="xml">
+            <field name="sequence" position="after">
+                <field name="google_product_category" 
+                       placeholder="e.g., Health &amp; Beauty > Medical Equipment > Medical Training Mannequin"/>
+            </field>
+        </field>
+    </record>
+
+</odoo>
