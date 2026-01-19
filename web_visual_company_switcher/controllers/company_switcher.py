@@ -25,8 +25,6 @@ class CompanySwitcher(http.Controller):
             session_allowed_ids = request.session.get(
                 'allowed_company_ids', [current_company_id]
             )
-
-
             companies_data = []
             for company in available_companies:
                 # Get company logo as base64
@@ -143,3 +141,4 @@ class CompanySwitcher(http.Controller):
             }
         except Exception as e:
             return {'error': f'Failed to switch companies: {str(e)}'}
+
