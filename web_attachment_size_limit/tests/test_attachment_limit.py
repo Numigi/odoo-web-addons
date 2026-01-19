@@ -10,59 +10,105 @@ class TestAttachmentSizeLimit(HttpCase):
 
     def setUp(self):
         super(TestAttachmentSizeLimit, self).setUp()
-        # Authenticate as admin to have upload rights
+        # Authenticate as admin to have upload rights and establish session
         self.authenticate('admin', 'admin')
 
         # Force the parameter value for the test context (e.g., 100 bytes)
-        # This prevents the test from depending on the default configuration
         self.env['ir.config_parameter'].sudo().set_param(
             'web.max_file_upload_size', '100'
         )
 
+    def _get_csrf_token(self):
+        """
+        Fetch the CSRF token from the session info.
+        This is required for controllers protected by
+        @http.route(..., csrf=True)
+        """
+        # We can extract the token from the session_info in the web client context
+        # Or simpler: trigger a page load and grab it from the JS context,
+        # but for API tests, we often ignore CSRF if we can, or we simulate it.
+        # Since /web/binary/upload_attachment checks csrf, we need it.
+
+        # Helper: Getting session_info via python directly as we are in the
+        # same env. Note: In HttpCase, self.url_open uses a cookie jar.
+        # We can get the token by calling /web/session/get_session_info if
+        # needed, but let's try passing the standard Odoo token logic.
+
+        # Trick: Using an empty string sometimes works if the user is trusted,
+        # otherwise we fetch it.
+        response = self.url_open(
+            '/web/session/get_session_info',
+            data='{}',
+            headers={'Content-Type': 'application/json'}
+        )
+        return response.json().get('result', {}).get('csrf_token')
+
     def test_01_parameter_exists(self):
         """Check that the system parameter is correctly set."""
-        param = self.env['ir.config_parameter'].sudo().get_param('web.max_file_upload_size')
-        self.assertTrue(param, "The parameter web.max_file_upload_size should exist.")
-        self.assertEqual(param, '100', "The parameter value should be 100 for this test.")
+        param = self.env['ir.config_parameter'].sudo().get_param(
+            'web.max_file_upload_size'
+        )
+        self.assertEqual(
+            param, '100', "The parameter value should be 100 for this test."
+        )
 
     def test_02_upload_too_large(self):
         """Try to upload a file of 200 bytes (limit is 100). Should fail."""
 
-        # Create a dummy file content of 200 bytes ('x' * 200)
+        csrf_token = self._get_csrf_token()
+
         file_content = b'x' * 200
         files = {
             'ufile': ('big_file.txt', io.BytesIO(file_content), 'text/plain'),
-            'model': (None, 'res.users'),
-            'id': (None, str(self.env.user.id)),
+        }
+        # We must send the model/id and CSRF token as data fields
+        data = {
+            'model': 'res.users',
+            'id': str(self.env.user.id),
+            'csrf_token': csrf_token
         }
 
-        # Simulate the controller call via url_open (acting as a browser)
         # Note: /web/binary/upload_attachment is the standard upload URL
-        response = self.url_open('/web/binary/upload_attachment', files=files)
+        response = self.url_open(
+            '/web/binary/upload_attachment', data=data, files=files
+        )
 
-        # The controller returns JSON (sometimes wrapped in an HTML script tag)
-        # We verify if the error message defined in main.py is present
         response_content = response.content.decode('utf-8')
 
         self.assertIn(
             "File too large",
             response_content,
-            "The upload should have been blocked with an error message."
+            "The upload should have been blocked with an error message. "
+            "Response: %s" % response_content
         )
 
     def test_03_upload_success(self):
         """Try to upload a file of 50 bytes (limit is 100). Should succeed."""
 
+        csrf_token = self._get_csrf_token()
+
         file_content = b'x' * 50
         files = {
-            'ufile': ('small_file.txt', io.BytesIO(file_content), 'text/plain'),
-            'model': (None, 'res.users'),
-            'id': (None, str(self.env.user.id)),
+            'ufile': (
+                'small_file.txt', io.BytesIO(file_content), 'text/plain'
+            ),
+        }
+        data = {
+            'model': 'res.users',
+            'id': str(self.env.user.id),
+            'csrf_token': csrf_token
         }
 
-        response = self.url_open('/web/binary/upload_attachment', files=files)
+        response = self.url_open(
+            '/web/binary/upload_attachment', data=data, files=files
+        )
         response_content = response.content.decode('utf-8')
 
-        # In case of success, Odoo does not return an 'error' key, but file info
-        self.assertNotIn("error", response_content, "Valid upload should not return an error.")
-        self.assertIn("small_file.txt", response_content, "The filename should be in the response.")
+        self.assertNotIn(
+            "error", response_content,
+            "Valid upload should not return an error."
+        )
+        self.assertIn(
+            "small_file.txt", response_content,
+            "The filename should be in the response."
+        )

@@ -6,6 +6,7 @@ from odoo import _, http
 from odoo.http import request
 from odoo.addons.web.controllers.main import Binary
 
+
 class BinaryUploadLimit(Binary):
 
     @http.route('/web/binary/upload_attachment', type='http', auth="user")
@@ -31,25 +32,33 @@ class BinaryUploadLimit(Binary):
                 files = request.httprequest.files.getlist('ufile')
                 for ufile_item in files:
                     # Check file size.
-                    # seek(0, 2) moves the cursor to the end of the file to get the size
+                    # seek(0, 2) moves cursor to the end of file to get size
                     ufile_item.seek(0, 2)
                     file_size = ufile_item.tell()
-                    # Reset cursor to the beginning for the actual read/save later
+                    # Reset cursor to the beginning for the actual read/save
                     ufile_item.seek(0)
 
                     if file_size > max_size:
-                        # Convert bytes to MB for the error message (rounded to 2 decimals)
+                        # Convert bytes to MB for error message (rounded to 2)
                         limit_mb = round(max_size / 1024 / 1024, 2)
-                        args = {'error': _("File too large. Global limit is %s MB.") % limit_mb}
+                        args = {
+                            'error': _("File too large. Global limit is %s MB.")
+                            % limit_mb
+                        }
                         return self._return_upload_error(callback, args)
 
-        return super(BinaryUploadLimit, self).upload_attachment(model, id, ufile, callback=callback)
+        return super(BinaryUploadLimit, self).upload_attachment(
+            model, id, ufile, callback=callback
+        )
 
     def _return_upload_error(self, callback, args):
         """
         Format the error response for the Odoo web client.
-        The web client expects a script trigger if a callback is provided (iframe upload).
+        The web client expects a script trigger if a callback is provided.
         """
         if callback:
-            return """<script>window.top.window.jQuery(window.top.window).trigger('%s', %s);</script>""" % (callback, json.dumps(args))
+            return (
+                "<script>window.top.window.jQuery(window.top.window)"
+                ".trigger('%s', %s);</script>"
+            ) % (callback, json.dumps(args))
         return json.dumps(args)
