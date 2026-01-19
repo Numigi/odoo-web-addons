@@ -2,6 +2,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import io
+import json
 from odoo.tests.common import HttpCase, tagged
 
 
@@ -25,10 +26,11 @@ class TestAttachmentSizeLimit(HttpCase):
         @http.route(..., csrf=True)
         """
         # We invoke get_session_info via JSON-RPC to retrieve the token
-        # Using json={} allows requests to handle headers and serialization
+        # url_open does not support 'json' param, so we serialize manually
         response = self.url_open(
             '/web/session/get_session_info',
-            json={}
+            data=json.dumps({}),
+            headers={'Content-Type': 'application/json'}
         )
         return response.json().get('result', {}).get('csrf_token')
 
