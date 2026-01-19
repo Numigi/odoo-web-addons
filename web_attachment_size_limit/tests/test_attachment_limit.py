@@ -24,22 +24,11 @@ class TestAttachmentSizeLimit(HttpCase):
         This is required for controllers protected by
         @http.route(..., csrf=True)
         """
-        # We can extract the token from the session_info in the web client context
-        # Or simpler: trigger a page load and grab it from the JS context,
-        # but for API tests, we often ignore CSRF if we can, or we simulate it.
-        # Since /web/binary/upload_attachment checks csrf, we need it.
-
-        # Helper: Getting session_info via python directly as we are in the
-        # same env. Note: In HttpCase, self.url_open uses a cookie jar.
-        # We can get the token by calling /web/session/get_session_info if
-        # needed, but let's try passing the standard Odoo token logic.
-
-        # Trick: Using an empty string sometimes works if the user is trusted,
-        # otherwise we fetch it.
+        # We invoke get_session_info via JSON-RPC to retrieve the token
+        # Using json={} allows requests to handle headers and serialization
         response = self.url_open(
             '/web/session/get_session_info',
-            data='{}',
-            headers={'Content-Type': 'application/json'}
+            json={}
         )
         return response.json().get('result', {}).get('csrf_token')
 

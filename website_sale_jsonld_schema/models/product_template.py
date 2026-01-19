@@ -2,7 +2,8 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 import json
-from odoo import models, api
+from odoo import models
+
 
 class ProductTemplate(models.Model):
     _inherit = "product.template"
@@ -12,9 +13,8 @@ class ProductTemplate(models.Model):
         Build the complete JSON-LD schema as a Python dictionary
         and return it as a JSON string.
         This centralizes all logic and lets json.dumps handle syntax.
-        """
-        self.ensure_one()
-        
+        """\n        self.ensure_one()
+
         website = self.env['website'].get_current_website()
         current_lang = self.env.context.get('lang', 'en_US')
         localized_product = self.with_context(lang=current_lang)
@@ -31,7 +31,7 @@ class ProductTemplate(models.Model):
         # --- Add fields conditionally ---
         if localized_product.description_sale:
             schema["description"] = localized_product.description_sale
-            
+
         if self.public_categ_ids:
             first_category = self.public_categ_ids[0]
             schema["category"] = first_category.name
@@ -60,10 +60,10 @@ class ProductTemplate(models.Model):
         for img in self.product_template_image_ids:
             if img.image_1920:
                 images.append(website.image_url(img, 'image_1920'))
-                
+
         if not images:
             images.append(f"{website.get_base_url()}/web/static/src/img/placeholder.png")
-        
+
         schema["image"] = images
 
         if self.weight > 0:
@@ -82,13 +82,13 @@ class ProductTemplate(models.Model):
             "itemCondition": "https://schema.org/NewCondition",
             "availability": "https://schema.org/InStock"  # As per your business rule
         }
-        
+
         if website.company_id.country_id:
             offer_data["areaServed"] = {
                 "@type": "Country",
                 "name": website.company_id.country_id.name
             }
-            
+
         schema["offers"] = offer_data
 
         # Use json.dumps to handle all escaping and comma syntax correctly.
