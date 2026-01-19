@@ -141,4 +141,3 @@ class CompanySwitcher(http.Controller):
             }
         except Exception as e:
             return {'error': f'Failed to switch companies: {str(e)}'}
-

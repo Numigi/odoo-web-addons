@@ -13,8 +13,8 @@ class ProductTemplate(models.Model):
         Build the complete JSON-LD schema as a Python dictionary
         and return it as a JSON string.
         This centralizes all logic and lets json.dumps handle syntax.
-        """\n        self.ensure_one()
-
+        """
+        self.ensure_one()
         website = self.env['website'].get_current_website()
         current_lang = self.env.context.get('lang', 'en_US')
         localized_product = self.with_context(lang=current_lang)
