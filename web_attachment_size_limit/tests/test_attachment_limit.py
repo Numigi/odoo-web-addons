@@ -26,7 +26,7 @@ class TestAttachmentSizeLimit(HttpCase):
         @http.route(..., csrf=True)
         """
         # We invoke get_session_info via JSON-RPC to retrieve the token
-        # url_open does not support 'json' param, so we serialize manually
+        # url_open does not support 'json' param in this env, so we serialize manually
         response = self.url_open(
             '/web/session/get_session_info',
             data=json.dumps({}),
@@ -60,6 +60,7 @@ class TestAttachmentSizeLimit(HttpCase):
         }
 
         # Note: /web/binary/upload_attachment is the standard upload URL
+        # We use relative URL '/web/...' so Odoo uses the correct testing port
         response = self.url_open(
             '/web/binary/upload_attachment', data=data, files=files
         )
