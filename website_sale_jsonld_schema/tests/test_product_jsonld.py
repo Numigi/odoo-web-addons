@@ -28,7 +28,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that the JSON-LD schema has the correct basic structure."""
         json_str = self.product._get_jsonld_schema()
         data = json.loads(json_str)
-        
+
         self.assertEqual(data["@context"], "https://schema.org/")
         self.assertEqual(data["@type"], "Product")
         self.assertEqual(data["name"], "Test Product")
@@ -38,7 +38,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that categories are properly included in the schema."""
         json_str = self.product._get_jsonld_schema()
         data = json.loads(json_str)
-        
+
         self.assertIn("category", data)
         self.assertEqual(data["category"], "Test Category")
         self.assertIn("google_product_category", data)
@@ -48,7 +48,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that offers section is properly structured."""
         json_str = self.product._get_jsonld_schema()
         data = json.loads(json_str)
-        
+
         self.assertIn("offers", data)
         offers = data["offers"]
         self.assertEqual(offers["@type"], "Offer")
@@ -61,7 +61,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that shipping weight is included when product has weight."""
         json_str = self.product._get_jsonld_schema()
         data = json.loads(json_str)
-        
+
         self.assertIn("shippingWeight", data)
         weight = data["shippingWeight"]
         self.assertEqual(weight["@type"], "QuantitativeValue")
@@ -72,7 +72,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that placeholder image is used when no product images exist."""
         json_str = self.product._get_jsonld_schema()
         data = json.loads(json_str)
-        
+
         self.assertIn("image", data)
         self.assertTrue(isinstance(data["image"], list))
         self.assertTrue(any("placeholder" in url for url in data["image"]))
@@ -81,7 +81,7 @@ class TestProductJsonLd(TransactionCase):
         """Test that special characters are properly escaped in JSON output."""
         self.product.name = 'Chaussure "spéciale" & élégante'
         json_str = self.product._get_jsonld_schema()
-        
+
         # Should not raise JSON decode error
         data = json.loads(json_str)
         self.assertEqual(data["name"], 'Chaussure "spéciale" & élégante')

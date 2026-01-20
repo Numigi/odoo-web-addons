@@ -22,6 +22,7 @@ COPY disable_quick_create /mnt/extra-addons/disable_quick_create
 COPY google_attachment /mnt/extra-addons/google_attachment
 COPY multi_website_user_access /mnt/extra-addons/multi_website_user_access
 COPY resize_observer_error_catcher /mnt/extra-addons/resize_observer_error_catcher
+COPY web_attachment_size_limit /mnt/extra-addons/web_attachment_size_limit
 COPY web_contextual_search_favorite /mnt/extra-addons/web_contextual_search_favorite
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier

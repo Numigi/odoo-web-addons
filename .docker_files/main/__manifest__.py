@@ -15,6 +15,7 @@
         "google_attachment",
         "multi_website_user_access",
         "resize_observer_error_catcher",
+        "web_attachment_size_limit",
         "web_contextual_search_favorite",
         "web_custom_label",
         "web_custom_modifier",
