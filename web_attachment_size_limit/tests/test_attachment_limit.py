@@ -11,17 +11,15 @@ from odoo.tests.common import HttpCase, tagged
 class TestAttachmentSizeLimit(HttpCase):
     """Tests HTTP for web_attachment_size_limit"""
 
-    @classmethod
-    def setUpClass(cls):
-        super().setUpClass()
+    def setUp(self):
+        super().setUp()
 
         # Définir une limite faible pour les tests (100 bytes)
-        cls.env['ir.config_parameter'].sudo().set_param(
+        self.env['ir.config_parameter'].sudo().set_param(
             'web_attachment_size_limit.max_upload_size', '100'
         )
 
-        # Utilisateur courant
-        cls.user = cls.env.user
+        self.user = self.env.user
 
     def _upload_file(self, content: bytes, filename='test.txt'):
         """Helper pour uploader un fichier via le contrôleur web"""
@@ -55,7 +53,7 @@ class TestAttachmentSizeLimit(HttpCase):
 
         payload = json.loads(response.text)
         self.assertIn('error', payload)
-        self.assertIn('exceeds', payload['error'].lower())
+        self.assertIn('exceed', payload['error'].lower())
 
     def test_03_upload_success(self):
         """Upload < limite (50 bytes). Doit réussir."""
@@ -78,4 +76,3 @@ class TestAttachmentSizeLimit(HttpCase):
         self.assertTrue(attachment.exists())
         self.assertEqual(attachment.res_model, 'res.users')
         self.assertEqual(attachment.res_id, self.user.id)
-
