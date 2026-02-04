@@ -4,7 +4,7 @@
 {
     "name": "Web Attachment Size Limit",
     "summary": "Enforce a global maximum size for file uploads",
-    "version": "14.0.1.0.0",
+    "version": "14.0.1.0.1",
     "category": "Web",
     "website": "https://numigi.com/r/home",
     "author": "Numigi",
