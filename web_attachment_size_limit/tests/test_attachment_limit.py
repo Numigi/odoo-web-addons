@@ -6,7 +6,7 @@ import json
 from odoo.tests.common import HttpCase, tagged
 
 
-@tagged('post_install', '-at_install')
+@tagged('post_install', '-at_install', 'http_test')
 class TestAttachmentSizeLimit(HttpCase):
 
     def setUp(self):
