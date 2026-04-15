@@ -1,11 +1,10 @@
 # Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models, modules, tools
+from odoo import api, fields, models, tools
 
 
 class WebCustomModifier(models.Model):
-
     _name = "web.custom.modifier"
     _description = "Custom View Modifier"
 
@@ -48,34 +47,27 @@ class WebCustomModifier(models.Model):
 
 
 class WebCustomModifierWithCachedModifiers(models.Model):
-    """Add a cache for getting the modifiers.
-
-    The system cache is invalidated when any modifier record is added / modified / deleted.
-    """
-
     _inherit = "web.custom.modifier"
 
-    @api.model
-    def create(self, vals):
-        new_record = super().create(vals)
-        modules.registry.Registry(self.env.cr.dbname).clear_caches()
-        return new_record
+    @api.model_create_multi
+    def create(self, vals_list):
+        new_records = super().create(vals_list)
+        self.env.registry.clear_cache()
+        return new_records
 
     def write(self, vals):
         super().write(vals)
-        modules.registry.Registry(self.env.cr.dbname).clear_caches()
+        self.env.registry.clear_cache()
         return True
 
     def unlink(self):
         super().unlink()
-        modules.registry.Registry(self.env.cr.dbname).clear_caches()
+        self.env.registry.clear_cache()
         return True
 
     @tools.ormcache()
     def _get_cache(self):
-        return [
-            el._to_dict() for el in self.sudo().env["web.custom.modifier"].search([])
-        ]
+        return [el._to_dict() for el in self.sudo().search([])]
 
     def _to_dict(self):
         return {
