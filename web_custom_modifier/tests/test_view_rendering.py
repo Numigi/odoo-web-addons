@@ -1,11 +1,9 @@
 # Copyright 2023-today Numigi and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-import json
 from ddt import data, ddt
 from lxml import etree
 from odoo.tests import common
-
 
 MODIFIERS = (
     "invisible",
@@ -15,15 +13,18 @@ MODIFIERS = (
 
 
 def _extract_modifier_value(el, modifier):
-    return json.loads(el.attrib.get("modifiers") or "{}").get(modifier)
+    # In Odoo 18, modifiers are standard string attributes
+    val = el.attrib.get(modifier)
+    return val in ("1", "True", "true")
 
 
 @ddt
-class TestViewRendering(common.SavepointCase):
+class TestViewRendering(common.TransactionCase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
         cls.view = cls.env.ref("base.view_partner_form")
+
         cls.email_modifier = cls.env["web.custom.modifier"].create(
             {
                 "model_ids": [(4, cls.env.ref("base.model_res_partner").id)],
@@ -68,7 +69,7 @@ class TestViewRendering(common.SavepointCase):
             {
                 "model_ids": [(4, cls.env.ref("base.model_ir_model").id)],
                 "type_": "xpath",
-                "reference": "//field[@name='field_id']//tree",
+                "reference": "//field[@name='field_id']//list",  # Updated for Odoo 18
                 "modifier": "limit",
                 "key": "20",
             }
@@ -99,17 +100,16 @@ class TestViewRendering(common.SavepointCase):
         self.email_modifier.modifier = "force_save"
         tree = self._get_rendered_view_tree()
         el = tree.xpath("//field[@name='email']")[0]
-        assert el.attrib["force_save"] == "1"
+        assert el.attrib.get("force_save") == "1"
 
     def test_two_modifier_same_field(self):
         self.email_modifier.modifier = "invisible"
-        self.email_modifier.copy().modifier = "readonly"
-        self.email_modifier.copy().modifier = "column_invisible"
+        self.email_modifier.copy({"modifier": "readonly"})
+        self.email_modifier.copy({"modifier": "column_invisible"})
+
         tree = self._get_rendered_view_tree()
         el = tree.xpath("//field[@name='email']")[0]
-        assert (
-            el.attrib.get("column_invisible") == "1"
-        )  # FIXME: column_invisible is moved outside of modifiers
+        assert _extract_modifier_value(el, "column_invisible") is True
         assert _extract_modifier_value(el, "readonly") is True
         assert _extract_modifier_value(el, "invisible") is True
 
@@ -122,10 +122,9 @@ class TestViewRendering(common.SavepointCase):
 
     def test_user_in_excluded_groups(self):
         modifier = "invisible"
-
         group = self.env.ref("base.group_system")
         self.street_modifier.modifier = modifier
-        self.street_modifier.excluded_group_ids = group
+        self.street_modifier.excluded_group_ids = [(4, group.id)]
 
         self.env.user.groups_id |= group
 
@@ -135,10 +134,9 @@ class TestViewRendering(common.SavepointCase):
 
     def test_user_not_in_excluded_groups(self):
         modifier = "invisible"
-
         group = self.env.ref("base.group_system")
         self.street_modifier.modifier = modifier
-        self.street_modifier.excluded_group_ids = group
+        self.street_modifier.excluded_group_ids = [(4, group.id)]
 
         self.env.user.groups_id -= group
 
@@ -147,8 +145,8 @@ class TestViewRendering(common.SavepointCase):
         assert _extract_modifier_value(el, modifier)
 
     def test_selection_hide__fields_get(self):
-        fields = self.env["res.partner"].fields_get()
-        options = {i[0]: i[1] for i in fields["type"]["selection"]}
+        fields_data = self.env["res.partner"].fields_get()
+        options = {i[0]: i[1] for i in fields_data["type"]["selection"]}
         assert self.hidden_option not in options
 
     def test_widget(self):
@@ -165,5 +163,6 @@ class TestViewRendering(common.SavepointCase):
         model_view = self.env.ref("base.view_model_form")
         arch = self.env["ir.model"].get_view(view_id=model_view.id)["arch"]
         tree = etree.fromstring(arch)
-        el = tree.xpath("//tree")[0]
+        # In Odoo 18, inner lists are targeted with //list
+        el = tree.xpath("//list")[0]
         assert el.get("limit") == "20"

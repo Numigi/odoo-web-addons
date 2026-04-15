@@ -3,7 +3,7 @@
 
 {
     "name": "Main Module",
-    "version": "16.0.1.0.0",
+    "version": "18.0.1.0.0",
     "author": "Numigi",
     "maintainer": "Numigi",
     "website": "https://www.numigi.com",
@@ -11,11 +11,7 @@
     "category": "Other",
     "summary": "Install all addons required for testing.",
     "depends": [
-        "web",
-        "resize_observer_error_catcher",
-        "web_custom_label",
         "web_custom_modifier",
-        "web_search_date_range",
     ],
     "installable": True,
 }

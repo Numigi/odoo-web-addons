@@ -6,22 +6,22 @@ from .common import set_custom_modifiers_on_fields
 
 
 class Base(models.AbstractModel):
-
     _inherit = "base"
 
     @api.model
     def fields_get(self, allfields=None, attributes=None):
         """Add the custom modifiers to the fields metadata."""
-        fields = super().fields_get(allfields, attributes)
+        fields_dict = super().fields_get(allfields, attributes)
         modifiers = self.env["web.custom.modifier"].get(self._name)
-        set_custom_modifiers_on_fields(modifiers, fields)
-        return fields
+        if modifiers:
+            set_custom_modifiers_on_fields(modifiers, fields_dict)
+        return fields_dict
 
 
 class Partner(models.Model):
     _inherit = "res.partner"
 
-    def name_get(self):
+    def _compute_display_name(self):
         """
         This avoid to load removed selection option in modifiers
         that would raise an error when trying to display them. Display instead,
@@ -29,10 +29,7 @@ class Partner(models.Model):
         This could be improved or fixed for each case if needed.
         """
         try:
-            res = super().name_get()
-        except:  # noqa: E722
-            res = []
+            super()._compute_display_name()
+        except Exception:
             for partner in self:
-                name = partner.name
-                res.append((partner.id, name))
-        return res
+                partner.display_name = partner.name
