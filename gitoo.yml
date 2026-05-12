@@ -18,8 +18,3 @@
   branch: "14.0"
   includes:
     - product_brand
-
-- url: https://github.com/OCA/website
-  branch: "14.0"
-  includes:
-    - website_cookiefirst
