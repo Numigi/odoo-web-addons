@@ -16,20 +16,3 @@ class Base(models.AbstractModel):
         if modifiers:
             set_custom_modifiers_on_fields(modifiers, fields_dict)
         return fields_dict
-
-
-class Partner(models.Model):
-    _inherit = "res.partner"
-
-    def _compute_display_name(self):
-        """
-        This avoid to load removed selection option in modifiers
-        that would raise an error when trying to display them. Display instead,
-        the name of the record.
-        This could be improved or fixed for each case if needed.
-        """
-        try:
-            super()._compute_display_name()
-        except Exception:
-            for partner in self:
-                partner.display_name = partner.name
