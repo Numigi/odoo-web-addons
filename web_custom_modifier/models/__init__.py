@@ -4,5 +4,6 @@
 from . import (
     base,
     ir_ui_view,
+    res_partner,
     web_custom_modifier,
 )
