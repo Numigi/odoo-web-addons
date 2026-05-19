@@ -57,8 +57,8 @@ class CompanySwitcher(http.Controller):
 
             result = {
                 'companies': companies_data,
-                'current_allowed_companies': [int(x) for x in session_allowed_ids],  # Ensure int list
-                'current_company_id': int(current_company_id)  # Ensure int
+                'current_allowed_companies': [int(x) for x in session_allowed_ids],
+                'current_company_id': int(current_company_id)
             }
 
             return result
@@ -66,7 +66,8 @@ class CompanySwitcher(http.Controller):
         except Exception as e:
             return {'error': f'Failed to load companies: {str(e)}'}
 
-    @http.route('/web/visual_company_switcher/switch_company', type='json', auth='user', csrf=True)
+    @http.route('/web/visual_company_switcher/switch_company',
+                type='json', auth='user', csrf=True)
     def switch_single_company(self, company_id):
         """Switch to a single company"""
         try:
@@ -90,7 +91,8 @@ class CompanySwitcher(http.Controller):
         except Exception as e:
             return {'error': f'Failed to switch company: {str(e)}'}
 
-    @http.route('/web/visual_company_switcher/switch_companies', type='json', auth='user', csrf=True)
+    @http.route('/web/visual_company_switcher/switch_companies',
+                type='json', auth='user', csrf=True)
     def switch_multiple_companies(self, company_ids):
         """Switch to multiple companies - mimics native Odoo multi-company behavior"""
         try:
@@ -110,7 +112,8 @@ class CompanySwitcher(http.Controller):
                 if company not in user.company_ids:
                     return {'error': f'Access denied to company {company.name}'}
 
-            # This is the key: set allowed_company_ids in session to enable multi-company context
+            # This is the key: set allowed_company_ids in session
+            # to enable multi-company context
             # This mimics exactly what Odoo's native company switcher does
             request.session['allowed_company_ids'] = company_ids
 
