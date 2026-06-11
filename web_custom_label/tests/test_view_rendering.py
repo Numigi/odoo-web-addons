@@ -25,8 +25,9 @@ FR_HELP_LABEL = "Mon aide personnalisé"
 
 
 @ddt
-class TestViewRendering(common.TransactionCase):  # Odoo 18 : SavepointCase n'existe plus
-
+class TestViewRendering(
+    common.TransactionCase
+):  # Odoo 18 : SavepointCase n'existe plus
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
