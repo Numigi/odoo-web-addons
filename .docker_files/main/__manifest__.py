@@ -13,6 +13,7 @@
     "depends": [
         "web_custom_label",
         "web_custom_modifier",
+        "web_db_name_display",
     ],
     "installable": True,
 }

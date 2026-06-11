@@ -1,7 +1,7 @@
 # Copyright 2024 - Today Numigi (tm) and all its contributors (https://bit.ly/numigiens)
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl).
 
-from odoo import api, fields, models, modules, tools
+from odoo import api, fields, models, tools
 from odoo.addons.base.models.res_partner import _lang_get
 
 

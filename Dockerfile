@@ -19,6 +19,7 @@ USER odoo
 
 COPY web_custom_label /mnt/extra-addons/web_custom_label
 COPY web_custom_modifier /mnt/extra-addons/web_custom_modifier
+COPY web_db_name_display /mnt/extra-addons/web_db_name_display
 
 COPY .docker_files/main /mnt/extra-addons/main
 COPY .docker_files/odoo.conf /etc/odoo
