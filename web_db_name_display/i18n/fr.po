@@ -1,0 +1,39 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* web_db_name_display
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"Language-Team: none\n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+
+#. module: web_db_name_display
+#: model:ir.model.fields,field_description:web_db_name_display.field_res_users__display_db_name
+msgid "Display Database Name"
+msgstr "Afficher le nom de la base de données"
+
+#. module: web_db_name_display
+#: model:ir.model.fields,help:web_db_name_display.field_res_users__display_db_name
+msgid "Show the database name in the top bar of the application."
+msgstr "Afficher le nom de la base de données dans le bandeau supérieur de l'application."
+
+#. module: web_db_name_display
+#: model_terms:ir.ui.view,arch_db:web_db_name_display.view_users_form
+msgid "Display"
+msgstr "Affichage"
+
+#. module: web_db_name_display
+#: model:ir.model,name:web_db_name_display.model_res_users
+msgid "User"
+msgstr "Utilisateur"
+
+#. module: web_db_name_display
+#: model:ir.model,name:web_db_name_display.model_ir_http
+msgid "HTTP Routing"
+msgstr "Routage HTTP"

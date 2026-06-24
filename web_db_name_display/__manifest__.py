@@ -6,7 +6,7 @@
 
 {
     "name": "Database Name Display",
-    "version": "18.0.1.0.0",
+    "version": "18.0.1.1.0",
     "author": "Interne",
     "category": "Hidden",
     "summary": "Displays the database name in the header (systray) without debug mode.",
@@ -15,6 +15,9 @@
         Alternative 2: OWL component reading session.db.
     """,
     "depends": ["web"],
+    "data": [
+        "views/res_users_views.xml",
+    ],
     "assets": {
         "web.assets_backend": [
             "web_db_name_display/static/src/db_name_systray.js",

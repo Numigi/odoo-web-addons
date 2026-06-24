@@ -2,7 +2,7 @@
 <templates xml:space="preserve">
 
     <t t-name="web_db_name_display.DbNameSystrayItem" >
-        <div class="o_systray_item d-flex align-items-center px-3" title="Active Database Name">
+        <div t-if="displayDbName" class="o_systray_item d-flex align-items-center px-3" title="Active Database Name">
             <span class="text-muted fw-bold text-uppercase">
                 <i class="fa fa-database me-1"/> <t t-esc="dbName"/>
             </span>
