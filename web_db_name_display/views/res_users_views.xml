@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <!-- Preferences dialog (a user editing their own preferences) -->
+    <record id="view_users_form_simple_modif" model="ir.ui.view">
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form_simple_modif" />
+        <field name="arch" type="xml">
+            <group name="preferences" position="inside">
+                <group>
+                    <field name="display_db_name" />
+                </group>
+            </group>
+        </field>
+    </record>
+
+    <!-- Full user form (Settings > Users) -->
+    <record id="view_users_form" model="ir.ui.view">
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='preferences']/group[@name='messaging']" position="before">
+                <group name="db_name_display" string="Display">
+                    <field name="display_db_name" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -8,6 +8,8 @@ export class DbNameSystrayItem extends Component {
     setup() {
         // Fetch the database name from the user session
         this.dbName = session.db;
+        // Per-user preference (Preferences tab). Defaults to true when absent.
+        this.displayDbName = session.display_db_name ?? true;
     }
 }
 
