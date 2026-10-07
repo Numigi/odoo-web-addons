@@ -34,6 +34,7 @@
         "website_google_analytics_fixed",
         "website_landing_template",
         "website_login_as",
+        "website_sale_carrier_account",
         "website_sale_jsonld_schema",
         "website_sale_wishlist_extended",
         "website_slides_extended",
