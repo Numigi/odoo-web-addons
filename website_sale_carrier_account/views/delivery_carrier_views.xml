@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_delivery_carrier_form_inherit_carrier_number" model="ir.ui.view">
+        <field name="name">delivery.carrier.form.inherit.carrier.number</field>
+        <field name="model">delivery.carrier</field>
+        <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='integration_level']" position="after">
+                <field name="has_carrier_number"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
