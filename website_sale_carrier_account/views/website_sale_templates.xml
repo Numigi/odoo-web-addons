@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="payment_delivery_methods_inherit" inherit_id="website_sale_delivery.payment_delivery_methods">
+        <xpath expr="." position="inside">
+            <t t-if="delivery.has_carrier_number">
+                <div t-att-id="'carrier_account_container_%i' % delivery.id"
+                     class="carrier_account_container d-none mt-2 ml-4">
+                    <label t-att-for="'carrier_account_input_%i' % delivery.id" class="col-form-label font-weight-normal">
+                        Carrier Account Number:
+                    </label>
+                    <input type="text"
+                           class="form-control carrier_account_input"
+                           t-att-id="'carrier_account_input_%i' % delivery.id"
+                           t-att-data-carrier-id="delivery.id"
+                           placeholder="Enter your carrier account number"/>
+                </div>
+            </t>
+        </xpath>
+    </template>
+</odoo>
