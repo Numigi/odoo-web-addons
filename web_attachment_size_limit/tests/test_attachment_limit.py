@@ -41,6 +41,7 @@ class TestAttachmentSizeLimit(TransactionCase):
         mock_req = MagicMock()
         mock_req.env = self.env
         mock_req.httprequest.files.getlist.return_value = [ufile_mock]
+        mock_req.endpoint = None  # Avoid Response trying to access endpoint.routing
 
         patch_req = patch(
             "odoo.addons.web_attachment_size_limit.controllers.main.request",
