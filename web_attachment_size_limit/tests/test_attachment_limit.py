@@ -43,13 +43,17 @@ class TestAttachmentSizeLimit(TransactionCase):
         mock_req.httprequest.files.getlist.return_value = [ufile_mock]
         mock_req.endpoint = None  # Avoid Response trying to access endpoint.routing
 
-        patch_req = patch(
+        patch_req1 = patch(
             "odoo.addons.web_attachment_size_limit.controllers.main.request",
+            new=mock_req
+        )
+        patch_req2 = patch(
+            "odoo.http.request",
             new=mock_req
         )
         patch_sup = patch("odoo.addons.web.controllers.main.Binary.upload_attachment")
 
-        with patch_req, patch_sup as mock_sup:
+        with patch_req1, patch_req2, patch_sup as mock_sup:
             mock_sup.return_value = '{"id": 123}'
 
             res = self.controller.upload_attachment(
