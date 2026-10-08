@@ -37,15 +37,18 @@ class TestAttachmentSizeLimit(TransactionCase):
         ufile_mock.seek = mock_seek
         ufile_mock.tell = mock_tell
 
+        # Create mock request object in advance to avoid inspecting LocalProxy
+        mock_req = MagicMock()
+        mock_req.env = self.env
+        mock_req.httprequest.files.getlist.return_value = [ufile_mock]
+
         patch_req = patch(
             "odoo.addons.web_attachment_size_limit.controllers.main.request",
-            new_callable=MagicMock
+            new=mock_req
         )
         patch_sup = patch("odoo.addons.web.controllers.main.Binary.upload_attachment")
 
-        with patch_req as mock_req, patch_sup as mock_sup:
-            mock_req.env = self.env
-            mock_req.httprequest.files.getlist.return_value = [ufile_mock]
+        with patch_req, patch_sup as mock_sup:
             mock_sup.return_value = '{"id": 123}'
 
             res = self.controller.upload_attachment(
