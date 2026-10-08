@@ -19,7 +19,23 @@ class TestAttachmentSizeLimit(TransactionCase):
 
     def _test_upload(self, content_length: int):
         ufile_mock = MagicMock()
-        ufile_mock.tell.return_value = content_length
+
+        # Simulate file behavior: after seek(0, 2), tell() returns file size
+        position = [0]
+
+        def mock_seek(offset, whence=0):
+            if whence == 2:  # SEEK_END
+                position[0] = content_length
+            elif whence == 0:  # SEEK_SET
+                position[0] = offset
+            elif whence == 1:  # SEEK_CUR
+                position[0] += offset
+
+        def mock_tell():
+            return position[0]
+
+        ufile_mock.seek = mock_seek
+        ufile_mock.tell = mock_tell
 
         patch_req = patch("odoo.addons.web_attachment_size_limit.controllers.main.request")
         patch_sup = patch("odoo.addons.web.controllers.main.Binary.upload_attachment")
@@ -38,10 +54,10 @@ class TestAttachmentSizeLimit(TransactionCase):
 
     def test_02_upload_too_large(self):
         response, super_called = self._test_upload(200)
-        assert "File too large" in response
-        assert not super_called
+        self.assertIn("File too large", response)
+        self.assertFalse(super_called)
 
     def test_03_upload_success(self):
         response, super_called = self._test_upload(50)
-        assert response == '{"id": 123}'
-        assert super_called
+        self.assertEqual(response, '{"id": 123}')
+        self.assertTrue(super_called)
