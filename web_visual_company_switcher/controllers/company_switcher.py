@@ -58,7 +58,7 @@ class CompanySwitcher(http.Controller):
             result = {
                 'companies': companies_data,
                 'current_allowed_companies': [int(x) for x in session_allowed_ids],
-                'current_company_id': int(current_company_id)  # Ensure int
+                'current_company_id': int(current_company_id)
             }
 
             return result
