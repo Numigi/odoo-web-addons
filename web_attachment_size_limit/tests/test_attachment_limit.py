@@ -37,7 +37,10 @@ class TestAttachmentSizeLimit(TransactionCase):
         ufile_mock.seek = mock_seek
         ufile_mock.tell = mock_tell
 
-        patch_req = patch("odoo.addons.web_attachment_size_limit.controllers.main.request")
+        patch_req = patch(
+            "odoo.addons.web_attachment_size_limit.controllers.main.request",
+            new_callable=MagicMock
+        )
         patch_sup = patch("odoo.addons.web.controllers.main.Binary.upload_attachment")
 
         with patch_req as mock_req, patch_sup as mock_sup:
