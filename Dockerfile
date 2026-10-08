@@ -38,11 +38,11 @@ COPY web_trash_condition /mnt/extra-addons/web_trash_condition
 COPY web_visual_company_switcher /mnt/extra-addons/web_visual_company_switcher
 COPY website_blog_internal /mnt/extra-addons/website_blog_internal
 COPY website_blog_rss_feed_disabled /mnt/extra-addons/website_blog_rss_feed_disabled
-COPY website_cookieconsent /mnt/extra-addons/website_cookieconsent
 COPY website_geoip /mnt/extra-addons/website_geoip
 COPY website_google_analytics_fixed /mnt/extra-addons/website_google_analytics_fixed
 COPY website_landing_template /mnt/extra-addons/website_landing_template
 COPY website_login_as /mnt/extra-addons/website_login_as
+COPY website_sale_carrier_account /mnt/extra-addons/website_sale_carrier_account
 COPY website_sale_jsonld_schema /mnt/extra-addons/website_sale_jsonld_schema
 COPY website_sale_wishlist_extended /mnt/extra-addons/website_sale_wishlist_extended
 COPY website_slides_extended /mnt/extra-addons/website_slides_extended
