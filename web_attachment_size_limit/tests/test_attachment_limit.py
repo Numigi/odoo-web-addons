@@ -61,7 +61,9 @@ class TestAttachmentSizeLimit(TransactionCase):
                 id=self.env.user.id,
                 ufile=ufile_mock,
             )
-            return res, mock_sup.called
+            # Extract response data (res is a Werkzeug Response object)
+            response_data = res.get_data(as_text=True)
+            return response_data, mock_sup.called
 
     def test_02_upload_too_large(self):
         response, super_called = self._test_upload(200)
